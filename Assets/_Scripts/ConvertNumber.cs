@@ -57,8 +57,13 @@ public class ConvertNumber : MonoBehaviour {
         else //if (number >= 1000000000 && number < 1000000000000)
         {
             curentNumber = (long)(number / 1000000000000);
+			if(curentNumber < 1000)
+			{
             current = curentNumber.ToString() + "T";
-            //current = _toPrettyString(curentNumber) + "T";
+			}
+			else{
+            current = _toPrettyString(curentNumber) + "T";
+			}
         }
         return current.Trim();
     }
