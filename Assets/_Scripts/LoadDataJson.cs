@@ -15,20 +15,20 @@ public class LoadDataJson : MonoBehaviour
     }
 
     private string gameConfig = "GameConfig";
+    private string listNameCountryJson = "ListNameCountry";
 
     void Start () {
         LoadGameConfig();
+        LoadDataNameCountry();
     }
 
     public void LoadGameConfig()
     {
         var objJson = SimpleJSON.JSON.Parse(loadJson(gameConfig));
-        Debug.Log(objJson);
+        //Debug.Log(objJson);
         Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {
-            GameConfig.Instance.dollar = objJson["dollar"].AsLong;
-            GameConfig.Instance.gold = objJson["gold"].AsLong;
             GameConfig.Instance.goldToDollar = objJson["goldToDollar"].AsInt;
             GameConfig.Instance.dollarVideoAd = objJson["dollarVideoAd"].AsInt;
             GameConfig.Instance.timeInterAd = objJson["timeInterAd"].AsInt;
@@ -53,6 +53,22 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.XT1i = objJson["XT1i"].AsFloat;
         }
     }
+
+    public void LoadDataNameCountry()
+    {
+        var objJson = SimpleJSON.JSON.Parse(loadJson(listNameCountryJson));
+        if (objJson != null)
+        {
+            for (int i = 0; i < objJson.Count; i++)
+            {
+                DataUpdate.DataNameCountry data = new DataUpdate.DataNameCountry();
+                data.name = objJson[i]["name"];
+                DataUpdate.Instance.lstData_NameCountry.Add(data);
+            }
+
+        }
+    }
+
     string loadJson(string _nameJson)
     {
         TextAsset _text = Resources.Load(_nameJson) as TextAsset;

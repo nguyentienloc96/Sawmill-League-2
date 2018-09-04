@@ -8,20 +8,28 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    #region DateTime
     [Header("DateTime")]
     public DateTime dateGame;
-    private float time;
-
-    public float DeltaTimeGame = 4;
-
+    public DateTime dateStartPlay;
+    public float deltaTimeGame = 4;
     public List<Text> listDate;
+    private float time;
+    #endregion
 
-    void Awake()
+    #region GamePlay
+    [Header("GamePlay")]
+    public long dollar = 0;
+    public long gold = 0;
+    public int IDLocation;
+    public List<Location> lsLocation;
+    #endregion
+
+    private void Awake()
     {
         if (Instance != null)
             return;
         Instance = this;
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         LoadDate();
     }
 
@@ -43,10 +51,10 @@ public class GameManager : MonoBehaviour
         listDate[2].text = yearstring;
     }
 
-    void Update()
+    private void Update()
     {
         time += Time.deltaTime;
-        if (time >= DeltaTimeGame)
+        if (time >= deltaTimeGame)
         {
             int month = dateGame.Month;
             int year = dateGame.Year;
@@ -57,8 +65,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateGame()
+    public void UpdateGame()
     {
 
+    }
+
+    public void LoadLocation()
+    {
+        lsLocation[IDLocation].transform.localPosition = Vector3.zero;
+        for (int i = 0; i < lsLocation.Count; i++)
+        {
+            if (i != IDLocation)
+            {
+                lsLocation[i].transform.localPosition = new Vector3(720f, 0f, 0f);
+            }
+        }
     }
 }

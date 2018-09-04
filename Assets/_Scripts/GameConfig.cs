@@ -14,8 +14,6 @@ public class GameConfig : MonoBehaviour
         Instance = this;
     }
 
-    public long dollar;
-    public long gold;
     public int goldToDollar;
     public int dollarVideoAd;
     public int timeInterAd;
