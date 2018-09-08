@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        for(int i = 0; i < DataUpdate.Instance.lstData_NameCountry.Count; i++)
+        for (int i = 0; i < DataUpdate.Instance.lstData_NameCountry.Count; i++)
         {
             GameObject item = Instantiate(itemLocationUI, contentWorld) as GameObject;
             item.GetComponent<LocationUI>()._ID = i;
@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
             item.GetComponent<LocationUI>()._Name = DataUpdate.Instance.lstData_NameCountry[i].name;
             item.transform.GetChild(2).GetComponent<Text>().text = string.Format("{0:000}", i);
             item.transform.GetChild(1).GetComponent<Text>().text = DataUpdate.Instance.lstData_NameCountry[i].name;
-            if(i != 0)
+            if (i != 0)
             {
                 item.transform.GetComponent<Button>().interactable = false;
             }
@@ -155,7 +155,7 @@ public class UIManager : MonoBehaviour
     public void BuyWork()
     {
         int ID = GameManager.Instance.IDLocation;
-        if (GameManager.Instance.gold 
+        if (GameManager.Instance.gold
             >= GameManager.Instance.lsLocation[ID]
             ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price)
         {
@@ -188,13 +188,13 @@ public class UIManager : MonoBehaviour
 
     public void LoadBuildWork(int type)
     {
-        if(type == 0)
+        if (type == 0)
         {
             BuildDetail.SetActive(true);
             BuildSell.SetActive(false);
             CarDetail.SetActive(false);
         }
-        else if(type == 1)
+        else if (type == 1)
         {
             BuildDetail.SetActive(false);
             BuildSell.SetActive(true);
@@ -213,7 +213,7 @@ public class UIManager : MonoBehaviour
     public void ConTrollMask(bool isOn)
     {
         MaskWorld.enabled = isOn;
-        for(int i = 0; i < MaskLocation.Count; i++)
+        for (int i = 0; i < MaskLocation.Count; i++)
         {
             MaskLocation[i].enabled = isOn;
         }
@@ -260,5 +260,16 @@ public class UIManager : MonoBehaviour
     {
         DataPlayer.Instance.LoadDataPlayer();
         ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
+    }
+
+    public void SellProduct()
+    {
+        int ID = GameManager.Instance.IDLocation;
+        long material = GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material;
+        GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._PriceMaterial;
+        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material -= material;
+        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._TextNumberOfMaterial.text 
+            = ConvertMoney(GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material);
+
     }
 }

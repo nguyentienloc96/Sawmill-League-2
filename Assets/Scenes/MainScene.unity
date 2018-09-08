@@ -1535,7 +1535,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 271031297}
         m_MethodName: CloseWorkYourSelf
         m_Mode: 1
         m_Arguments:
@@ -3864,11 +3864,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 3ca1454d52f7d034db737dfc06a1c91f, type: 3}
     m_FontSize: 38
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 64
+    m_MaxSize: 38
     m_Alignment: 6
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -5444,11 +5444,11 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 3ca1454d52f7d034db737dfc06a1c91f, type: 3}
     m_FontSize: 38
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
-    m_MaxSize: 64
+    m_MaxSize: 38
     m_Alignment: 6
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -7082,7 +7082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1693120c0b45542a0fe131d4f65e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dollars: 0
+  dollar: 0
   gold: 0
   dateStartPlay: 
   dateGame: 
@@ -8679,7 +8679,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 271031297}
-        m_MethodName: WorkYourSelf
+        m_MethodName: SellProduct
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11889,7 +11889,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 271031297}
         m_MethodName: CloseWorkYourSelf
         m_Mode: 1
         m_Arguments:

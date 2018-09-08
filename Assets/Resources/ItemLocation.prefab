@@ -3298,8 +3298,9 @@ MonoBehaviour:
     _TransportType: {fileID: 114173413388772980}
     _NumberOfMaterialsSent: 0
     _MaxNumberOfMaterialsSent: 10
-    _TextNumberOfMaterialsSent: {fileID: 114947479664152624}
+    _TextNumberOfMaterial: {fileID: 114947479664152624}
     _TimeWorking: 0
+    _PriceMaterial: 15
     _Price: 0
     _isCanAuto: 0
   - _Name: Debarking
@@ -3309,9 +3310,10 @@ MonoBehaviour:
     _TransportType: {fileID: 114952391648291186}
     _NumberOfMaterialsSent: 0
     _MaxNumberOfMaterialsSent: 10
-    _TextNumberOfMaterialsSent: {fileID: 114707951713373732}
+    _TextNumberOfMaterial: {fileID: 114707951713373732}
     _TimeWorking: 0
-    _Price: 150
+    _PriceMaterial: 30
+    _Price: 300
     _isCanAuto: 0
 --- !u!114 &114662760880123464
 MonoBehaviour:

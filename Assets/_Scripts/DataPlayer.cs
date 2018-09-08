@@ -17,7 +17,7 @@ public class DataPlayer : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public long dollars;
+    public long dollar;
 
     public long gold;
 
@@ -30,7 +30,7 @@ public class DataPlayer : MonoBehaviour
     public void SaveDataPlayer()
     {
         DataPlayer data = new DataPlayer();
-        data.dollars = GameManager.Instance.dollar;
+        data.dollar = GameManager.Instance.dollar;
         data.gold = GameManager.Instance.gold;
         data.dateStartPlay = GameManager.Instance.dateStartPlay.ToString();
         data.dateGame = GameManager.Instance.dateGame.ToString();
@@ -113,16 +113,16 @@ public class DataPlayer : MonoBehaviour
 
     }
 
-    //private void OnDestroy()
-    //{
-    //    SaveDataPlayer();
-    //}
+    private void OnDestroy()
+    {
+        SaveDataPlayer();
+    }
 
-    //private void OnApplicationPause(bool pause)
-    //{
-    //    if (pause == true)
-    //    {
-    //        SaveDataPlayer();
-    //    }
-    //}
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause == true)
+        {
+            SaveDataPlayer();
+        }
+    }
 }
