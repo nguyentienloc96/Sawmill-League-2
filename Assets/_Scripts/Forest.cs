@@ -20,13 +20,24 @@ public class Forest : MonoBehaviour
 
     public bool isFull;
 
-    public void Start()
+    public void LoadTree()
     {
-        lsTree = new GameObject[16];
-        location._Forest._Tree = 16;
-        for (int i = 0; i < lsTree.Length; i++)
+        if (location._Forest._Tree > 0)
         {
-            lsTree[i] = transform.GetChild(i).gameObject;
+            car.SetActive(false);
+            for (int i = 0; i < lsTree.Length; i++)
+            {
+                lsTree[i].transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                if (i < lsTree.Length - location._Forest._Tree)
+                {
+                    lsTree[i].transform.GetChild(0).gameObject.SetActive(false);
+                }
+                else
+                {
+                    lsTree[i].transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+            isFull = true;
         }
     }
 
@@ -91,7 +102,7 @@ public class Forest : MonoBehaviour
         }
         isGrow = false;
         location._Forest._Tree = 16;
-        Invoke("FullTree",GameConfig.Instance.fellingTime);
+        Invoke("FullTree", GameConfig.Instance.fellingTime);
     }
 
     public void FullTree()

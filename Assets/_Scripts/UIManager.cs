@@ -8,21 +8,35 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Instance;
 
+
+    [Header("InforPlayer")]
     public Text txtDollar;
     public Text txtGold;
+    public Text myTxtWood;
 
+    [Header("ObjectMain")]
     public GameObject worldUI;
     public GameObject locationUI;
     public GameObject fellingUI;
     public Transform contentWorld;
     public GameObject itemLocationUI;
 
-    public GameObject setting;
-    public bool turnOnOff;
+    [Header("Setting")]
+    public GameObject mySetting;
+    public bool isOnSetting;
 
+    [Header("BuildWork")]
     public GameObject BuildDetail;
     public GameObject BuildSell;
     public GameObject CarDetail;
+    public GameObject BuildUpdate;
+    public GameObject CarUpdate;
+    public string StrBuildUpdate;
+    public string StrCarUpdate;
+
+    [Header("MaskUI")]
+    public Mask MaskWorld;
+    public List<Mask> MaskLocation;
 
     private void Awake()
     {
@@ -50,14 +64,19 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        txtDollar.text = ConvertMoney(GameManager.Instance.dollar);
-        txtGold.text = ConvertMoney(GameManager.Instance.gold);
+        if (txtDollar.gameObject.activeInHierarchy)
+            txtDollar.text = ConvertMoney(GameManager.Instance.dollar);
+        if (txtGold.gameObject.activeInHierarchy)
+            txtGold.text = ConvertMoney(GameManager.Instance.gold);
+        if (myTxtWood.gameObject.activeInHierarchy)
+            myTxtWood.text = ConvertMoney(GameManager.Instance
+                .lsLocation[GameManager.Instance.IDLocation]._LsWorking[0]._Material);
     }
 
     public void Setting()
     {
-        turnOnOff = !turnOnOff;
-        setting.SetActive(turnOnOff);
+        isOnSetting = !isOnSetting;
+        mySetting.SetActive(isOnSetting);
     }
 
     public void BackWorld()
@@ -148,4 +167,98 @@ public class UIManager : MonoBehaviour
         BuildSell.SetActive(false);
     }
 
+    public void WorkYourSelf()
+    {
+        int ID = GameManager.Instance.IDLocation;
+        GameManager.Instance.lsMiniGame[GameManager.Instance.lsLocation[ID]._IndexType].SetActive(true);
+        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._isCanAuto = true;
+        BuildDetail.SetActive(false);
+        ConTrollMask(false);
+    }
+
+    public void CloseWorkYourSelf()
+    {
+        int ID = GameManager.Instance.IDLocation;
+        GameManager.Instance.lsMiniGame[GameManager.Instance.lsLocation[ID]._IndexType].SetActive(false);
+        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._isCanAuto = false;
+        ConTrollMask(true);
+        BuildUpdate.SetActive(false);
+        CarUpdate.SetActive(false);
+    }
+
+    public void LoadBuildWork(int type)
+    {
+        if(type == 0)
+        {
+            BuildDetail.SetActive(true);
+            BuildSell.SetActive(false);
+            CarDetail.SetActive(false);
+        }
+        else if(type == 1)
+        {
+            BuildDetail.SetActive(false);
+            BuildSell.SetActive(true);
+            CarDetail.SetActive(false);
+        }
+        else
+        {
+            BuildDetail.SetActive(false);
+            BuildSell.SetActive(false);
+            CarDetail.SetActive(true);
+        }
+        BuildUpdate.SetActive(false);
+        CarUpdate.SetActive(false);
+    }
+
+    public void ConTrollMask(bool isOn)
+    {
+        MaskWorld.enabled = isOn;
+        for(int i = 0; i < MaskLocation.Count; i++)
+        {
+            MaskLocation[i].enabled = isOn;
+        }
+    }
+
+    public void BuildUpdateOnClick()
+    {
+        BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = StrBuildUpdate;
+        BuildUpdate.SetActive(true);
+    }
+
+    public void CarUpdateOnClick()
+    {
+        CarUpdate.transform.GetChild(0).GetComponent<Text>().text = StrCarUpdate;
+        CarUpdate.SetActive(true);
+    }
+
+    public void YesBuildUpdateOnClick()
+    {
+
+    }
+
+    public void NoBuildUpdateOnClick()
+    {
+        BuildUpdate.SetActive(false);
+    }
+
+    public void YesCarUpdateOnClick()
+    {
+
+    }
+
+    public void NoCarUpdateOnClick()
+    {
+        CarUpdate.SetActive(false);
+    }
+
+    public void BtnPlayOnclick()
+    {
+        ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
+    }
+
+    public void BtnContinueOnclick()
+    {
+        DataPlayer.Instance.LoadDataPlayer();
+        ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
+    }
 }

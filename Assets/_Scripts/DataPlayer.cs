@@ -27,11 +27,6 @@ public class DataPlayer : MonoBehaviour
 
     public List<LocationJSON> lsLocation = new List<LocationJSON>();
 
-    public void Start()
-    {
-        LoadDataPlayer();
-    }
-
     public void SaveDataPlayer()
     {
         DataPlayer data = new DataPlayer();
@@ -47,16 +42,14 @@ public class DataPlayer : MonoBehaviour
             lc._Name = GameManager.Instance.lsLocation[i]._Name;
             lc._CountType = GameManager.Instance.lsLocation[i]._CountType;
             lc._Forest._Tree = GameManager.Instance.lsLocation[i]._Forest._Tree;
-            lc._Forest._PosCar = GameManager.Instance.lsLocation[i]._Forest._PosCar;
             lc._LsWorking = new TypeOfWorkST[GameManager.Instance.lsLocation[i]._LsWorking.Length];
             for (int j = 0; j < GameManager.Instance.lsLocation[i]._LsWorking.Length; j++)
             {
                 lc._LsWorking[j]._Name = GameManager.Instance.lsLocation[i]._LsWorking[j]._Name;
                 lc._LsWorking[j]._Material = GameManager.Instance.lsLocation[i]._LsWorking[j]._Material;
+                lc._LsWorking[j]._MaterialReceive = GameManager.Instance.lsLocation[i]._LsWorking[j]._MaterialReceive;
                 lc._LsWorking[j]._NumberOfMaterialsSent = GameManager.Instance.lsLocation[i]._LsWorking[j]._NumberOfMaterialsSent;
                 lc._LsWorking[j]._MaxNumberOfMaterialsSent = GameManager.Instance.lsLocation[i]._LsWorking[j]._MaxNumberOfMaterialsSent;
-                lc._LsWorking[j]._PosCar = GameManager.Instance.lsLocation[i]._LsWorking[j]._PosCar;
-                lc._LsWorking[j]._TimeWorking = GameManager.Instance.lsLocation[i]._LsWorking[j]._TimeWorking;
                 lc._LsWorking[j]._Price = GameManager.Instance.lsLocation[i]._LsWorking[j]._Price;
             }
             data.lsLocation.Add(lc);
@@ -80,21 +73,56 @@ public class DataPlayer : MonoBehaviour
             GameManager.Instance.gold = objJson["gold"].AsLong;
             GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
             GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
-            
+            var lsData = objJson["lsLocation"].AsArray;
+            lsLocation = new List<LocationJSON>();
+            GameManager.Instance.ClearLocation();
+            GameManager.Instance.lsLocation = new List<Location>();
+            UIManager.Instance.MaskLocation.Clear();
+            for (int i = 0; i < lsData.Count; i++)
+            {
+                GameObject obj = Instantiate(GameManager.Instance.itemLocation, GameManager.Instance.locationManager);
+                Location ljson = obj.GetComponent<Location>();
+                obj.name = lsData[i]["_Name"]; ;
+                ljson._ID = lsData[i]["_ID"].AsInt;
+                ljson._Name = lsData[i]["_Name"];
+                ljson._CountType = lsData[i]["_CountType"].AsInt;
+                ljson._Forest._Tree = lsData[i]["_Forest"]["_Tree"].AsInt;
+                var lsWorking = lsData[i]["_LsWorking"].AsArray;
+                for (int j = 0; j < lsWorking.Count; j++)
+                {
+                    ljson._LsWorking[j]._Material = lsWorking[j]["_Material"].AsLong;
+                    ljson._LsWorking[j]._MaterialReceive = lsWorking[j]["_MaterialReceive"].AsLong;
+                    ljson._LsWorking[j]._NumberOfMaterialsSent = lsWorking[j]["_NumberOfMaterialsSent"].AsLong;
+                    ljson._LsWorking[j]._MaxNumberOfMaterialsSent = lsWorking[j]["_MaxNumberOfMaterialsSent"].AsLong;
+                    ljson._LsWorking[j]._Price = lsWorking[j]["_Price"].AsLong;
+                    ljson._LsWorking[j]._TransportType.ActionSented = ljson.SentedWood;
+                    ljson._LsWorking[j]._TransportType.ActionReceived = ljson.ReceivedWood;
+                    ljson._LsWorking[j]._TransportType.PauseRun();
+                    if (ljson._LsWorking[j]._Material > 0)
+                    {
+                        ljson._LsWorking[j]._TransportType.ResetAll();
+                    }
+                }
+                ljson._Forest._ForestCode.LoadTree();
+                UIManager.Instance.MaskLocation.Add(ljson._MaskLocation);
+                GameManager.Instance.lsLocation.Add(ljson);
+            }
+            GameManager.Instance.locationManager.gameObject.SetActive(true);
+            GameManager.Instance.locationManager.SetAsFirstSibling();
         }
 
     }
 
-    private void OnDestroy()
-    {
-        SaveDataPlayer();
-    }
+    //private void OnDestroy()
+    //{
+    //    SaveDataPlayer();
+    //}
 
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause == true)
-        {
-            SaveDataPlayer();
-        }
-    }
+    //private void OnApplicationPause(bool pause)
+    //{
+    //    if (pause == true)
+    //    {
+    //        SaveDataPlayer();
+    //    }
+    //}
 }

@@ -23,6 +23,12 @@ public class GameManager : MonoBehaviour
     public long gold = 0;
     public int IDLocation;
     public List<Location> lsLocation;
+    public Transform locationManager;
+    public GameObject itemLocation;
+    #endregion
+
+    #region MiniGame
+    public List<GameObject> lsMiniGame;
     #endregion
 
     private void Awake()
@@ -80,5 +86,14 @@ public class GameManager : MonoBehaviour
                 lsLocation[i].transform.localPosition = new Vector3(720f, 0f, 0f);
             }
         }
+    }
+
+    public void ClearLocation()
+    {
+        for(int i = 0; i < lsLocation.Count; i++)
+        {
+            Destroy(lsLocation[i].gameObject);
+        }
+        lsLocation.Clear();
     }
 }
