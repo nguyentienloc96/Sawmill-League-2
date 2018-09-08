@@ -163,7 +163,8 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.gold -= GameManager.Instance.lsLocation[ID]
             ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price;
-            Debug.Log(GameManager.Instance.gold);
+            Debug.Log(GameManager.Instance.lsLocation[ID]
+            ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price);
             GameManager.Instance.lsLocation[ID]._CountType++;
             GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._CountType]._Icon.color = new Color32(255, 255, 255, 255);
             if (GameManager.Instance.lsLocation[ID]._CountType + 1 >= GameManager.Instance.lsLocation[ID]._LsWorking.Length)

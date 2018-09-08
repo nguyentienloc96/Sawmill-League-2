@@ -134,6 +134,7 @@ public class Location : MonoBehaviour
         {
             if (_CountType + 1 == type)
             {
+                _IndexType = type;
                 UIManager.Instance.BuildSell.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = _LsWorking[type]._Price.ToString();
                 UIManager.Instance.LoadBuildWork(1);
             }
