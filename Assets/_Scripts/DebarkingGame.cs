@@ -10,7 +10,7 @@ public class DebarkingGame : MonoBehaviour
     private bool isRun;
     private Vector3 posDown;
 
-    public void Start()
+    private void OnEnable()
     {
         ResetMaterial();
     }

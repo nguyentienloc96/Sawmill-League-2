@@ -90,6 +90,10 @@ public class DataPlayer : MonoBehaviour
                 var lsWorking = lsData[i]["_LsWorking"].AsArray;
                 for (int j = 0; j < lsWorking.Count; j++)
                 {
+                    if(ljson._CountType >= j)
+                    {
+                        ljson._LsWorking[j]._Icon.color = new Color32(255, 255, 255, 255);
+                    }
                     ljson._LsWorking[j]._Material = lsWorking[j]["_Material"].AsLong;
                     ljson._LsWorking[j]._MaterialReceive = lsWorking[j]["_MaterialReceive"].AsLong;
                     ljson._LsWorking[j]._NumberOfMaterialsSent = lsWorking[j]["_NumberOfMaterialsSent"].AsLong;
@@ -106,6 +110,7 @@ public class DataPlayer : MonoBehaviour
                 ljson._Forest._ForestCode.LoadTree();
                 UIManager.Instance.MaskLocation.Add(ljson._MaskLocation);
                 GameManager.Instance.lsLocation.Add(ljson);
+                UIManager.Instance.lsLocationUI[i].interactable = true;
             }
             GameManager.Instance.locationManager.gameObject.SetActive(true);
             GameManager.Instance.locationManager.SetAsFirstSibling();

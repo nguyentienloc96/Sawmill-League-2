@@ -157,16 +157,14 @@ public class UIManager : MonoBehaviour
     public void BuyWork()
     {
         int ID = GameManager.Instance.IDLocation;
+        int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         if (GameManager.Instance.gold
             >= GameManager.Instance.lsLocation[ID]
-            ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price)
+            ._LsWorking[IndexType]._Price)
         {
-            GameManager.Instance.gold -= GameManager.Instance.lsLocation[ID]
-            ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price;
-            Debug.Log(GameManager.Instance.lsLocation[ID]
-            ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price);
+            GameManager.Instance.gold -= GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Price;
             GameManager.Instance.lsLocation[ID]._CountType++;
-            GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._CountType]._Icon.color = new Color32(255, 255, 255, 255);
+            GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Icon.color = new Color32(255, 255, 255, 255);
             if (GameManager.Instance.lsLocation[ID]._CountType + 1 >= GameManager.Instance.lsLocation[ID]._LsWorking.Length)
             {
                 GameManager.Instance.CreatLocation();
@@ -178,8 +176,9 @@ public class UIManager : MonoBehaviour
     public void WorkYourSelf()
     {
         int ID = GameManager.Instance.IDLocation;
-        GameManager.Instance.lsMiniGame[GameManager.Instance.lsLocation[ID]._IndexType].SetActive(true);
-        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._isCanAuto = true;
+        int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
+        GameManager.Instance.lsMiniGame[IndexType].SetActive(true);
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._isCanAuto = true;
         BuildDetail.SetActive(false);
         ConTrollMask(false);
     }
@@ -187,8 +186,9 @@ public class UIManager : MonoBehaviour
     public void CloseWorkYourSelf()
     {
         int ID = GameManager.Instance.IDLocation;
-        GameManager.Instance.lsMiniGame[GameManager.Instance.lsLocation[ID]._IndexType].SetActive(false);
-        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._isCanAuto = false;
+        int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
+        GameManager.Instance.lsMiniGame[IndexType].SetActive(false);
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._isCanAuto = false;
         ConTrollMask(true);
         BuildUpdate.SetActive(false);
         CarUpdate.SetActive(false);
@@ -273,11 +273,12 @@ public class UIManager : MonoBehaviour
     public void SellProduct()
     {
         int ID = GameManager.Instance.IDLocation;
-        long material = GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material;
-        GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._PriceMaterial;
-        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material -= material;
-        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._TextNumberOfMaterial.text
-            = ConvertMoney(GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material);
+        int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
+        long material = GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material;
+        GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial;
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material -= material;
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._TextNumberOfMaterial.text
+            = ConvertMoney(GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material);
 
     }
 }

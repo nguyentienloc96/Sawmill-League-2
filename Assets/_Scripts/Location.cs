@@ -125,16 +125,15 @@ public class Location : MonoBehaviour
 
     public void BuildManager(int type)
     {
+        _IndexType = type;
         if (_CountType >= type)
         {
-            _IndexType = type;
             UIManager.Instance.LoadBuildWork(0);
         }
         else
         {
             if (_CountType + 1 == type)
             {
-                _IndexType = type;
                 UIManager.Instance.BuildSell.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = _LsWorking[type]._Price.ToString();
                 UIManager.Instance.LoadBuildWork(1);
             }

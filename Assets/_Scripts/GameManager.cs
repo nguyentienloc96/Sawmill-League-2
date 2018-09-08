@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
     public void CreatLocation()
     {
         GameObject obj = Instantiate(itemLocation, locationManager);
+        obj.transform.localPosition = new Vector3(720f, 0f, 0f);
         obj.name = DataUpdate.Instance.lstData_NameCountry[lsLocation.Count].name;
         Location lc = obj.GetComponent<Location>();
         lc._Name = DataUpdate.Instance.lstData_NameCountry[lsLocation.Count].name;
