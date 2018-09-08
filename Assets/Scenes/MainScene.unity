@@ -1813,6 +1813,7 @@ MonoBehaviour:
   contentWorld: {fileID: 828391442}
   itemLocationUI: {fileID: 1844777416423648, guid: 2a142ff9318e9154bb114442a011e7e2,
     type: 2}
+  lsLocationUI: []
   mySetting: {fileID: 1077546447}
   isOnSetting: 0
   BuildDetail: {fileID: 1334417643}
@@ -2435,7 +2436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -71.49988}
+  m_AnchoredPosition: {x: 0, y: -71.499756}
   m_SizeDelta: {x: 0, y: -133}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &371145309
@@ -9372,6 +9373,51 @@ Prefab:
     - target: {fileID: 1535960018565118, guid: d73c83242eb1f544882fd74c961ec3de, type: 2}
       propertyPath: m_Name
       value: Afghanistan
+      objectReference: {fileID: 0}
+    - target: {fileID: 224369522554501516, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224369522554501516, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224369522554501516, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 224076055418202886, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224076055418202886, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224076055418202886, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 224134688891911648, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 1400
+      objectReference: {fileID: 0}
+    - target: {fileID: 224369522554501516, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -350
+      objectReference: {fileID: 0}
+    - target: {fileID: 224076055418202886, guid: d73c83242eb1f544882fd74c961ec3de,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -1100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d73c83242eb1f544882fd74c961ec3de, type: 2}

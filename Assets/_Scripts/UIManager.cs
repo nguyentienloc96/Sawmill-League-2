@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public GameObject fellingUI;
     public Transform contentWorld;
     public GameObject itemLocationUI;
+    public List<Button> lsLocationUI;
 
     [Header("Setting")]
     public GameObject mySetting;
@@ -59,6 +60,7 @@ public class UIManager : MonoBehaviour
             {
                 item.transform.GetComponent<Button>().interactable = false;
             }
+            lsLocationUI.Add(item.transform.GetComponent<Button>());
         }
     }
 
@@ -161,8 +163,13 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.gold -= GameManager.Instance.lsLocation[ID]
             ._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Price;
+            Debug.Log(GameManager.Instance.gold);
             GameManager.Instance.lsLocation[ID]._CountType++;
             GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._CountType]._Icon.color = new Color32(255, 255, 255, 255);
+            if (GameManager.Instance.lsLocation[ID]._CountType + 1 >= GameManager.Instance.lsLocation[ID]._LsWorking.Length)
+            {
+                GameManager.Instance.CreatLocation();
+            }
         }
         BuildSell.SetActive(false);
     }
@@ -268,7 +275,7 @@ public class UIManager : MonoBehaviour
         long material = GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material;
         GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._PriceMaterial;
         GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material -= material;
-        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._TextNumberOfMaterial.text 
+        GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._TextNumberOfMaterial.text
             = ConvertMoney(GameManager.Instance.lsLocation[ID]._LsWorking[GameManager.Instance.lsLocation[ID]._IndexType]._Material);
 
     }

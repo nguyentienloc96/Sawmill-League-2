@@ -90,10 +90,22 @@ public class GameManager : MonoBehaviour
 
     public void ClearLocation()
     {
-        for(int i = 0; i < lsLocation.Count; i++)
+        for (int i = 0; i < lsLocation.Count; i++)
         {
             Destroy(lsLocation[i].gameObject);
         }
         lsLocation.Clear();
+    }
+
+    public void CreatLocation()
+    {
+        GameObject obj = Instantiate(itemLocation, locationManager);
+        obj.name = DataUpdate.Instance.lstData_NameCountry[lsLocation.Count].name;
+        Location lc = obj.GetComponent<Location>();
+        lc._Name = DataUpdate.Instance.lstData_NameCountry[lsLocation.Count].name;
+        lc._ID = lsLocation.Count;
+        UIManager.Instance.MaskLocation.Add(lc._MaskLocation);
+        UIManager.Instance.lsLocationUI[lsLocation.Count].interactable = true;
+        lsLocation.Add(lc);
     }
 }
