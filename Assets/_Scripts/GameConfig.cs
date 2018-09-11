@@ -34,4 +34,6 @@ public class GameConfig : MonoBehaviour
     public float XT2;
     public float XT1i;
     public float captruckIndex;
+    public string idInter_android;
+    public string idInter_ios;
 }

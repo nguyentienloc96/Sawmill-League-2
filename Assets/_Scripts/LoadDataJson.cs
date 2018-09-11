@@ -20,6 +20,7 @@ public class LoadDataJson : MonoBehaviour
     void Start () {
         LoadGameConfig();
         LoadDataNameCountry();
+        Ads.Instance.RequestAd();
     }
 
     public void LoadGameConfig()
@@ -52,6 +53,8 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.XT2 = objJson["XT2"].AsFloat;
             GameConfig.Instance.XT1i = objJson["XT1i"].AsFloat;
             GameConfig.Instance.captruckIndex = objJson["captruckIndex"].AsFloat;
+            GameConfig.Instance.idInter_android = objJson["idInter_android"];
+            GameConfig.Instance.idInter_ios = objJson["idInter_ios"];
         }
     }
 
