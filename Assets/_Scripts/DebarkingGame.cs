@@ -23,6 +23,7 @@ public class DebarkingGame : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         if (GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._MaterialReceive > 0)
         {
+            _Notification.SetActive(false);
             tree.gameObject.SetActive(true);
             ResetMaterial();
         }
@@ -53,17 +54,15 @@ public class DebarkingGame : MonoBehaviour
     {
         if (isMaterial)
         {
+            AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
-        }
-        else
-        {
-
         }
     }
 
     public void TapUp()
     {
+        AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 

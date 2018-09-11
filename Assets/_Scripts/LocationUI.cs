@@ -8,6 +8,7 @@ public class LocationUI : MonoBehaviour {
 
     public void OnclickLocation()
     {
+        AudioManager.Instance.Play("Click");
         GameManager.Instance.IDLocation = _ID;
         GameManager.Instance.LoadLocation();
         UIManager.Instance.worldUI.transform.SetAsFirstSibling();

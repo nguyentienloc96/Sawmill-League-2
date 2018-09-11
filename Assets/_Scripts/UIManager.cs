@@ -81,12 +81,14 @@ public class UIManager : MonoBehaviour
 
     public void Setting()
     {
+        AudioManager.Instance.Play("Click");
         isOnSetting = !isOnSetting;
         mySetting.SetActive(isOnSetting);
     }
 
     public void BackWorld()
     {
+        AudioManager.Instance.Play("Click");
         locationUI.transform.SetAsFirstSibling();
         Setting();
     }
@@ -166,6 +168,7 @@ public class UIManager : MonoBehaviour
             >= GameManager.Instance.lsLocation[ID]
             ._LsWorking[IndexType]._Price)
         {
+            AudioManager.Instance.Play("Upgrade");
             GameManager.Instance.gold -= GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Price;
             GameManager.Instance.lsLocation[ID]._CountType++;
             GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Icon.color = new Color32(255, 255, 255, 255);
@@ -176,6 +179,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.Play("Click");
             PushNotification("Not Enough Money !!!");
         }
         BuildSell.SetActive(false);
@@ -183,6 +187,7 @@ public class UIManager : MonoBehaviour
 
     public void WorkYourSelf()
     {
+        AudioManager.Instance.Play("Click");
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         GameManager.Instance.lsMiniGame[IndexType].SetActive(true);
@@ -193,6 +198,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseWorkYourSelf()
     {
+        AudioManager.Instance.Play("Click");
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         GameManager.Instance.lsMiniGame[IndexType].SetActive(false);
@@ -204,6 +210,7 @@ public class UIManager : MonoBehaviour
 
     public void LoadBuildWork(int type)
     {
+        AudioManager.Instance.Play("Click");
         if (type == 0)
         {
             BuildDetail.SetActive(true);
@@ -237,6 +244,7 @@ public class UIManager : MonoBehaviour
 
     public void BuildUpdateOnClick()
     {
+        AudioManager.Instance.Play("Click");
         int ID = GameManager.Instance.IDLocation;
         BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].CheckInfoTypeOfWorkST();
         BuildUpdate.SetActive(true);
@@ -244,6 +252,7 @@ public class UIManager : MonoBehaviour
 
     public void CarUpdateOnClick()
     {
+        AudioManager.Instance.Play("Click");
         int ID = GameManager.Instance.IDLocation;
         CarUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].CheckInfoCar();
         CarUpdate.SetActive(true);
@@ -251,28 +260,36 @@ public class UIManager : MonoBehaviour
 
     public void YesBuildUpdateOnClick()
     {
+        AudioManager.Instance.Play("Upgrade");
         int ID = GameManager.Instance.IDLocation;
         BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].UpgradeInfoTypeOfWorkST();
     }
 
     public void NoBuildUpdateOnClick()
     {
+        AudioManager.Instance.Play("Click");
         BuildUpdate.SetActive(false);
     }
 
     public void YesCarUpdateOnClick()
     {
+        AudioManager.Instance.Play("Upgrade");
         int ID = GameManager.Instance.IDLocation;
         CarUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].UpgradeInfoCar();
     }
 
     public void NoCarUpdateOnClick()
     {
+        AudioManager.Instance.Play("Click");
         CarUpdate.SetActive(false);
     }
 
     public void BtnPlayOnclick()
     {
+        AudioManager.Instance.Play("Click");
+        AudioManager.Instance.Stop("Menu");
+        AudioManager.Instance.Play("GamePlay");
+
         GameManager.Instance.gold = 50000;
         GameManager.Instance.dollar = 10;
         ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
@@ -280,17 +297,23 @@ public class UIManager : MonoBehaviour
 
     public void BtnContinueOnclick()
     {
+        AudioManager.Instance.Play("Click");
+        AudioManager.Instance.Stop("Menu");
+        AudioManager.Instance.Play("GamePlay");
+
         DataPlayer.Instance.LoadDataPlayer();
         ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
     }
 
     public void SellProduct()
     {
+
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         long material = GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material;
         if (material > 0)
         {
+            AudioManager.Instance.Play("Money");
             string str = "Sell " + material + " : " + ConvertNumber(material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial) + "$";
             PushNotification(str);
             GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial;
@@ -300,6 +323,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.Play("Click");
             string str = "Not Material !!!";
             PushNotification(str);
         }

@@ -296,6 +296,7 @@ public class Location : MonoBehaviour
 
     public void BuildManager(int type)
     {
+        AudioManager.Instance.Play("Click");
         _IndexType = type;
         if (_CountType >= type)
         {
@@ -316,6 +317,7 @@ public class Location : MonoBehaviour
 
     public void BuildCar(int type)
     {
+        AudioManager.Instance.Play("Click");
         _IndexType = type;
         UIManager.Instance.LoadBuildWork(2);
     }
