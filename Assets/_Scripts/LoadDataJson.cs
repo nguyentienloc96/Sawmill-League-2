@@ -26,7 +26,7 @@ public class LoadDataJson : MonoBehaviour
     {
         var objJson = SimpleJSON.JSON.Parse(loadJson(gameConfig));
         //Debug.Log(objJson);
-        Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
+        //Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {
             GameConfig.Instance.goldToDollar = objJson["goldToDollar"].AsInt;

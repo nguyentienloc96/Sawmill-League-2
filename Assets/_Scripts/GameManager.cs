@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +30,11 @@ public class GameManager : MonoBehaviour
 
     #region MiniGame
     public List<GameObject> lsMiniGame;
+    #endregion
+
+    #region Ads
+    public float timeAds;
+    public GameObject CarAds;
     #endregion
 
     private void Awake()
@@ -69,6 +75,18 @@ public class GameManager : MonoBehaviour
             UpdateGame();
             time = 0;
         }
+
+        timeAds += Time.deltaTime;
+        if (timeAds >= 60 && !CarAds.activeInHierarchy)
+        {
+            CarAds.SetActive(true);
+            CarAds.transform.localPosition = new Vector3(280f, 1050f, 0f);
+            CarAds.transform.DOLocalMoveY(-800f, 20f).OnComplete(
+                () => {
+                        CarAds.SetActive(false);
+                        timeAds = 0;
+                      });
+        }
     }
 
     public void UpdateGame()
@@ -100,6 +118,7 @@ public class GameManager : MonoBehaviour
     public void CreatLocation()
     {
         GameObject obj = Instantiate(itemLocation, locationManager);
+        obj.transform.SetAsFirstSibling();
         obj.transform.localPosition = new Vector3(720f, 0f, 0f);
         obj.name = DataUpdate.Instance.lstData_NameCountry[lsLocation.Count].name;
         Location lc = obj.GetComponent<Location>();
@@ -108,5 +127,13 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.MaskLocation.Add(lc._MaskLocation);
         UIManager.Instance.lsLocationUI[lsLocation.Count].interactable = true;
         lsLocation.Add(lc);
+    }
+
+    public void ShowCarAds()
+    {
+        Debug.Log("OK !!!");
+        timeAds = 0;
+        CarAds.SetActive(false);
+        CarAds.transform.DOKill();
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 
@@ -10,61 +8,88 @@ public class Transport : MonoBehaviour
     public int indexType;
     public int sizeway;
     public Transform carman;
+    public bool isRun;
+    public bool isOff;
 
     public Transform[] way;
     private int indexPos = 0;
     private bool isRetrograde;
-    private bool isPause;
 
-    public UnityAction ActionSented;
-    public UnityAction ActionReceived;
+    public UnityAction<int> ActionSented;
+    public UnityAction<int> ActionReceived;
 
     public void Start()
     {
-        carman.transform.right = way[indexPos + 1].transform.position - carman.transform.position;
-        isPause = true;
+        if (!isOff)
+        {
+            if (location._LsWorking[indexType]._Material <= 0)
+            {
+                carman.transform.position = way[0].transform.position;
+                carman.transform.right = way[indexPos + 1].transform.position - carman.transform.position;
+            }
+            else
+            {
+                indexPos = 0;
+                carman.gameObject.SetActive(true);
+                carman.transform.position = way[0].transform.position;
+                carman.transform.right = way[indexPos + 1].transform.position - carman.transform.position;
+                ActionSented(indexType);
+                isRun = true;
+            }
+        }
     }
 
     public void CarRun()
     {
-        if (!isPause)
+        if (!isOff)
         {
-            if (!isRetrograde)
+            if (isRun)
             {
-                carman.transform.position = Vector3.MoveTowards(carman.transform.position, way[indexPos + 1].transform.position, 0.5f * Time.deltaTime);
-                if (carman.transform.position == way[indexPos + 1].transform.position)
+                if (!isRetrograde)
                 {
-                    indexPos++;
-                    if (indexPos + 1 < way.Length)
+                    carman.transform.position = Vector3.MoveTowards(carman.transform.position, way[indexPos + 1].transform.position, 0.5f * Time.deltaTime);
+                    if (carman.transform.position == way[indexPos + 1].transform.position)
                     {
-                        carman.transform.GetChild(0).right = way[indexPos + 1].transform.position - carman.transform.position;
-                        carman.transform.DORotate(carman.transform.GetChild(0).eulerAngles, 0.25f);
+                        indexPos++;
+                        if (indexPos + 1 < way.Length)
+                        {
+                            carman.transform.GetChild(0).right = way[indexPos + 1].transform.position - carman.transform.position;
+                            carman.transform.DORotate(carman.transform.GetChild(0).eulerAngles, 0.25f);
+                        }
+                        else
+                        {
+                            carman.transform.right = way[way.Length - 2].transform.position - carman.transform.position;
+                            isRetrograde = true;
+                            ActionReceived(indexType);
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    carman.transform.position = Vector3.MoveTowards(carman.transform.position, way[indexPos - 1].transform.position, 0.5f * Time.deltaTime);
+                    if (carman.transform.position == way[indexPos - 1].transform.position)
                     {
-                        carman.transform.right = way[way.Length - 2].transform.position - carman.transform.position;
-                        isRetrograde = true;
-                        ActionReceived();
+                        indexPos--;
+                        if (indexPos > 0)
+                        {
+                            carman.transform.GetChild(0).right = way[indexPos - 1].transform.position - carman.transform.position;
+                            carman.transform.DORotate(new Vector3(0f, 0f, carman.transform.GetChild(0).eulerAngles.y + carman.transform.GetChild(0).eulerAngles.z), 0.25f);
+                        }
+                        else
+                        {
+                            carman.transform.right = way[1].transform.position - carman.transform.position;
+                            isRetrograde = false;
+                            ActionSented(indexType);
+                        }
                     }
                 }
             }
             else
             {
-                carman.transform.position = Vector3.MoveTowards(carman.transform.position, way[indexPos - 1].transform.position, 0.5f * Time.deltaTime);
-                if (carman.transform.position == way[indexPos - 1].transform.position)
+                if (location._LsWorking[indexType]._Material > 0
+                    && GameManager.Instance.gold >= location._LsWorking[indexType]._PriceTransportSent)
                 {
-                    indexPos--;
-                    if (indexPos > 0)
-                    {
-                        carman.transform.GetChild(0).right = way[indexPos - 1].transform.position - carman.transform.position;
-                        carman.transform.DORotate(new Vector3(0f, 0f, carman.transform.GetChild(0).eulerAngles.y + carman.transform.GetChild(0).eulerAngles.z), 0.25f);
-                    }
-                    else
-                    {
-                        carman.transform.right = way[1].transform.position - carman.transform.position;
-                        isRetrograde = false;
-                        ActionSented();
-                    }
+                    isRun = true;
                 }
             }
         }
@@ -75,23 +100,16 @@ public class Transport : MonoBehaviour
         CarRun();
     }
 
-    public void PauseRun()
-    {
-        isPause = true;
-    }
-
     public void ResetAll()
     {
-        if (isPause)
+        if (!isRun)
         {
+            indexPos = 0;
             carman.gameObject.SetActive(true);
             carman.transform.position = way[0].transform.position;
-            carman.transform.eulerAngles = new Vector3(0f, 0f, -90f);
             carman.transform.right = way[indexPos + 1].transform.position - carman.transform.position;
-
-            isPause = false;
-            indexPos = 0;
-            ActionSented();
+            ActionSented(indexType);
+            isRun = true;
         }
     }
 }

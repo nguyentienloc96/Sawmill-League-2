@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,7 @@ public class UIManager : MonoBehaviour
     public Text txtDollar;
     public Text txtGold;
     public Text myTxtWood;
+    public Text myTxtBoard;
 
     [Header("ObjectMain")]
     public GameObject worldUI;
@@ -32,12 +32,13 @@ public class UIManager : MonoBehaviour
     public GameObject CarDetail;
     public GameObject BuildUpdate;
     public GameObject CarUpdate;
-    public string StrBuildUpdate;
-    public string StrCarUpdate;
 
     [Header("MaskUI")]
     public Mask MaskWorld;
     public List<Mask> MaskLocation;
+
+    [Header("Notifications")]
+    public GameObject PopupNotification;
 
     private void Awake()
     {
@@ -67,12 +68,15 @@ public class UIManager : MonoBehaviour
     public void Update()
     {
         if (txtDollar.gameObject.activeInHierarchy)
-            txtDollar.text = ConvertMoney(GameManager.Instance.dollar);
+            txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
         if (txtGold.gameObject.activeInHierarchy)
-            txtGold.text = ConvertMoney(GameManager.Instance.gold);
+            txtGold.text = ConvertNumber(GameManager.Instance.gold);
         if (myTxtWood.gameObject.activeInHierarchy)
-            myTxtWood.text = ConvertMoney(GameManager.Instance
+            myTxtWood.text = ConvertNumber(GameManager.Instance
                 .lsLocation[GameManager.Instance.IDLocation]._LsWorking[0]._Material);
+        if (myTxtBoard.gameObject.activeInHierarchy)
+            myTxtBoard.text = ConvertNumber(GameManager.Instance
+                .lsLocation[GameManager.Instance.IDLocation]._LsWorking[1]._Material);
     }
 
     public void Setting()
@@ -87,7 +91,7 @@ public class UIManager : MonoBehaviour
         Setting();
     }
 
-    public string ConvertMoney(long number)
+    public string ConvertNumber(long number)
     {
         string smoney = string.Format("{0:n0}", number);
 
@@ -95,10 +99,10 @@ public class UIManager : MonoBehaviour
         {
             if (number % 1000 != 0)
             {
-                smoney = smoney.Substring(0, smoney.Length - 1);
+                smoney = smoney.Substring(0, smoney.Length - 2);
                 smoney = smoney + "k";
-                smoney = smoney.Remove(smoney.Length - 4, 1);
-                smoney = smoney.Insert(smoney.Length - 3, ".");
+                smoney = smoney.Remove(smoney.Length - 3, 1);
+                smoney = smoney.Insert(smoney.Length - 2, ".");
             }
             else
             {
@@ -110,10 +114,10 @@ public class UIManager : MonoBehaviour
         {
             if (number % 1000000 != 0)
             {
-                smoney = smoney.Substring(0, smoney.Length - 5);
+                smoney = smoney.Substring(0, smoney.Length - 6);
                 smoney = smoney + "M";
-                smoney = smoney.Remove(smoney.Length - 4, 1);
-                smoney = smoney.Insert(smoney.Length - 3, ".");
+                smoney = smoney.Remove(smoney.Length - 3, 1);
+                smoney = smoney.Insert(smoney.Length - 2, ".");
             }
             else
             {
@@ -125,10 +129,10 @@ public class UIManager : MonoBehaviour
         {
             if (number % 1000000000 != 0)
             {
-                smoney = smoney.Substring(0, smoney.Length - 9);
+                smoney = smoney.Substring(0, smoney.Length - 10);
                 smoney = smoney + "B";
-                smoney = smoney.Remove(smoney.Length - 4, 1);
-                smoney = smoney.Insert(smoney.Length - 3, ".");
+                smoney = smoney.Remove(smoney.Length - 3, 1);
+                smoney = smoney.Insert(smoney.Length - 2, ".");
             }
             else
             {
@@ -140,10 +144,10 @@ public class UIManager : MonoBehaviour
         {
             if (number % 1000000000000 != 0)
             {
-                smoney = smoney.Substring(0, smoney.Length - 13);
+                smoney = smoney.Substring(0, smoney.Length - 14);
                 smoney = smoney + "KB";
-                smoney = smoney.Remove(smoney.Length - 5, 1);
-                smoney = smoney.Insert(smoney.Length - 4, ".");
+                smoney = smoney.Remove(smoney.Length - 4, 1);
+                smoney = smoney.Insert(smoney.Length - 3, ".");
             }
             else
             {
@@ -170,6 +174,10 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.CreatLocation();
             }
         }
+        else
+        {
+            PushNotification("Not Enough Money !!!");
+        }
         BuildSell.SetActive(false);
     }
 
@@ -178,7 +186,7 @@ public class UIManager : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         GameManager.Instance.lsMiniGame[IndexType].SetActive(true);
-        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._isCanAuto = true;
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._IsCanAuto = true;
         BuildDetail.SetActive(false);
         ConTrollMask(false);
     }
@@ -188,7 +196,7 @@ public class UIManager : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         GameManager.Instance.lsMiniGame[IndexType].SetActive(false);
-        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._isCanAuto = false;
+        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._IsCanAuto = false;
         ConTrollMask(true);
         BuildUpdate.SetActive(false);
         CarUpdate.SetActive(false);
@@ -229,19 +237,22 @@ public class UIManager : MonoBehaviour
 
     public void BuildUpdateOnClick()
     {
-        BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = StrBuildUpdate;
+        int ID = GameManager.Instance.IDLocation;
+        BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].CheckInfoTypeOfWorkST();
         BuildUpdate.SetActive(true);
     }
 
     public void CarUpdateOnClick()
     {
-        CarUpdate.transform.GetChild(0).GetComponent<Text>().text = StrCarUpdate;
+        int ID = GameManager.Instance.IDLocation;
+        CarUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].CheckInfoCar();
         CarUpdate.SetActive(true);
     }
 
     public void YesBuildUpdateOnClick()
     {
-
+        int ID = GameManager.Instance.IDLocation;
+        BuildUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].UpgradeInfoTypeOfWorkST();
     }
 
     public void NoBuildUpdateOnClick()
@@ -251,7 +262,8 @@ public class UIManager : MonoBehaviour
 
     public void YesCarUpdateOnClick()
     {
-
+        int ID = GameManager.Instance.IDLocation;
+        CarUpdate.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[ID].UpgradeInfoCar();
     }
 
     public void NoCarUpdateOnClick()
@@ -261,6 +273,8 @@ public class UIManager : MonoBehaviour
 
     public void BtnPlayOnclick()
     {
+        GameManager.Instance.gold = 50000;
+        GameManager.Instance.dollar = 10;
         ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main);
     }
 
@@ -275,10 +289,25 @@ public class UIManager : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID]._IndexType;
         long material = GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material;
-        GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial;
-        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material -= material;
-        GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._TextNumberOfMaterial.text
-            = ConvertMoney(GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material);
+        if (material > 0)
+        {
+            string str = "Sell " + material + " : " + ConvertNumber(material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial) + "$";
+            PushNotification(str);
+            GameManager.Instance.gold += material * GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._PriceMaterial;
+            GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material -= material;
+            GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._TextMaterial.text
+                = ConvertNumber(GameManager.Instance.lsLocation[ID]._LsWorking[IndexType]._Material);
+        }
+        else
+        {
+            string str = "Not Material !!!";
+            PushNotification(str);
+        }
+    }
 
+    public void PushNotification(string str)
+    {
+        PopupNotification.SetActive(true);
+        PopupNotification.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = str;
     }
 }

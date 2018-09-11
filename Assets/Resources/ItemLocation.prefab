@@ -2221,6 +2221,8 @@ MonoBehaviour:
   indexType: 0
   sizeway: 9
   carman: {fileID: 224441753173858372}
+  isRun: 0
+  isOff: 0
   way:
   - {fileID: 4569072709567380}
   - {fileID: 4960410510521846}
@@ -3286,35 +3288,53 @@ MonoBehaviour:
   _CountType: 0
   _IndexType: 0
   _MaskLocation: {fileID: 114689550388206668}
+  capIndex: 4
+  captruckIndex: 4
   _Forest:
     _Tree: 0
     _AnimFelling: {fileID: 1449044898601214}
     _ForestCode: {fileID: 114524027656431204}
   _LsWorking:
   - _Name: Felling
-    _Icon: {fileID: 114246600315824956}
+    _ID: 1
+    _Level: 0
     _Material: 0
     _MaterialReceive: 0
-    _TransportType: {fileID: 114173413388772980}
-    _NumberOfMaterialsSent: 0
-    _MaxNumberOfMaterialsSent: 10
-    _TextNumberOfMaterial: {fileID: 114947479664152624}
-    _TimeWorking: 0
     _PriceMaterial: 15
-    _Price: 0
-    _isCanAuto: 0
-  - _Name: Debarking
-    _Icon: {fileID: 114014665858336446}
-    _Material: 0
-    _MaterialReceive: 0
-    _TransportType: {fileID: 114952391648291186}
+    _NumberMaterialIsMade: 0
+    _TimeWorking: 0
+    _IsCanAuto: 0
+    _TransportType: {fileID: 114173413388772980}
+    _LevelTransport: 0
+    _PriceUpgradeCar: 0
+    _PriceTransportSent: 0
     _NumberOfMaterialsSent: 0
     _MaxNumberOfMaterialsSent: 10
-    _TextNumberOfMaterial: {fileID: 114707951713373732}
-    _TimeWorking: 0
+    _Icon: {fileID: 114246600315824956}
+    _TextMaterial: {fileID: 114947479664152624}
+    _PriceUpgrade: 0
+    _Price: 0
+    _UN2: 0.1
+  - _Name: Debarking
+    _ID: 2
+    _Level: 0
+    _Material: 0
+    _MaterialReceive: 0
     _PriceMaterial: 30
+    _NumberMaterialIsMade: 0
+    _TimeWorking: 0
+    _IsCanAuto: 0
+    _TransportType: {fileID: 114952391648291186}
+    _LevelTransport: 0
+    _PriceUpgradeCar: 0
+    _PriceTransportSent: 0
+    _NumberOfMaterialsSent: 0
+    _MaxNumberOfMaterialsSent: 10
+    _Icon: {fileID: 114014665858336446}
+    _TextMaterial: {fileID: 114707951713373732}
+    _PriceUpgrade: 0
     _Price: 300
-    _isCanAuto: 0
+    _UN2: 0.1
 --- !u!114 &114662760880123464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4055,6 +4075,8 @@ MonoBehaviour:
   indexType: 1
   sizeway: 9
   carman: {fileID: 224225923393062474}
+  isRun: 0
+  isOff: 1
   way:
   - {fileID: 4061479719577130}
   - {fileID: 4677661946973718}
@@ -4729,7 +4751,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.000011511962}
-  m_SizeDelta: {x: 0, y: 2150}
+  m_SizeDelta: {x: 0, y: 1400}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224142054711057706
 RectTransform:
