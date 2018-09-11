@@ -33,4 +33,5 @@ public class GameConfig : MonoBehaviour
     public float XN1i;
     public float XT2;
     public float XT1i;
+    public float captruckIndex;
 }

@@ -51,6 +51,7 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.XN1i = objJson["XN1i"].AsFloat;
             GameConfig.Instance.XT2 = objJson["XT2"].AsFloat;
             GameConfig.Instance.XT1i = objJson["XT1i"].AsFloat;
+            GameConfig.Instance.captruckIndex = objJson["captruckIndex"].AsFloat;
         }
     }
 

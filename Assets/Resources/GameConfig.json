@@ -3,7 +3,7 @@
   "gold" : 10,
   "goldToDollar" : 10000,
   "dollarVideoAd" : 50000,
-  "timeInterAd" : 150,
+  "timeInterAd" : 180,
   "mapWorld" : {
     "0" : "Africa",
     "1" : "India",
@@ -32,5 +32,6 @@
   "XN2" : 0.1,
   "XN1i" : 0.1,
   "XT2" : 0.1,
-  "XT1i" : 0.1
+  "XT1i" : 0.1,
+  "captruckIndex" : 4
 }
