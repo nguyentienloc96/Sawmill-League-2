@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class Limbing : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class Limbing : MonoBehaviour
     public Transform cart;
     public Transform tree;
     public GameObject notification;
+
+    public Image sprHand;
+    public Sprite[] spHand;
 
     private bool isRun;
     private Vector3 posDown;
@@ -25,7 +29,7 @@ public class Limbing : MonoBehaviour
         {
             notification.SetActive(false);
             tree.gameObject.SetActive(true);
-            ResetMaterial();
+            LoadInput();
         }
         else
         {
@@ -54,6 +58,7 @@ public class Limbing : MonoBehaviour
     {
         if (isInput)
         {
+            sprHand.sprite = spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -62,15 +67,20 @@ public class Limbing : MonoBehaviour
 
     public void TapUp()
     {
+        sprHand.sprite = spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 
-    public void ResetMaterial()
+    public void LoadInput()
     {
-        cart.localPosition = Vector3.zero;
-        tree.localPosition = new Vector3(11f, 0f, 0f);
-        tree.DOLocalMove(new Vector3(1f, 0f, 0f), 2f).OnComplete(() => isInput = true);
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        tree.localPosition = Vector3.zero;
+        cart.DOLocalMove(Vector3.zero, 2f).OnComplete(() =>
+        {
+            isInput = true;
+            sprHand.enabled = true;
+        });
     }
 
     public void CompleteJob()
@@ -81,7 +91,9 @@ public class Limbing : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            ResetMaterial();
+            sprHand.enabled = false;
+            isInput = false;
+            LoadInput();
         }
         else
         {

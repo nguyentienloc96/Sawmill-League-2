@@ -13,6 +13,10 @@ public class MoveObject : MonoBehaviour
 
     public bool isOneWay;
     public bool isNotHide;
+    public bool isLocation;
+    public bool isInLocation;
+
+    public Location location;
 
     private Transform posTo;
     private int indexPoit;
@@ -31,59 +35,87 @@ public class MoveObject : MonoBehaviour
 
     public void Update()
     {
-        if (isStarted && UIManager.Instance.scene == TypeScene.WOLRD)
+        if (isStarted)
         {
-            if (isWaiting)
+            if (!isLocation)
             {
-                timeWaitingUpdate += Time.deltaTime;
-                if (timeWaitingUpdate >= timeWaiting)
+                if (UIManager.Instance.scene == TypeScene.WOLRD)
                 {
-                    if(!isNotHide) transform.localScale = Vector3.one;
-                    if (isOneWay)
-                    {
-                        posTo = poitEnd[indexPoit];
-                        transform.position = poitStart[indexPoit].position;
-                    }
-                    else
-                    {
-                        if (isBack)
-                        {
-                            posTo = poitStart[indexPoit];
-                            transform.position = poitEnd[indexPoit].position;
-                        }
-                        else
-                        {
-
-                            posTo = poitEnd[indexPoit];
-                            transform.position = poitStart[indexPoit].position;
-                        }
-                    }
-
-                    Vector3 check = posTo.position - transform.position;
-                    if (check.x > 0)
-                    {
-                        transform.localScale = new Vector3(1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        transform.localScale = new Vector3(-1f, 1f, 1f);
-                    }
-
-                    timeWaitingUpdate = 0;
-                    isWaiting = false;
+                    MoveUpdate();
                 }
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, posTo.position, speed * Time.deltaTime);
-                if (transform.position == posTo.position)
+                if (UIManager.Instance.scene == TypeScene.LOCATION)
                 {
-                    indexPoit = Random.Range(0, poitStart.Length);
-                    if (!isNotHide) transform.localScale = Vector3.zero;
-                    timeWaitingUpdate = 0;
-                    isWaiting = true;
-                    isBack = !isBack;
+                    if (isInLocation)
+                    {
+                        if (location.id == GameManager.Instance.IDLocation)
+                        {
+                            MoveUpdate();
+                        }
+                    }
+                    else
+                    {
+                        MoveUpdate();
+                    }
                 }
+            }
+        }
+    }
+
+    public void MoveUpdate()
+    {
+        if (isWaiting)
+        {
+            timeWaitingUpdate += Time.deltaTime;
+            if (timeWaitingUpdate >= timeWaiting)
+            {
+                if (!isNotHide) transform.localScale = Vector3.one;
+                if (isOneWay)
+                {
+                    posTo = poitEnd[indexPoit];
+                    transform.position = poitStart[indexPoit].position;
+                }
+                else
+                {
+                    if (isBack)
+                    {
+                        posTo = poitStart[indexPoit];
+                        transform.position = poitEnd[indexPoit].position;
+                    }
+                    else
+                    {
+
+                        posTo = poitEnd[indexPoit];
+                        transform.position = poitStart[indexPoit].position;
+                    }
+                }
+
+                Vector3 check = posTo.position - transform.position;
+                if (check.x > 0)
+                {
+                    transform.localScale = new Vector3(1f, 1f, 1f);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-1f, 1f, 1f);
+                }
+
+                timeWaitingUpdate = 0;
+                isWaiting = false;
+            }
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, posTo.position, speed * Time.deltaTime);
+            if (transform.position == posTo.position)
+            {
+                indexPoit = Random.Range(0, poitStart.Length);
+                if (!isNotHide) transform.localScale = Vector3.zero;
+                timeWaitingUpdate = 0;
+                isWaiting = true;
+                isBack = !isBack;
             }
         }
     }

@@ -103,7 +103,8 @@ public class DataPlayer : MonoBehaviour
 
             var lsOther = lsData[i]["lsOther"].AsArray;
             location.lsOther = new List<int>();
-            for (int iOther = 0; iOther < lsOther.Count; iOther++) {
+            for (int iOther = 0; iOther < lsOther.Count; iOther++)
+            {
                 location.lsOther.Add(lsOther[iOther].AsInt);
             }
 
@@ -128,8 +129,8 @@ public class DataPlayer : MonoBehaviour
                 location.lsStreet.Add(lsStreet[iStreet].AsInt);
             }
 
-            yield return new WaitUntil(() => 
-            location.lsStreet.Count == lsStreet.Count 
+            yield return new WaitUntil(() =>
+            location.lsStreet.Count == lsStreet.Count
             && location.lsRiverLeft.Count == lsRiverLeft.Count
             && location.lsRiverRight.Count == lsRiverRight.Count
             && location.lsOther.Count == lsOther.Count);
@@ -170,10 +171,19 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].price = lsWorking[j]["price"].AsLong;
                 location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsLong;
 
-                if (location.lsWorking[j].id
-                    != location.lsWorking.Length
-                    && location.lsWorking[j].output > 0)
-                    location.lsWorking[j].truckManager.LoadTruck();
+                if (location.lsWorking[j].id <= location.countType)
+                {
+                    location.lsWorking[j].info.SetActive(true);
+                    if (location.lsWorking[j].textInput != null)
+                    {
+                        location.lsWorking[j].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].input);
+                    }
+                    location.lsWorking[j].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].output);
+                    if (location.lsWorking[j].output > 0)
+                    {
+                        location.lsWorking[j].truckManager.LoadTruck();
+                    }
+                }
             }
 
             UIManager.Instance.lsMaskLocation.Add(location.maskLocation);

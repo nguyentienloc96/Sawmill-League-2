@@ -74,7 +74,7 @@ public class TruckManager : MonoBehaviour
             }
             else
             {
-                if (location.lsWorking[indexType].input > 0
+                if (location.lsWorking[indexType].output > 0
                     && GameManager.Instance.gold >= location.lsWorking[indexType].priceTruckSent)
                 {
                     isRun = true;
@@ -101,13 +101,17 @@ public class TruckManager : MonoBehaviour
                 location.lsWorking[indexType].currentSent = location.lsWorking[indexType].maxSent;
                 location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
             }
-            else
+            else if(location.lsWorking[indexType].output > 0)
             {
                 long outputSent = location.lsWorking[indexType].output;
                 location.lsWorking[indexType].truckManager.txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
                 location.lsWorking[indexType].currentSent = outputSent;
                 location.lsWorking[indexType].output -= outputSent;
                 location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
+            }
+            else
+            {
+                location.lsWorking[indexType].truckManager.isRun = false;
             }
         }
         else
@@ -127,6 +131,7 @@ public class TruckManager : MonoBehaviour
         else
         {
             location.lsWorking[indexType + 1].input += location.lsWorking[indexType].currentSent;
+            location.lsWorking[indexType + 1].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType + 1].input);
             location.lsWorking[indexType].currentSent = 0;
         }
     }

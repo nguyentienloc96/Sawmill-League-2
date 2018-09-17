@@ -64,10 +64,22 @@ public class UIManager : MonoBehaviour
     public TypeScene scene;
     public bool isContinue;
 
+    [Header("MiniGame")]
+    public Text[] LstxtInputMiniGame;
+    public Text[] LstxtOutputMiniGame;
+
     public void Update()
     {
         txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
         txtGold.text = ConvertNumber(GameManager.Instance.gold);
+        if (scene == TypeScene.MINIGAME)
+        {
+            int id = GameManager.Instance.IDLocation;
+            int indexType = GameManager.Instance.lsLocation[id].indexType;
+            if (indexType != 0) LstxtInputMiniGame[indexType].text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
+            LstxtOutputMiniGame[indexType].text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
+
+        }
     }
 
 
@@ -228,6 +240,7 @@ public class UIManager : MonoBehaviour
     {
         int id = GameManager.Instance.IDLocation;
         GameManager.Instance.lsLocation[id].SellJob();
+        JobSell.SetActive(false);
     }
     public void NoSellJob()
     {
@@ -241,7 +254,7 @@ public class UIManager : MonoBehaviour
         ConTrollMask(true);
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
-        GameManager.Instance.lsLocation[id].lsWorking[indexType].isNotAuto = true;
+        GameManager.Instance.lsLocation[id].lsWorking[indexType].isNotAuto = false;
         GameManager.Instance.lsMiniGame[indexType].SetActive(false);
     }
 }

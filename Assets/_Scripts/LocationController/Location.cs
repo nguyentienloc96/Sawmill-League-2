@@ -235,6 +235,13 @@ public class Location : MonoBehaviour
         indexType = countType;
         lsWorking[countType].icon.color = Color.white;
         lsWorking[countType].info.SetActive(true);
+        lsWorking[countType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].input);
+        lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
+        if (countType + 1 == lsWorking.Length)
+        {
+            UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
+            GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[GameManager.Instance.lsLocation.Count]);
+        }
     }
 
 
@@ -302,6 +309,7 @@ public class Location : MonoBehaviour
             materialCurrent = lsWorking[idType].input;
         }
         lsWorking[idType].input -= materialCurrent;
+        lsWorking[idType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].input);
         lsWorking[idType].output += (long)(0.9f * materialCurrent);
         lsWorking[idType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].output);
         if (lsWorking[idType].id < lsWorking.Length)
@@ -323,8 +331,6 @@ public class Location : MonoBehaviour
         {
             Job(i);
         }
-
-
     }
 
 
