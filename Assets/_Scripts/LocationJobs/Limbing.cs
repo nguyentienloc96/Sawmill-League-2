@@ -9,6 +9,8 @@ public class Limbing : MonoBehaviour
     public Transform tree;
     public GameObject notification;
     public Animator anim;
+    public ParticleSystem particleEmissions;
+    public ParticleSystem particleLimbing;
 
     public SpriteRenderer imgHand;
 
@@ -59,6 +61,8 @@ public class Limbing : MonoBehaviour
         if (isInput)
         {
             anim.enabled = true;
+            particleLimbing.Play();
+            particleEmissions.Play();
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -69,6 +73,8 @@ public class Limbing : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
+        particleLimbing.Stop();
+        particleEmissions.Stop();
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
@@ -87,6 +93,9 @@ public class Limbing : MonoBehaviour
 
     public void CompleteJob()
     {
+        anim.enabled = false;
+        particleLimbing.Stop();
+        particleEmissions.Stop();
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
