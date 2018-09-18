@@ -18,12 +18,13 @@ public class LoadDataJson : MonoBehaviour
 
     void Start () {
         LoadGameConfig();
+        Ads.Instance.RequestAd();
     }
 
     public void LoadGameConfig()
     {
-        var objJson = SimpleJSON.JSON.Parse(loadJson(gameConfig));
-        //Debug.Log(objJson);
+        var objJson = SimpleJSON_DatDz.JSON.Parse(loadJson(gameConfig));
+        Debug.Log(objJson);
         //Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {

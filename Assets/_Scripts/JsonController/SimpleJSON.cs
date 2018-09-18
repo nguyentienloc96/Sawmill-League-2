@@ -48,7 +48,7 @@ using System.Collections.Generic;
 using System.Linq;
  
  
-namespace SimpleJSON
+namespace SimpleJSON_DatDz
 {
     public enum JSONBinaryTag
     {

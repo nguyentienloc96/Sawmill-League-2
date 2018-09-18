@@ -71,7 +71,7 @@ public class DataPlayer : MonoBehaviour
     {
         string _path = Path.Combine(Application.persistentDataPath, "DataPlayer.json");
         string dataAsJson = File.ReadAllText(_path);
-        var objJson = SimpleJSON.JSON.Parse(dataAsJson);
+        var objJson = SimpleJSON_DatDz.JSON.Parse(dataAsJson);
         Debug.Log(objJson);
         if (objJson != null)
         {
@@ -91,7 +91,7 @@ public class DataPlayer : MonoBehaviour
 
     }
 
-    public IEnumerator IELoadLocationJson(SimpleJSON.JSONArray lsData)
+    public IEnumerator IELoadLocationJson(SimpleJSON_DatDz.JSONArray lsData)
     {
         for (int i = 0; i < lsData.Count; i++)
         {
