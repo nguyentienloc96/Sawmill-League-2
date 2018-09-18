@@ -24,7 +24,7 @@ public class LoadDataJson : MonoBehaviour
     public void LoadGameConfig()
     {
         var objJson = SimpleJSON_DatDz.JSON.Parse(loadJson(gameConfig));
-        Debug.Log(objJson);
+        //Debug.Log(objJson);
         //Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {
