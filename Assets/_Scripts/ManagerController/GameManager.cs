@@ -109,7 +109,6 @@ public class GameManager : MonoBehaviour
         Location location = objLocation.GetComponent<Location>();
         location.id = locationUI.id;
         location.nameLocation = locationUI.nameLocationUI;
-        UIManager.Instance.lsMaskLocation.Add(location.maskLocation);
         location.LoadLocation();
         lsLocation.Add(location);
     }

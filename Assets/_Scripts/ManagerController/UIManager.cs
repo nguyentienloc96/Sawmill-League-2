@@ -50,10 +50,6 @@ public class UIManager : MonoBehaviour
     public GameObject JobUpgrade;
     public GameObject TruckUpgrade;
 
-    [Header("MaskUI")]
-    public Mask MaskWorld;
-    public List<Mask> lsMaskLocation;
-
     [Header("Notifications")]
     public GameObject PopupNotification;
 
@@ -67,6 +63,7 @@ public class UIManager : MonoBehaviour
     [Header("MiniGame")]
     public Text[] LstxtInputMiniGame;
     public Text[] LstxtOutputMiniGame;
+    public Sprite[] spHand;
 
     public void Update()
     {
@@ -130,15 +127,6 @@ public class UIManager : MonoBehaviour
         panelSetting.SetActive(false);
     }
 
-
-    public void ConTrollMask(bool isOn)
-    {
-        MaskWorld.enabled = isOn;
-        for (int i = 0; i < lsMaskLocation.Count; i++)
-        {
-            lsMaskLocation[i].enabled = isOn;
-        }
-    }
     public void PushNotification(string str)
     {
         PopupNotification.SetActive(true);
@@ -251,7 +239,6 @@ public class UIManager : MonoBehaviour
     public void CloseJob()
     {
         scene = TypeScene.LOCATION;
-        ConTrollMask(true);
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         GameManager.Instance.lsLocation[id].lsWorking[indexType].isNotAuto = false;

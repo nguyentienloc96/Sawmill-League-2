@@ -84,7 +84,6 @@ public class DataPlayer : MonoBehaviour
             lsLocation = new List<LocationJSON>();
             GameManager.Instance.ClearLocation();
             GameManager.Instance.lsLocation = new List<Location>();
-            UIManager.Instance.lsMaskLocation.Clear();
             StartCoroutine(IELoadLocationJson(lsData));
             GameManager.Instance.locationManager.gameObject.SetActive(true);
             GameManager.Instance.locationManager.SetAsFirstSibling();
@@ -186,7 +185,6 @@ public class DataPlayer : MonoBehaviour
                 }
             }
 
-            UIManager.Instance.lsMaskLocation.Add(location.maskLocation);
             GameManager.Instance.lsLocation.Add(location);
             UIManager.Instance.lsBtnLocationUI[i].interactable = true;
         }

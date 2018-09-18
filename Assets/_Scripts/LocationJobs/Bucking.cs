@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class Limbing : MonoBehaviour
+public class Bucking : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
@@ -78,6 +78,9 @@ public class Limbing : MonoBehaviour
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         tree.localPosition = Vector3.zero;
+        int random = Random.Range(0, 2);
+        tree.GetChild(random).gameObject.SetActive(false);
+        tree.GetChild(1 - random).gameObject.SetActive(true);
         cart.DOLocalMove(Vector3.zero, 2f).OnComplete(() =>
         {
             isInput = true;

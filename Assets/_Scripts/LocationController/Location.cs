@@ -61,8 +61,6 @@ public class Location : MonoBehaviour
     #region HideInInspector
     [HideInInspector]
     public int indexType = 0;
-    public Mask maskLocation;
-
     [HideInInspector]
     public int capIndex = 4;
     [HideInInspector]
@@ -339,7 +337,6 @@ public class Location : MonoBehaviour
         UIManager.Instance.scene = TypeScene.MINIGAME;
         indexType = idType;
         lsWorking[idType].isNotAuto = true;
-        UIManager.Instance.ConTrollMask(false);
         GameManager.Instance.lsMiniGame[indexType].SetActive(true);
     }
 
