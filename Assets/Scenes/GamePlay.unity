@@ -4184,7 +4184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &207586910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5031,8 +5031,6 @@ MonoBehaviour:
   JobSell: {fileID: 763474631}
   JobUpgrade: {fileID: 729132054}
   TruckUpgrade: {fileID: 408469770}
-  MaskWorld: {fileID: 0}
-  lsMaskLocation: []
   PopupNotification: {fileID: 555254983}
   isSaveJson: 0
   scene: 0
