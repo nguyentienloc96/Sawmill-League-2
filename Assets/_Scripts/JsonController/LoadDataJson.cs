@@ -49,6 +49,9 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.captruckIndex = objJson["captruckIndex"].AsFloat;
             GameConfig.Instance.idInter_android = objJson["idInter_android"];
             GameConfig.Instance.idInter_ios = objJson["idInter_ios"];
+            GameConfig.Instance.kProductID50 = objJson["kProductID50"];
+            GameConfig.Instance.kProductID300 = objJson["kProductID300"];
+            GameConfig.Instance.kProductID5000 = objJson["kProductID5000"];
         }
     }
 

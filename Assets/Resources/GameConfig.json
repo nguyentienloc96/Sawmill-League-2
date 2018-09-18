@@ -21,5 +21,8 @@
   "XN1i" : 0.1,
   "XT2" : 0.1,
   "XT1i" : 0.1,
-  "captruckIndex" : 4
+  "captruckIndex" : 4,
+  "kProductID50" : "consumable",
+  "kProductID300" : "consumable",
+  "kProductID5000" : "consumable"
 }
