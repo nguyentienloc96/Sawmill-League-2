@@ -37,7 +37,7 @@ public class TruckManager : MonoBehaviour
             {
                 if (!isRetrograde)
                 {
-                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos + 1].transform.position, 0.5f * Time.deltaTime);
+                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos + 1].transform.position, 0.25f * Time.deltaTime);
                     if (truck.transform.position == way[indexPos + 1].transform.position)
                     {
                         indexPos++;
@@ -55,7 +55,7 @@ public class TruckManager : MonoBehaviour
                 }
                 else
                 {
-                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos - 1].transform.position, 0.5f * Time.deltaTime);
+                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos - 1].transform.position, 0.25f * Time.deltaTime);
                     if (truck.transform.position == way[indexPos - 1].transform.position)
                     {
                         indexPos--;

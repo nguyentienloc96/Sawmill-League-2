@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class Bucking : MonoBehaviour
+public class Drying : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
     public Transform tree;
+    public Transform treeMask;
     public GameObject notification;
     public Animator anim;
-    public ParticleSystem particleEmissions;
+    public Transform needle;
 
     public SpriteRenderer imgHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-    private int random;
+    private float timeNeedle;
 
     public void Start()
     {
@@ -52,6 +53,13 @@ public class Bucking : MonoBehaviour
             {
                 CompleteJob();
             }
+
+            timeNeedle += Time.deltaTime;
+            if(timeNeedle >= 2f)
+            {
+                needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-45f, 45f)), 1.8f);
+                timeNeedle = 0;
+            }
         }
     }
 
@@ -59,8 +67,9 @@ public class Bucking : MonoBehaviour
     {
         if (isInput)
         {
+            timeNeedle = 0;
+            needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-45f, 45f)), 2f);
             anim.enabled = true;
-            particleEmissions.Play();
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -71,20 +80,18 @@ public class Bucking : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
+        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 1f);
     }
 
     public void LoadInput()
     {
-        tree.GetChild(random).localEulerAngles = Vector3.zero;
+        treeMask.localPosition = Vector3.zero;
+        treeMask.localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
-        random = Random.Range(0, 2);
-        tree.GetChild(1 - random).gameObject.SetActive(false);
-        tree.GetChild(random).gameObject.SetActive(true);
+        treeMask.localPosition = Vector3.zero;
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -95,24 +102,28 @@ public class Bucking : MonoBehaviour
     public void CompleteJob()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
+        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 1f);
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        tree.GetChild(random).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
+        treeMask.DOLocalMove(new Vector3(0f, 1.8f, 0f), 1f).OnComplete(() =>
         {
-            if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+            treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
             {
-                imgHand.enabled = false;
-                isInput = false;
-                LoadInput();
-            }
-            else
-            {
-                tree.gameObject.SetActive(false);
-                notification.SetActive(true);
-            }
+                if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+                {
+                    imgHand.enabled = false;
+                    isInput = false;
+                    LoadInput();
+                }
+                else
+                {
+                    tree.gameObject.SetActive(false);
+                    notification.SetActive(true);
+                }
+            });          
         });
+        
     }
 }

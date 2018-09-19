@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using DG.Tweening;
-using UnityEngine.UI;
 
 public class Limbing : MonoBehaviour
 {
@@ -84,7 +83,7 @@ public class Limbing : MonoBehaviour
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-        cart.DOLocalMove(Vector3.zero, 2f).OnComplete(() =>
+        cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
             imgHand.enabled = true;

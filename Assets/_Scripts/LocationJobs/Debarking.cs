@@ -6,15 +6,18 @@ public class Debarking : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
-    public Transform tree;
+    public Transform[] tree;
     public GameObject notification;
     public Animator anim;
+    public ParticleSystem particleDebarking;
+    public ParticleSystem particleEmissions;
 
     public SpriteRenderer imgHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
+    private int random;
 
     public void Start()
     {
@@ -28,12 +31,12 @@ public class Debarking : MonoBehaviour
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
-            tree.gameObject.SetActive(true);
             LoadInput();
         }
         else
         {
-            tree.gameObject.SetActive(false);
+            tree[0].gameObject.SetActive(false);
+            tree[1].gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
@@ -59,6 +62,8 @@ public class Debarking : MonoBehaviour
         if (isInput)
         {
             anim.enabled = true;
+            particleDebarking.Play();
+            particleEmissions.Play();
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -69,6 +74,9 @@ public class Debarking : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
+        particleDebarking.Stop();
+        particleEmissions.Stop();
+
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
@@ -76,12 +84,12 @@ public class Debarking : MonoBehaviour
 
     public void LoadInput()
     {
+        random = Random.Range(0, 2);
+        tree[random].gameObject.SetActive(true);
+        tree[1 - random].gameObject.SetActive(false);
+
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
-        int random = Random.Range(0, 2);
-        tree.GetChild(random).gameObject.SetActive(false);
-        tree.GetChild(1 - random).gameObject.SetActive(true);
-        cart.DOLocalMove(Vector3.zero, 2f).OnComplete(() =>
+        cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
             imgHand.enabled = true;
@@ -90,6 +98,10 @@ public class Debarking : MonoBehaviour
 
     public void CompleteJob()
     {
+        anim.enabled = false;
+        particleDebarking.Stop();
+        particleEmissions.Stop();
+
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
@@ -102,7 +114,7 @@ public class Debarking : MonoBehaviour
         }
         else
         {
-            tree.gameObject.SetActive(false);
+            tree[random].gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }

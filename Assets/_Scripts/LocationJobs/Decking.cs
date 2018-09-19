@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class Bucking : MonoBehaviour
+public class Decking : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
-    public Transform tree;
+    public Transform[] tree;
     public GameObject notification;
     public Animator anim;
     public ParticleSystem particleEmissions;
@@ -28,13 +28,14 @@ public class Bucking : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
+
             notification.SetActive(false);
-            tree.gameObject.SetActive(true);
             LoadInput();
         }
         else
         {
-            tree.gameObject.SetActive(false);
+            tree[0].gameObject.SetActive(false);
+            tree[1].gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
@@ -72,6 +73,7 @@ public class Bucking : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
+
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
@@ -79,12 +81,12 @@ public class Bucking : MonoBehaviour
 
     public void LoadInput()
     {
-        tree.GetChild(random).localEulerAngles = Vector3.zero;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
         random = Random.Range(0, 2);
-        tree.GetChild(1 - random).gameObject.SetActive(false);
-        tree.GetChild(random).gameObject.SetActive(true);
+        tree[random].gameObject.SetActive(true);
+        tree[1 - random].gameObject.SetActive(false);
+        tree[random].localPosition = Vector3.zero;
+        tree[random].localEulerAngles = Vector3.zero;
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -96,23 +98,46 @@ public class Bucking : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
+
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        tree.GetChild(random).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
+        tree[random].position = posCheck;
+        if (random == 0)
         {
-            if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+            tree[random].DOLocalMove(new Vector3(0f, 2.5f, 0f), 0.5f).OnComplete(() =>
             {
-                imgHand.enabled = false;
-                isInput = false;
-                LoadInput();
-            }
-            else
+                tree[random].DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
+                     CallBackDG(ID, IndexType)
+                );
+            });
+        }
+        else
+        {
+            tree[random].DOLocalMove(new Vector3(1.8f, 0f, 0f), 0.5f).OnComplete(() =>
             {
-                tree.gameObject.SetActive(false);
-                notification.SetActive(true);
-            }
-        });
+                tree[random].DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
+                     CallBackDG(ID, IndexType)
+                );
+            });
+        }
+
+    }
+
+    public void CallBackDG(int ID, int IndexType)
+    {
+        if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+        {
+            imgHand.enabled = false;
+            isInput = false;
+            LoadInput();
+        }
+        else
+        {
+            tree[0].gameObject.SetActive(false);
+            tree[1].gameObject.SetActive(false);
+            notification.SetActive(true);
+        }
     }
 }
