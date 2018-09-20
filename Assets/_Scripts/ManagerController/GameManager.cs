@@ -112,4 +112,16 @@ public class GameManager : MonoBehaviour
         location.LoadLocation();
         lsLocation.Add(location);
     }
+
+    public void BonusAds(long dollarBonus, long goldBonus)
+    {
+        if (dollarBonus > 0)
+        {
+            dollar += dollarBonus;
+        }
+        if (goldBonus > 0)
+        {
+            gold += goldBonus;
+        }
+    }
 }
