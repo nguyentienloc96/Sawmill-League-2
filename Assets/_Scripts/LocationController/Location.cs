@@ -89,7 +89,7 @@ public class Location : MonoBehaviour
     public List<int> lsStreet;
     #endregion
 
-
+    public List<Mask> lsMaskTruck;
 
     public void LoadLocation()
     {
