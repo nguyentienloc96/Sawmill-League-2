@@ -20,8 +20,8 @@ public class GameManager : MonoBehaviour
 
     #region GamePlay
     [Header("GamePlay")]
-    public long dollar = 0;
     public long gold = 0;
+    public long dollar = 0;
 
 
     public int IDLocation;
@@ -115,13 +115,13 @@ public class GameManager : MonoBehaviour
 
     public void BonusAds(long dollarBonus, long goldBonus)
     {
-        if (dollarBonus > 0)
-        {
-            dollar += dollarBonus;
-        }
         if (goldBonus > 0)
         {
             gold += goldBonus;
+        }
+        if (dollarBonus > 0)
+        {
+            dollar += dollarBonus;
         }
     }
 }

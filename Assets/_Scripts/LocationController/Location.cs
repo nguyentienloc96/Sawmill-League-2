@@ -89,8 +89,6 @@ public class Location : MonoBehaviour
     public List<int> lsStreet;
     #endregion
 
-    public List<Mask> lsMaskTruck;
-
     public void LoadLocation()
     {
         StartCoroutine(IELoadLocation());
@@ -153,9 +151,9 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        if (GameManager.Instance.gold >= lsWorking[indexType].priceUpgrade)
+        if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgrade)
         {
-            GameManager.Instance.gold -= lsWorking[indexType].priceUpgrade;
+            GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
             // Update thông số
             lsWorking[indexType].level++;
             lsWorking[indexType].maxOutputMade = (long)((GameConfig.Instance.c0 * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + lsWorking[indexType].level / capIndex));
@@ -203,9 +201,9 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        if (GameManager.Instance.gold >= lsWorking[indexType].priceUpgradeTruck)
+        if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgradeTruck)
         {
-            GameManager.Instance.gold -= lsWorking[indexType].priceUpgradeTruck;
+            GameManager.Instance.dollar -= lsWorking[indexType].priceUpgradeTruck;
             // Update thông số
             lsWorking[indexType].levelTruck++;
             lsWorking[indexType].maxSent = lsWorking[indexType].maxSent + lsWorking[indexType].maxSent * lsWorking[indexType].levelTruck / captruckIndex;

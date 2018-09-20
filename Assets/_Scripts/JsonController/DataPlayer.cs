@@ -35,8 +35,8 @@ public class DataPlayer : MonoBehaviour
     public void SaveDataPlayer()
     {
         DataPlayer data = new DataPlayer();
-        data.dollar = GameManager.Instance.dollar;
         data.gold = GameManager.Instance.gold;
+        data.dollar = GameManager.Instance.dollar;
         data.dateStartPlay = GameManager.Instance.dateStartPlay.ToString();
         data.dateGame = GameManager.Instance.dateGame.ToString();
         data.lsLocation = new List<LocationJSON>();
@@ -75,8 +75,8 @@ public class DataPlayer : MonoBehaviour
         Debug.Log(objJson);
         if (objJson != null)
         {
-            GameManager.Instance.dollar = objJson["dollar"].AsLong;
             GameManager.Instance.gold = objJson["gold"].AsLong;
+            GameManager.Instance.dollar = objJson["dollar"].AsLong;
             GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
             GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
 

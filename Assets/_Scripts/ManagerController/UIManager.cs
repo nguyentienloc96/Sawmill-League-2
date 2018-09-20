@@ -67,8 +67,8 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
-        txtGold.text = ConvertNumber(GameManager.Instance.gold);
+        txtDollar.text = ConvertNumber(GameManager.Instance.gold);
+        txtGold.text = ConvertNumber(GameManager.Instance.dollar);
         if (scene == TypeScene.MINIGAME)
         {
             int id = GameManager.Instance.IDLocation;
@@ -95,8 +95,8 @@ public class UIManager : MonoBehaviour
 
         ScenesManager.Instance.isNextScene = false;
 
-        GameManager.Instance.gold = 50000;
-        GameManager.Instance.dollar = 10;
+        GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
+        GameManager.Instance.gold = GameConfig.Instance.goldStart;
         GameManager.Instance.CreatLocation(lsLocationUI[0]);
         ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
         {

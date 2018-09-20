@@ -75,7 +75,7 @@ public class TruckManager : MonoBehaviour
             else
             {
                 if (location.lsWorking[indexType].output > 0
-                    && GameManager.Instance.gold >= location.lsWorking[indexType].priceTruckSent)
+                    && GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
                 {
                     isRun = true;
                 }
@@ -90,9 +90,9 @@ public class TruckManager : MonoBehaviour
 
     public void SentedOutput()
     {
-        if (GameManager.Instance.gold >= location.lsWorking[indexType].priceTruckSent)
+        if (GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
         {
-            GameManager.Instance.gold -= location.lsWorking[indexType].priceTruckSent;
+            GameManager.Instance.dollar -= location.lsWorking[indexType].priceTruckSent;
 
             if (location.lsWorking[indexType].output >= location.lsWorking[indexType].maxSent)
             {
@@ -125,7 +125,7 @@ public class TruckManager : MonoBehaviour
         location.lsWorking[indexType].truckManager.txtSent.text = "";
         if (location.countType <= indexType)
         {
-            GameManager.Instance.gold += location.lsWorking[indexType].currentSent * location.lsWorking[indexType].priceOutput;
+            GameManager.Instance.dollar += location.lsWorking[indexType].currentSent * location.lsWorking[indexType].priceOutput;
             location.lsWorking[indexType].currentSent = 0;
         }
         else
