@@ -37,7 +37,8 @@ public class GameConfig : MonoBehaviour
             });
         }
     }
-
+    public long dollarStart;
+    public long goldStart;
     public int goldToDollar;
     public int dollarVideoAd;
     public int timeInterAd;

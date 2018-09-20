@@ -28,6 +28,8 @@ public class LoadDataJson : MonoBehaviour
         //Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {
+            GameConfig.Instance.dollarStart = objJson["dollarStart"].AsLong;
+            GameConfig.Instance.goldStart = objJson["goldStart"].AsLong;
             GameConfig.Instance.goldToDollar = objJson["goldToDollar"].AsInt;
             GameConfig.Instance.dollarVideoAd = objJson["dollarVideoAd"].AsInt;
             GameConfig.Instance.timeInterAd = objJson["timeInterAd"].AsInt;
