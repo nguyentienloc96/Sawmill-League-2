@@ -161,7 +161,7 @@ public class Location : MonoBehaviour
             lsWorking[indexType].maxOutputMade = (long)((GameConfig.Instance.c0 * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + lsWorking[indexType].level / capIndex));
             lsWorking[indexType].priceUpgrade = (long)(lsWorking[indexType].priceUpgrade * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
             lsWorking[indexType].priceOutput = (long)(lsWorking[indexType].priceOutput * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
-            stInfo = nameLocation + "\n"
+            stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].level + "\n"
                 + "Capacity : " + lsWorking[indexType].maxOutputMade + "\n"
                 + "Price Upgrade : " + lsWorking[indexType].priceUpgrade;
@@ -177,7 +177,7 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        stInfo = nameLocation + "\n"
+        stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].level + "\n"
                 + "Capacity : " + lsWorking[indexType].maxOutputMade + "\n"
                 + "Price Upgrade : " + lsWorking[indexType].priceUpgrade;
@@ -191,7 +191,7 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        stInfo = nameLocation + "\n"
+        stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].levelTruck + "\n"
                 + "Capacity : " + lsWorking[indexType].maxSent + "\n"
                 + "Transportation Fee : " + lsWorking[indexType].priceTruckSent + "\n"
@@ -211,7 +211,7 @@ public class Location : MonoBehaviour
             lsWorking[indexType].maxSent = lsWorking[indexType].maxSent + lsWorking[indexType].maxSent * lsWorking[indexType].levelTruck / captruckIndex;
             lsWorking[indexType].priceTruckSent = (long)(lsWorking[indexType].priceTruckSent * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
             lsWorking[indexType].priceUpgradeTruck = (long)(lsWorking[indexType].priceUpgradeTruck * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
-            stInfo = nameLocation + "\n"
+            stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].levelTruck + "\n"
                 + "Capacity : " + lsWorking[indexType].maxSent + "\n"
                 + "Transportation Fee : " + lsWorking[indexType].priceTruckSent + "\n"

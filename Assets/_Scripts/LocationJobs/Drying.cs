@@ -57,7 +57,7 @@ public class Drying : MonoBehaviour
             timeNeedle += Time.deltaTime;
             if(timeNeedle >= 2f)
             {
-                needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-45f, 45f)), 1.8f);
+                needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1.5f);
                 timeNeedle = 0;
             }
         }
@@ -68,7 +68,7 @@ public class Drying : MonoBehaviour
         if (isInput)
         {
             timeNeedle = 0;
-            needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-45f, 45f)), 2f);
+            needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
@@ -83,7 +83,7 @@ public class Drying : MonoBehaviour
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
-        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 1f);
+        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
     }
 
     public void LoadInput()
@@ -102,15 +102,16 @@ public class Drying : MonoBehaviour
     public void CompleteJob()
     {
         anim.enabled = false;
-        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 1f);
+        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         treeMask.DOLocalMove(new Vector3(0f, 1.8f, 0f), 1f).OnComplete(() =>
         {
-            treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
+            treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.25f).OnComplete(() =>
             {
+                needle.localEulerAngles = new Vector3(0f, 0f, 90f);
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
                 {
                     imgHand.enabled = false;
