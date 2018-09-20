@@ -31,7 +31,7 @@ public class Felling : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
-            AudioManager.Instance.Play("Felling");
+            AudioManager.Instance.PlayOneShot("Felling");
             anim.SetBool("isFelling", true);
         }
     }
