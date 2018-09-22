@@ -22,13 +22,15 @@ public class GameConfig : MonoBehaviour
     {
         if (id == "")
         {
-            App42API.Initialize("70d071010820cea793a6fecd4a573a7551c630da18878944b24d09b4a50c1212", "48faebb001dc22c3d0b453bcc351fe45120e3f9660ef458f939c9f2055ee352e");
+            Debug.Log("a");
+            App42API.Initialize("41b8289bb02efae4f37f1c9d891b09bb43f6f801bdbbf17a557bc4598ddf836b", "35d9a321b8d4cfc3b375b5f212f15ffab98bb2b53e4b9da20d22881fc01a0efa");
             GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
             Social.localUser.Authenticate(success =>
             {
                 if (success)
                 {
                     id = Social.localUser.id;
+                    Debug.Log(id);
                     StorageService storageService = App42API.BuildStorageService();
                     storageService.FindDocumentByKeyValue("Db", "Data", "id", id, new UnityCallBack1());
                 }

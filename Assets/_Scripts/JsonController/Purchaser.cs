@@ -128,7 +128,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
             PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 50);
             if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
             {
-                PlayerPrefs.GetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
+                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
                 StorageService storageService = App42API.BuildStorageService();
                 storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
             }
@@ -143,7 +143,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
             PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 300);
             if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
             {
-                PlayerPrefs.GetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
+                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
                 StorageService storageService = App42API.BuildStorageService();
                 storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
             }
@@ -158,7 +158,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
             PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 5000);
             if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
             {
-                PlayerPrefs.GetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
+                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
                 StorageService storageService = App42API.BuildStorageService();
                 storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
             }
