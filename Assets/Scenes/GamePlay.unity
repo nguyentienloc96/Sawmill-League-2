@@ -5297,6 +5297,7 @@ MonoBehaviour:
   spHand:
   - {fileID: 21300000, guid: 073af8e91e68b204392feeeaedd3020f, type: 3}
   - {fileID: 21300000, guid: ed52f26ea7d083340af6649732a6e510, type: 3}
+  isClick: 0
 --- !u!4 &236430848
 Transform:
   m_ObjectHideFlags: 0
@@ -77071,7 +77072,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Chau Phi
+  m_Text: Africa
 --- !u!222 &2111258386
 CanvasRenderer:
   m_ObjectHideFlags: 0

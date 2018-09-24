@@ -65,6 +65,9 @@ public class UIManager : MonoBehaviour
     public Text[] LstxtOutputMiniGame;
     public Sprite[] spHand;
 
+    [Header("UIHome")]
+    public bool isClick;
+
     public void Update()
     {
         txtDollar.text = ConvertNumber(GameManager.Instance.gold);
@@ -87,37 +90,47 @@ public class UIManager : MonoBehaviour
     }
     public void BtnPlayOnclick()
     {
-        isContinue = false;
-
-        AudioManager.Instance.Play("Click");
-        AudioManager.Instance.Stop("Menu");
-        AudioManager.Instance.Play("GamePlay");
-
-        ScenesManager.Instance.isNextScene = false;
-
-        GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
-        GameManager.Instance.gold = GameConfig.Instance.goldStart;
-        GameManager.Instance.CreatLocation(lsLocationUI[0]);
-        ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+        if (!isClick)
         {
-            isSaveJson = true;
-            scene = TypeScene.WOLRD;
-        });
+            isClick = true;
+            isContinue = false;
+
+            AudioManager.Instance.Play("Click");
+            AudioManager.Instance.Stop("Menu");
+            AudioManager.Instance.Play("GamePlay");
+
+            ScenesManager.Instance.isNextScene = false;
+
+            GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
+            GameManager.Instance.gold = GameConfig.Instance.goldStart;
+            GameManager.Instance.CreatLocation(lsLocationUI[0]);
+            ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+            {
+                isSaveJson = true;
+                scene = TypeScene.WOLRD;
+                isClick = false;
+            });
+        }
     }
     public void BtnContinueOnclick()
     {
-        isContinue = true;
-
-        AudioManager.Instance.Play("Click");
-        AudioManager.Instance.Stop("Menu");
-        AudioManager.Instance.Play("GamePlay");
-
-        DataPlayer.Instance.LoadDataPlayer();
-        ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+        if (!isClick)
         {
-            isSaveJson = true;
-            scene = TypeScene.WOLRD;
-        });
+            isClick = true;
+            isContinue = true;
+
+            AudioManager.Instance.Play("Click");
+            AudioManager.Instance.Stop("Menu");
+            AudioManager.Instance.Play("GamePlay");
+
+            DataPlayer.Instance.LoadDataPlayer();
+            ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+            {
+                isSaveJson = true;
+                scene = TypeScene.WOLRD;
+                isClick = false;
+            });
+        }
     }
     public void BtnBackToWorld()
     {

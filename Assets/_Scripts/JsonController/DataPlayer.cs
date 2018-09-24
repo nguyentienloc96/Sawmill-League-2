@@ -168,7 +168,7 @@ public class DataPlayer : MonoBehaviour
 
                 location.lsWorking[j].priceUpgrade = lsWorking[j]["priceUpgrade"].AsLong;
                 location.lsWorking[j].price = lsWorking[j]["price"].AsLong;
-                location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsLong;
+                location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsFloat;
 
                 if (location.lsWorking[j].id <= location.countType)
                 {
