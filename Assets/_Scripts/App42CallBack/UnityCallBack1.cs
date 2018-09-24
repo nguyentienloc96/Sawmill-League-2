@@ -7,6 +7,7 @@ public class UnityCallBack1 : App42CallBack
 {
     public void OnSuccess(object response)
     {
+        Debug.Log(response);
     }
     public void OnException(Exception e)
     {

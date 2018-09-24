@@ -1,6 +1,6 @@
 {
-  "dollarStart" : 100,
-  "goldStart" : 10,
+  "dollarStart" : 5000000,
+  "goldStart" : 1000,
   "goldToDollar" : 10000,
   "dollarVideoAd" : 50000,
   "timeInterAd" : 180,

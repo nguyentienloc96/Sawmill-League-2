@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using com.shephertz.app42.paas.sdk.csharp;
+using com.shephertz.app42.paas.sdk.csharp.storage;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +20,8 @@ public class LoadDataJson : MonoBehaviour
 
     void Start () {
         LoadGameConfig();
+        Debug.Log(PlayerPrefs.GetInt("Gold"));
+        Debug.Log(PlayerPrefs.GetInt("GoldPre"));
         Ads.Instance.RequestAd();
     }
 
@@ -61,6 +65,42 @@ public class LoadDataJson : MonoBehaviour
     {
         TextAsset _text = Resources.Load(_nameJson) as TextAsset;
         return _text.text;
+    }
+
+    public void GoldToDollar()
+    {
+        Debug.Log(PlayerPrefs.GetInt("Gold"));
+        Debug.Log(PlayerPrefs.GetInt("GoldPre"));
+        if (PlayerPrefs.GetInt("Gold", 10) > 0)
+        {
+            
+            if (PlayerPrefs.GetInt("Gold", 10) >= 5)
+            {
+                //SetNumber(GetNumber2(dola) + 50000, dola);
+                PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) - 5);
+                //gold.text = SetNumberString(PlayerPrefs.GetInt("Gold", 10));
+            }
+            else
+            {
+                //SetNumber(GetNumber2(dola) + PlayerPrefs.GetInt("Gold", 10) * 10000, dola);
+                PlayerPrefs.SetInt("Gold", 0);
+                //gold.text = "0";
+            }
+            if (PlayerPrefs.GetInt("Gold", 10) > 10 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
+            {
+                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
+                Debug.Log(PlayerPrefs.GetInt("GoldPre"));
+                StorageService storageService = App42API.BuildStorageService();
+                storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
+            }
+        }
+    }
+
+    public void RestoreProgess()
+    {
+        //loading.SetActive(true);
+        StorageService storageService = App42API.BuildStorageService();
+        storageService.FindDocumentByKeyValue("Db", "Data", "id", GameConfig.id, new UnityCallBack3());
     }
 
 }
