@@ -254,7 +254,7 @@ public class UIManager : MonoBehaviour
         scene = TypeScene.LOCATION;
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
-        GameManager.Instance.lsLocation[id].lsWorking[indexType].isNotAuto = false;
         GameManager.Instance.lsMiniGame[indexType].SetActive(false);
+        GameManager.Instance.lsLocation[id].lsWorking[indexType].isXJob = false;
     }
 }

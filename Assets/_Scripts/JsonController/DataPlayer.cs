@@ -13,6 +13,10 @@ public class DataPlayer : MonoBehaviour
         {
             return;
         }
+        if (!PlayerPrefs.HasKey("DateTimeOutGame"))
+        {
+            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+        }
         Instance = this;
         DontDestroyOnLoad(this);
     }
@@ -31,6 +35,7 @@ public class DataPlayer : MonoBehaviour
 
     [HideInInspector]
     public List<LocationJSON> lsLocation;
+    private bool isFirst;
 
     public void SaveDataPlayer()
     {
@@ -184,7 +189,21 @@ public class DataPlayer : MonoBehaviour
                     }
                 }
             }
-
+            if (!isFirst)
+            {
+                if (UIManager.Instance.isContinue)
+                {
+                    long totalTime = (long)((TimeSpan)(DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+                    if (totalTime > 0)
+                    {
+                        if (totalTime * 10 > 100)
+                            totalTime = 10;
+                        GameManager.Instance.dollar += totalTime * 10 * location.lsWorking[location.countType].priceOutput;
+                        PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+                    }
+                }
+                isFirst = true;
+            }
             GameManager.Instance.lsLocation.Add(location);
             UIManager.Instance.lsBtnLocationUI[i].interactable = true;
         }
@@ -200,6 +219,7 @@ public class DataPlayer : MonoBehaviour
         if (UIManager.Instance.isSaveJson)
         {
             SaveDataPlayer();
+            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
     }
 
@@ -210,6 +230,7 @@ public class DataPlayer : MonoBehaviour
             if (UIManager.Instance.isSaveJson)
             {
                 SaveDataPlayer();
+                PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
             }
         }
     }

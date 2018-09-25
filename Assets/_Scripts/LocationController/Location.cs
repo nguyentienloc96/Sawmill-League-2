@@ -35,7 +35,7 @@ public struct TypeOfWorkST
     [HideInInspector]
     public float timeWorking;
     [HideInInspector]
-    public bool isNotAuto;
+    public bool isXJob;
 
     [Header("Transport")]
     public long levelTruck;
@@ -245,9 +245,16 @@ public class Location : MonoBehaviour
     #region Felling
     public void Felling()
     {
-        if (forest.tree > 0 && forest.forestClass.isGrowed && !lsWorking[0].isNotAuto)
+        if (forest.tree > 0 && forest.forestClass.isGrowed)
         {
-            lsWorking[0].timeWorking += Time.deltaTime;
+            if (lsWorking[0].isXJob)
+            {
+                lsWorking[0].timeWorking += Time.deltaTime * 1.3f;
+            }
+            else
+            {
+                lsWorking[0].timeWorking += Time.deltaTime;
+            }
             if (lsWorking[0].timeWorking >= GameConfig.Instance.p0Time)
             {
                 FellingComplete();
@@ -282,9 +289,16 @@ public class Location : MonoBehaviour
     #region Job! Felling
     public void Job(int idType)
     {
-        if (lsWorking[idType].input > 0 && !lsWorking[idType].isNotAuto)
+        if (lsWorking[idType].input > 0)
         {
-            lsWorking[idType].timeWorking += Time.deltaTime;
+            if (lsWorking[idType].isXJob)
+            {
+                lsWorking[idType].timeWorking += Time.deltaTime * 1.3f;
+            }
+            else
+            {
+                lsWorking[idType].timeWorking += Time.deltaTime;
+            }
             if (lsWorking[idType].timeWorking >= GameConfig.Instance.p0Time)
             {
                 JobComplete(idType);
@@ -334,8 +348,8 @@ public class Location : MonoBehaviour
     {
         UIManager.Instance.scene = TypeScene.MINIGAME;
         indexType = idType;
-        lsWorking[idType].isNotAuto = true;
         GameManager.Instance.lsMiniGame[indexType].SetActive(true);
+        lsWorking[indexType].isXJob = true;
     }
 
 

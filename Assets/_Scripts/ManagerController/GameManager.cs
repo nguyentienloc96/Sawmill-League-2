@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     [Header("DateTime")]
     public DateTime dateGame;
     public DateTime dateStartPlay;
-    public float deltaTimeGame = 4;
     public List<Text> listDate;
     private float time;
     #endregion
@@ -63,7 +62,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         time += Time.deltaTime;
-        if (time >= deltaTimeGame)
+        if (time >= GameConfig.Instance.p0Time)
         {
             int month = dateGame.Month;
             int year = dateGame.Year;
