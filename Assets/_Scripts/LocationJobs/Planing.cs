@@ -5,18 +5,17 @@ public class Planing : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
-    public Transform tree;
-    public Transform treeMask;
+    public GameObject[] tree;
     public GameObject notification;
     public Animator anim;
-    public Transform needle;
+    public ParticleSystem particleEmissions;
 
     public SpriteRenderer imgHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-    private float timeNeedle;
+    private int random;
 
     public void Start()
     {
@@ -30,12 +29,11 @@ public class Planing : MonoBehaviour
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
-            tree.gameObject.SetActive(true);
             LoadInput();
         }
         else
         {
-            tree.gameObject.SetActive(false);
+            HideTree();
             notification.SetActive(true);
         }
     }
@@ -53,13 +51,6 @@ public class Planing : MonoBehaviour
             {
                 CompleteJob();
             }
-
-            timeNeedle += Time.deltaTime;
-            if(timeNeedle >= 2f)
-            {
-                needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1.5f);
-                timeNeedle = 0;
-            }
         }
     }
 
@@ -67,9 +58,8 @@ public class Planing : MonoBehaviour
     {
         if (isInput)
         {
-            timeNeedle = 0;
-            needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
+            particleEmissions.Play();
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -80,18 +70,17 @@ public class Planing : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
+        particleEmissions.Stop();
         imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
-        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
     }
 
     public void LoadInput()
     {
-        treeMask.localPosition = Vector3.zero;
-        treeMask.localEulerAngles = Vector3.zero;
+        random = Random.Range(0, tree.Length);
+        tree[random].SetActive(true);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        treeMask.localPosition = Vector3.zero;
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -102,29 +91,31 @@ public class Planing : MonoBehaviour
     public void CompleteJob()
     {
         anim.enabled = false;
-        needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
+        particleEmissions.Stop();
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        treeMask.DOLocalMove(new Vector3(0f, 1.8f, 0f), 1f).OnComplete(() =>
+        if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.25f).OnComplete(() =>
-            {
-                needle.localEulerAngles = new Vector3(0f, 0f, 90f);
-                if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
-                {
-                    imgHand.enabled = false;
-                    isInput = false;
-                    LoadInput();
-                }
-                else
-                {
-                    tree.gameObject.SetActive(false);
-                    notification.SetActive(true);
-                }
-            });          
-        });
-        
+            tree[random].SetActive(false);
+            imgHand.enabled = false;
+            isInput = false;
+            LoadInput();
+        }
+        else
+        {
+            tree[random].SetActive(false);
+            notification.SetActive(true);
+        }
+
+    }
+
+    public void HideTree()
+    {
+        foreach (GameObject obj in tree)
+        {
+            obj.SetActive(false);
+        }
     }
 }
