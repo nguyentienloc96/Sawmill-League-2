@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     [Header("InfoPlayer")]
     public Text txtDollar;
     public Text txtGold;
+    public GameObject panelDollar;
+    public GameObject panelGold;
 
     [Header("Setting")]
     private bool isOnSetting;
@@ -256,5 +258,27 @@ public class UIManager : MonoBehaviour
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         GameManager.Instance.lsMiniGame[indexType].SetActive(false);
         GameManager.Instance.lsLocation[id].lsWorking[indexType].isXJob = false;
+    }
+
+    public void ShowPanelDollar()
+    {
+        if (!panelDollar.activeSelf)
+            panelDollar.SetActive(true);
+        else
+            panelDollar.SetActive(false);
+    }
+
+    public void ShowPanelGold()
+    {
+        if (!panelGold.activeSelf)
+            panelGold.SetActive(true);
+        else
+            panelGold.SetActive(false);
+    }
+
+    public void ClosePanel(GameObject g)
+    {
+        if (g != null)
+            g.SetActive(false);
     }
 }
