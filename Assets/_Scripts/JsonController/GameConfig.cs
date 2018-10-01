@@ -29,7 +29,7 @@ public class GameConfig : MonoBehaviour
                 if (success)
                 {
                     id = Social.localUser.id;
-                    Debug.Log(id);
+                    //Debug.Log(id);
                     StorageService storageService = App42API.BuildStorageService();
                     storageService.FindDocumentByKeyValue("Db", "Data", "id", id, new UnityCallBack1());
                 }
