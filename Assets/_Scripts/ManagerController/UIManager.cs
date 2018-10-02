@@ -36,7 +36,6 @@ public class UIManager : MonoBehaviour
     public GameObject panelGold;
 
     [Header("Setting")]
-    private bool isOnSetting;
     public GameObject panelSetting;
 
     [Header("ObjectMain")]
@@ -87,8 +86,7 @@ public class UIManager : MonoBehaviour
 
     public void BtnSettingOnclick()
     {
-        isOnSetting = !isOnSetting;
-        panelSetting.SetActive(isOnSetting);
+        panelSetting.SetActive(true);
     }
     public void BtnPlayOnclick()
     {
