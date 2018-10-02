@@ -51,7 +51,7 @@ public class DebarkingPaper : MonoBehaviour
             {
                 float dis = Input.mousePosition.y - posDown.y;
                 cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                propeller.localEulerAngles += new Vector3(0f, 0f, dis * 0.01f * Time.deltaTime);
+                propeller.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
             }
             if (cart.position.y > posCheck.y)
             {
@@ -87,7 +87,6 @@ public class DebarkingPaper : MonoBehaviour
     public void LoadInput()
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;

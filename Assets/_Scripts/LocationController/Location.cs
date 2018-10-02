@@ -43,6 +43,7 @@ public struct TypeOfWorkST
     public long priceTruckSent; //X0
     public long currentSent;
     public long maxSent; //CI0
+    public long maxSentStart; //CI0
     public TruckManager truckManager;
 
     [Header("Price")]
@@ -138,6 +139,7 @@ public class Location : MonoBehaviour
             lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceOutput = lsWorking[i].priceTruckSent * 3;
             lsWorking[i].maxSent = lsWorking[i].maxOutputMade;
+            lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade;
             lsWorking[i].priceUpgradeTruck = (long)(lsWorking[i].price * GameConfig.Instance.XN1i);
         }
         isLoaded = true;
@@ -206,7 +208,7 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgradeTruck;
             // Update thông số
             lsWorking[indexType].levelTruck++;
-            lsWorking[indexType].maxSent = (long)(lsWorking[indexType].maxSent * (1 + (float)lsWorking[indexType].levelTruck / (float)captruckIndex));
+            lsWorking[indexType].maxSent = (long)(lsWorking[indexType].maxSentStart * (1 + (float)lsWorking[indexType].levelTruck / (float)captruckIndex));
             lsWorking[indexType].priceTruckSent = (long)(lsWorking[indexType].priceTruckSent * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
             lsWorking[indexType].priceUpgradeTruck = (long)(lsWorking[indexType].priceUpgradeTruck * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
             stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
@@ -337,7 +339,7 @@ public class Location : MonoBehaviour
     public void Update()
     {
         Felling();
-        for (int i = 1; i < countType; i++)
+        for (int i = 1; i <= countType; i++)
         {
             Job(i);
         }
