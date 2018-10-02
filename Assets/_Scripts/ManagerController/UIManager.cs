@@ -71,8 +71,8 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        txtDollar.text = ConvertNumber(GameManager.Instance.gold);
-        txtGold.text = ConvertNumber(GameManager.Instance.dollar);
+        txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
+        txtGold.text = ConvertNumber(GameManager.Instance.gold);
         if (scene == TypeScene.MINIGAME)
         {
             int id = GameManager.Instance.IDLocation;
@@ -199,14 +199,14 @@ public class UIManager : MonoBehaviour
             if (number % 1000000000000 != 0)
             {
                 smoney = smoney.Substring(0, smoney.Length - 14);
-                smoney = smoney + "KB";
+                smoney = smoney + "kB";
                 smoney = smoney.Remove(smoney.Length - 4, 1);
                 smoney = smoney.Insert(smoney.Length - 3, ".");
             }
             else
             {
                 smoney = smoney.Substring(0, smoney.Length - 16);
-                smoney = smoney + "KB";
+                smoney = smoney + "kB";
             }
         }
         return smoney;
