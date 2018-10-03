@@ -94,7 +94,6 @@ public class UIManager : MonoBehaviour
         {
             isClick = true;
             isContinue = false;
-
             AudioManager.Instance.Play("Click");
             AudioManager.Instance.Stop("Menu",true);
             AudioManager.Instance.Play("GamePlay",true);
