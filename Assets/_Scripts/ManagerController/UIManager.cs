@@ -134,10 +134,25 @@ public class UIManager : MonoBehaviour
     }
     public void BtnBackToWorld()
     {
-        scene = TypeScene.WOLRD;
-        AudioManager.Instance.Play("Click");
-        locationManager.transform.SetAsFirstSibling();
-        panelSetting.SetActive(false);
+        if (scene != TypeScene.WOLRD)
+        {
+            scene = TypeScene.WOLRD;
+            AudioManager.Instance.Play("Click");
+            locationManager.transform.SetAsFirstSibling();
+            panelSetting.SetActive(false);
+        }
+        else
+        {
+            scene = TypeScene.HOME;
+            AudioManager.Instance.Play("Menu", true);
+            AudioManager.Instance.Stop("GamePlay", true);
+            AudioManager.Instance.Play("Click");
+            DataPlayer.Instance.SaveDataPlayer();
+            panelSetting.SetActive(false);
+            GameManager.Instance.ClearLocation();
+            ScenesManager.Instance.secenes[0].objects.SetActive(true);
+            ScenesManager.Instance.currentScenes = 0;
+        }
     }
 
     public void PushNotification(string str)
@@ -278,5 +293,11 @@ public class UIManager : MonoBehaviour
     {
         if (g != null)
             g.SetActive(false);
+    }
+
+    public void SaveExit()
+    {
+        DataPlayer.Instance.SaveDataPlayer();
+        Application.Quit();
     }
 }
