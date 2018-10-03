@@ -96,8 +96,8 @@ public class UIManager : MonoBehaviour
             isContinue = false;
 
             AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu");
-            AudioManager.Instance.Play("GamePlay");
+            AudioManager.Instance.Stop("Menu",true);
+            AudioManager.Instance.Play("GamePlay",true);
 
             ScenesManager.Instance.isNextScene = false;
 
@@ -120,8 +120,8 @@ public class UIManager : MonoBehaviour
             isContinue = true;
 
             AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu");
-            AudioManager.Instance.Play("GamePlay");
+            AudioManager.Instance.Stop("Menu",true);
+            AudioManager.Instance.Play("GamePlay",true);
 
             DataPlayer.Instance.LoadDataPlayer();
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>

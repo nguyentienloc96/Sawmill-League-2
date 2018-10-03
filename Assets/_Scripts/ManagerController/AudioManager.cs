@@ -28,7 +28,10 @@ public class AudioManager : MonoBehaviour
 
     public Sound[] sounds;
 
+    public Sound[] musics;
+
     public Slider sliderSound;
+    public Slider sliderMusic;
 
     private void Awake()
     {
@@ -38,16 +41,8 @@ public class AudioManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        if (!PlayerPrefs.HasKey("Volume Sound"))
-        {
-            PlayerPrefs.SetFloat("Volume Sound", 1f);
-        }
-
-        float volume = PlayerPrefs.GetFloat("Volume Sound");
-
         foreach (Sound s in sounds)
         {
-            s.volume = volume;
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             s.source.volume = s.volume;
@@ -55,22 +50,71 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
 
+        foreach (Sound s in musics)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+            s.source.loop = s.loop;
+        }
+
+        if (!PlayerPrefs.HasKey("Volume Sound"))
+        {
+            PlayerPrefs.SetInt("Volume Sound", 1);
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("Volume Sound") == 0)
+            {
+                sliderSound.value = 0;
+                MuteAll(true);
+            }
+        }
+
+        if (!PlayerPrefs.HasKey("Volume Music"))
+        {
+            PlayerPrefs.SetInt("Volume Music", 1);
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("Volume Music") == 0)
+            {
+                sliderMusic.value = 0;
+                MuteAll(true, true);
+            }
+        }
+
+
     }
 
     public void Start()
     {
-        Play("Menu");
+        Play("Menu",true);
     }
 
-    public void Play(string name)
+    public void Play(string name,bool isMusic = false)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
+        if (!isMusic)
         {
-            Debug.LogWarning("Sound :" + name + "not found!");
-            return;
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
+            s.source.Play();
         }
-        s.source.Play();
+        else
+        {
+            Sound s = Array.Find(musics, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
+            s.source.Play();
+        }
     }
 
     public void PlayOneShot(string name)
@@ -84,51 +128,113 @@ public class AudioManager : MonoBehaviour
         s.source.PlayOneShot(s.clip);
     }
 
-    public void Stop(string name)
+    public void Stop(string name,bool isMusic = false)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
+        if (!isMusic)
         {
-            Debug.LogWarning("Sound :" + name + "not found!");
-            return;
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
+            s.source.Stop();
         }
-        s.source.Stop();
-    }
-
-    public void Mute(string name, bool mute)
-    {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null)
+        else
         {
-            Debug.LogWarning("Sound :" + name + "not found!");
-            return;
-        }
-        s.source.mute = mute;
-    }
-
-    public void MuteAll(bool mute)
-    {
-        foreach (Sound s in sounds)
-        {
-            s.source.mute = mute;
-        }
-    }
-
-    public void StopAll()
-    {
-        foreach (Sound s in sounds)
-        {
+            Sound s = Array.Find(musics, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
             s.source.Stop();
         }
     }
 
-    public void SliderVolume(Slider _slider)
+    public void Mute(string name, bool mute,bool isMusic = false)
     {
-        foreach (Sound s in sounds)
+        if (!isMusic)
         {
-            s.source.volume = _slider.value;
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
+            s.source.mute = mute;
         }
+        else
+        {
+            Sound s = Array.Find(musics, sound => sound.name == name);
+            if (s == null)
+            {
+                Debug.LogWarning("Sound :" + name + "not found!");
+                return;
+            }
+            s.source.mute = mute;
+        }
+    }
 
-        PlayerPrefs.SetFloat("Volume Sound", _slider.value);
+    public void MuteAll(bool mute,bool isMusic = false)
+    {
+        if (!isMusic)
+        {
+            foreach (Sound s in sounds)
+            {
+                s.source.mute = mute;
+            }
+        }
+        else
+        {
+            foreach (Sound s in musics)
+            {
+                s.source.mute = mute;
+            }
+        }
+    }
+
+    public void StopAll(bool isMusic = false)
+    {
+        if (!isMusic)
+        {
+            foreach (Sound s in sounds)
+            {
+                s.source.Stop();
+            }
+        }
+        else
+        {
+            foreach (Sound s in musics)
+            {
+                s.source.Stop();
+            }
+        }
+    }
+
+    public void ControllSound(Slider _slider)
+    {
+        if(_slider.value == 0)
+        {
+            MuteAll(true);
+        }
+        else
+        {
+            MuteAll(false);
+        }
+        PlayerPrefs.SetInt("Volume Sound", (int)_slider.value);
+    }
+
+    public void ControllMusic(Slider _slider)
+    {
+        if (_slider.value == 0)
+        {
+            MuteAll(true,true);
+        }
+        else
+        {
+            MuteAll(false,true);
+        }
+        PlayerPrefs.SetInt("Volume Music", (int)_slider.value);
     }
 }
