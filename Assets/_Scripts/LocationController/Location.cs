@@ -13,6 +13,7 @@ public struct ForestST
 [System.Serializable]
 public struct TypeOfWorkST
 {
+
     [Header("Information")]
     public string name;
     public int id;
@@ -41,6 +42,7 @@ public struct TypeOfWorkST
     public long levelTruck;
     public long priceUpgradeTruck;
     public long priceTruckSent; //X0
+    public long priceTruckSentStart; //X0
     public long currentSent;
     public long maxSent; //CI0
     public long maxSentStart; //CI0
@@ -51,22 +53,16 @@ public struct TypeOfWorkST
     public long price; //P0
     [HideInInspector]
     public float UN2;
+
+
 }
 
 public class Location : MonoBehaviour
 {
     public int id;
     public string nameLocation;
-    public int countType = 0;
-
-    #region HideInInspector
-    [HideInInspector]
-    public int indexType = 0;
-    [HideInInspector]
-    public int capIndex = 4;
-    [HideInInspector]
-    public int captruckIndex = 4;
-    #endregion
+    public int indexTypeWork;
+    public int countType;
 
     public ForestST forest;
     public TypeOfWorkST[] lsWorking;
@@ -76,6 +72,8 @@ public class Location : MonoBehaviour
     public Rivers rivers;
 
     #region HideInInspector
+    [HideInInspector]
+    public int indexType;
     [HideInInspector]
     public bool isLoaded;
     public bool isLoadFull;
@@ -137,6 +135,7 @@ public class Location : MonoBehaviour
             lsWorking[i].maxOutputMade = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
             lsWorking[i].priceUpgrade = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
             lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
+            lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceOutput = lsWorking[i].priceTruckSent * 3;
             lsWorking[i].maxSent = lsWorking[i].maxOutputMade;
             lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade;
@@ -149,6 +148,17 @@ public class Location : MonoBehaviour
 
 
 
+    public void CheckInfoTypeOfWorkST(int idType)
+    {
+        indexType = idType;
+        string stInfo = "";
+        stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
+                + "Level : " + lsWorking[indexType].level + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].maxOutputMade) + "\n"
+                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
+        UIManager.Instance.JobUpgrade.SetActive(true);
+        UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
+    }
     public string UpgradeInfoTypeOfWorkST(int idType)
     {
         indexType = idType;
@@ -158,9 +168,10 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
             // Update thông số
             lsWorking[indexType].level++;
-            lsWorking[indexType].maxOutputMade = (long)((GameConfig.Instance.c0 * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)lsWorking[indexType].level / (float)capIndex));
+            lsWorking[indexType].maxOutputMade = (long)((GameConfig.Instance.c0 * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex));
             lsWorking[indexType].priceUpgrade = (long)((float)lsWorking[indexType].priceUpgrade * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
             lsWorking[indexType].priceOutput = (long)(lsWorking[indexType].priceOutput * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
+
             stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].level + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].maxOutputMade) + "\n"
@@ -172,17 +183,6 @@ public class Location : MonoBehaviour
         }
 
         return stInfo;
-    }
-    public void CheckInfoTypeOfWorkST(int idType)
-    {
-        indexType = idType;
-        string stInfo = "";
-        stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
-                + "Level : " + lsWorking[indexType].level + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].maxOutputMade) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
-        UIManager.Instance.JobUpgrade.SetActive(true);
-        UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
     }
 
 
@@ -208,9 +208,10 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgradeTruck;
             // Update thông số
             lsWorking[indexType].levelTruck++;
-            lsWorking[indexType].maxSent = (long)(lsWorking[indexType].maxSentStart * (1 + (float)lsWorking[indexType].levelTruck / (float)captruckIndex));
-            lsWorking[indexType].priceTruckSent = (long)(lsWorking[indexType].priceTruckSent * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
+            lsWorking[indexType].maxSent = (long)(lsWorking[indexType].maxSentStart * (1 + (float)lsWorking[indexType].levelTruck / (float)GameConfig.Instance.captruckIndex));
+            lsWorking[indexType].priceTruckSent = (long)(lsWorking[indexType].priceTruckSentStart * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
             lsWorking[indexType].priceUpgradeTruck = (long)(lsWorking[indexType].priceUpgradeTruck * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
+
             stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + lsWorking[indexType].levelTruck + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].maxSent) + "\n"
@@ -229,16 +230,20 @@ public class Location : MonoBehaviour
 
     public void SellJob()
     {
-        countType++;
-        indexType = countType;
-        lsWorking[countType].icon.color = Color.white;
-        lsWorking[countType].info.SetActive(true);
-        lsWorking[countType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].input);
-        lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
-        if (countType + 1 == lsWorking.Length)
+        if (GameManager.Instance.dollar >= lsWorking[countType + 1].price)
         {
-            UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
-            GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[GameManager.Instance.lsLocation.Count]);
+            GameManager.Instance.dollar -= lsWorking[countType + 1].price;
+            countType++;
+            indexType = countType;
+            lsWorking[countType].icon.color = Color.white;
+            lsWorking[countType].info.SetActive(true);
+            lsWorking[countType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].input);
+            lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
+            if (countType + 1 == lsWorking.Length)
+            {
+                UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
+                GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[GameManager.Instance.lsLocation.Count]);
+            }
         }
     }
 
@@ -251,11 +256,11 @@ public class Location : MonoBehaviour
         {
             if (lsWorking[0].isXJob)
             {
-                lsWorking[0].timeWorking += Time.deltaTime * 1.3f;
+                lsWorking[0].timeWorking += (Time.deltaTime * 1.3f);
             }
             else
             {
-                lsWorking[0].timeWorking += Time.deltaTime;
+                lsWorking[0].timeWorking += (Time.deltaTime);
             }
             if (lsWorking[0].timeWorking >= GameConfig.Instance.p0Time)
             {
@@ -272,7 +277,7 @@ public class Location : MonoBehaviour
             forest.forestClass.lsTree[forest.forestClass.lsTree.Length - forest.tree].transform.GetChild(0).gameObject.SetActive(false);
             forest.tree--;
         }
-        lsWorking[0].output += (long)(10000 / forest.forestClass.transform.childCount);
+        lsWorking[0].output += ((long)(10000 / forest.forestClass.transform.childCount));
         lsWorking[0].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[0].output);
         if (forest.tree <= 0)
         {
@@ -322,7 +327,7 @@ public class Location : MonoBehaviour
         }
         lsWorking[idType].input -= materialCurrent;
         lsWorking[idType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].input);
-        lsWorking[idType].output += (long)(0.9f * materialCurrent);
+        lsWorking[idType].output += (long)(1.8f * materialCurrent);
         lsWorking[idType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].output);
         if (lsWorking[idType].id < lsWorking.Length)
         {
@@ -350,11 +355,9 @@ public class Location : MonoBehaviour
     {
         UIManager.Instance.scene = TypeScene.MINIGAME;
         indexType = idType;
-        GameManager.Instance.lsMiniGame[indexType].SetActive(true);
+        GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].miniGame.SetActive(true);
         lsWorking[indexType].isXJob = true;
     }
-
-
     public void HomeOnclick(int idType)
     {
         indexType = idType;

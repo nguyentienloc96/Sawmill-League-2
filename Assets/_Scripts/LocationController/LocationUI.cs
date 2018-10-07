@@ -5,6 +5,7 @@ public class LocationUI : MonoBehaviour {
 
     public int id;
     public string nameLocationUI;
+    public int indexTypeWork;
 
     public void OnclickLocation()
     {

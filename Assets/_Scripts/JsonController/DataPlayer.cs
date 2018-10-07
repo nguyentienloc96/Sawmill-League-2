@@ -50,10 +50,9 @@ public class DataPlayer : MonoBehaviour
             LocationJSON locationJson = new LocationJSON();
             locationJson.id = GameManager.Instance.lsLocation[i].id;
             locationJson.nameLocation = GameManager.Instance.lsLocation[i].nameLocation;
+            locationJson.indexTypeWork = GameManager.Instance.lsLocation[i].indexTypeWork;
             locationJson.countType = GameManager.Instance.lsLocation[i].countType;
             locationJson.indexType = GameManager.Instance.lsLocation[i].indexType;
-            locationJson.capIndex = GameManager.Instance.lsLocation[i].capIndex;
-            locationJson.captruckIndex = GameManager.Instance.lsLocation[i].captruckIndex;
 
             locationJson.forest = GameManager.Instance.lsLocation[i].forest;
             locationJson.lsWorking = GameManager.Instance.lsLocation[i].lsWorking;
@@ -100,7 +99,8 @@ public class DataPlayer : MonoBehaviour
     {
         for (int i = 0; i < lsData.Count; i++)
         {
-            GameObject obj = Instantiate(GameManager.Instance.itemLocation, GameManager.Instance.locationManager);
+            int indexTypeWork = lsData[i]["indexTypeWork"].AsInt;
+            GameObject obj = Instantiate(GameManager.Instance.lsItemLocation[indexTypeWork], GameManager.Instance.locationManager);
             obj.transform.SetAsFirstSibling();
             obj.name = lsData[i]["nameLocation"];
             Location location = obj.GetComponent<Location>();
@@ -145,6 +145,7 @@ public class DataPlayer : MonoBehaviour
 
             location.id = lsData[i]["id"].AsInt;
             location.nameLocation = lsData[i]["nameLocation"];
+            location.indexTypeWork = lsData[i]["indexTypeWork"].AsInt;
             location.countType = lsData[i]["countType"].AsInt;
 
             location.forest.tree = lsData[i]["forest"]["tree"].AsInt;
@@ -168,6 +169,7 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].levelTruck = lsWorking[j]["levelTruck"].AsInt;
                 location.lsWorking[j].priceUpgradeTruck = lsWorking[j]["priceUpgradeTruck"].AsLong;
                 location.lsWorking[j].priceTruckSent = lsWorking[j]["priceTruckSent"].AsLong;
+                location.lsWorking[j].priceTruckSentStart = lsWorking[j]["priceTruckSentStart"].AsLong;
                 location.lsWorking[j].currentSent = lsWorking[j]["currentSent"].AsLong;
                 location.lsWorking[j].maxSent = lsWorking[j]["maxSent"].AsLong;
                 location.lsWorking[j].maxSentStart = lsWorking[j]["maxSentStart"].AsLong;

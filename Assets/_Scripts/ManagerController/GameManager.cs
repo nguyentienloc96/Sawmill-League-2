@@ -2,7 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+
+[System.Serializable]
+public struct MiniGame
+{
+    public string name;
+    public Text inputMiniGame;
+    public Text outputMiniGame;
+    public GameObject miniGame;
+}
+
+[System.Serializable]
+public struct TypeMiniGame
+{
+    public string name;
+    public List<MiniGame> lsMiniGame;
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -24,13 +39,13 @@ public class GameManager : MonoBehaviour
 
 
     public int IDLocation;
-    public List<Location> lsLocation;
     public Transform locationManager;
-    public GameObject itemLocation;
+    public List<Location> lsLocation;
+    public GameObject[] lsItemLocation;
     #endregion
 
     #region MiniGame
-    public List<GameObject> lsMiniGame;
+    public List<TypeMiniGame> lsTypeMiniGame;
     #endregion
 
     private void Awake()
@@ -101,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     public void CreatLocation(LocationUI locationUI)
     {
-        GameObject objLocation = Instantiate(itemLocation, locationManager);
+        GameObject objLocation = Instantiate(lsItemLocation[locationUI.indexTypeWork], locationManager);
         objLocation.name = locationUI.nameLocationUI;
         objLocation.transform.SetAsFirstSibling();
         objLocation.transform.localPosition = new Vector3(3000f, 0f, 0f);

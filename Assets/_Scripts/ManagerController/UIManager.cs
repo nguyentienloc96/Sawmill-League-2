@@ -62,8 +62,6 @@ public class UIManager : MonoBehaviour
     public bool isContinue;
 
     [Header("MiniGame")]
-    public Text[] LstxtInputMiniGame;
-    public Text[] LstxtOutputMiniGame;
     public Sprite[] spHand;
 
     [Header("UIHome")]
@@ -77,8 +75,8 @@ public class UIManager : MonoBehaviour
         {
             int id = GameManager.Instance.IDLocation;
             int indexType = GameManager.Instance.lsLocation[id].indexType;
-            if (indexType != 0) LstxtInputMiniGame[indexType].text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
-            LstxtOutputMiniGame[indexType].text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
+            if (indexType != 0) GameManager.Instance.lsTypeMiniGame[id].lsMiniGame[indexType].inputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
+            GameManager.Instance.lsTypeMiniGame[id].lsMiniGame[indexType].outputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
 
         }
     }
@@ -268,7 +266,7 @@ public class UIManager : MonoBehaviour
         scene = TypeScene.LOCATION;
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
-        GameManager.Instance.lsMiniGame[indexType].SetActive(false);
+        GameManager.Instance.lsTypeMiniGame[GameManager.Instance.lsLocation[id].indexTypeWork].lsMiniGame[indexType].miniGame.SetActive(false);
         GameManager.Instance.lsLocation[id].lsWorking[indexType].isXJob = false;
     }
 

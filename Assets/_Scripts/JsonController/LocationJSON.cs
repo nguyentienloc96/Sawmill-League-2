@@ -5,6 +5,7 @@ public class LocationJSON {
 
     public int id;
     public string nameLocation;
+    public int indexTypeWork;
     public int countType = 0;
     public int indexType = 0;
 

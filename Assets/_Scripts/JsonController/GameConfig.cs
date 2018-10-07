@@ -38,6 +38,7 @@ public class GameConfig : MonoBehaviour
             });
         }
     }
+
     public long dollarStart;
     public long goldStart;
     public int goldToDollar;
@@ -58,6 +59,7 @@ public class GameConfig : MonoBehaviour
     public float XN1i;
     public float XT2;
     public float XT1i;
+    public float capIndex;
     public float captruckIndex;
     public string idInter_android;
     public string idInter_ios;
