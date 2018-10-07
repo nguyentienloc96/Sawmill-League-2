@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Ads : MonoBehaviour {
     [Header("Admob")]
     InterstitialAd interstitalAd;
+    BannerView bannerView;
     RewardBasedVideoAd rewardVideo;
 
     bool isLoadAds = false;
@@ -90,18 +91,51 @@ public class Ads : MonoBehaviour {
 
         if (interstitalAd != null)
         {
-            if (interstitalAd.IsLoaded())
+            if (PlayerPrefs.GetInt("NoAds") == 0)
             {
-                interstitalAd.Show();
-                isLoadAds = false;
-                timeAds = 0;
-                Debug.Log("Show Ads");
+                if (interstitalAd.IsLoaded())
+                {
+                    interstitalAd.Show();
+                    isLoadAds = false;
+                    timeAds = 0;
+                    Debug.Log("Show Ads");
+                }
             }
         }
         else
         {
             Debug.Log("Null");
             RequestAd();
+        }
+    }
+
+    public void RequestBanner()
+    {
+        if (GameConfig.Instance.idBanner_ios != null)
+        {
+            bannerView = new BannerView(GameConfig.Instance.idBanner_ios, AdSize.Banner, AdPosition.Bottom);
+            AdRequest requestBanner = new AdRequest.Builder().Build();
+            bannerView.LoadAd(requestBanner);
+        }
+    }
+
+    public void ShowBanner()
+    {
+        if (bannerView != null)
+        {
+            if (PlayerPrefs.GetInt("NoAds") == 0)
+            {
+                bannerView.Show();
+                Debug.Log("Show Banner");
+            }
+        }
+    }
+
+    public void HideBanner()
+    {
+        if (bannerView != null)
+        {
+            bannerView.Hide();
         }
     }
     #endregion
