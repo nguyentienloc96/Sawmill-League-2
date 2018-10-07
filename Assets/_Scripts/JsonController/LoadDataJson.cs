@@ -44,8 +44,10 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.productCost = objJson["productCost"].AsFloat;
             GameConfig.Instance.p0i = objJson["p0i"].AsFloat;
             GameConfig.Instance.c0i = objJson["c0i"].AsFloat;
+            GameConfig.Instance.r = objJson["r"].AsFloat;
             GameConfig.Instance.UN2 = objJson["UN2"].AsFloat;
             GameConfig.Instance.UN1i = objJson["UN1i"].AsFloat;
+            GameConfig.Instance.truckTime = objJson["truckTime"].AsFloat;
             GameConfig.Instance.x0 = objJson["x0"].AsInt;
             GameConfig.Instance.x0i = objJson["x0i"].AsFloat;
             GameConfig.Instance.XN2 = objJson["XN2"].AsFloat;

@@ -30,8 +30,10 @@ public class GameConfig : MonoBehaviour
     public float productCost;
     public float p0i;
     public float c0i;
+    public float r;
     public float UN2;
     public float UN1i;
+    public float truckTime;
     public int x0;
     public float x0i;
     public float XN2;

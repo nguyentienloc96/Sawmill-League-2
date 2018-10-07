@@ -1,5 +1,5 @@
 {
-  "dollarStart": 500000,
+  "dollarStart": 5000000,
   "goldStart": 10,
   "goldToDollar": 10000,
   "dollarVideoAd": 50000,
@@ -14,8 +14,10 @@
   "productCost": 10,
   "p0i": 2.5,
   "c0i": 2,
+  "r": 1.8,
   "UN2": 0.1,
   "UN1i": 0.1,
+  "truckTime": 10,
   "x0": 10,
   "x0i": 5,
   "XN2": 0.1,
