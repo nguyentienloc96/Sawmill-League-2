@@ -18,27 +18,6 @@ public class GameConfig : MonoBehaviour
         Instance = this;
     }
 
-    void Start()
-    {
-        if (id == "")
-        {
-            App42API.Initialize("41b8289bb02efae4f37f1c9d891b09bb43f6f801bdbbf17a557bc4598ddf836b", "35d9a321b8d4cfc3b375b5f212f15ffab98bb2b53e4b9da20d22881fc01a0efa");
-            GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
-            Social.localUser.Authenticate(success =>
-            {
-                if (success)
-                {
-                    id = Social.localUser.id;
-                    //Debug.Log(id);
-                    StorageService storageService = App42API.BuildStorageService();
-                    storageService.FindDocumentByKeyValue("Db", "Data", "id", id, new UnityCallBack1());
-                }
-                else
-                    Debug.Log("Failed to authenticate");
-            });
-        }
-    }
-
     public long dollarStart;
     public long goldStart;
     public int goldToDollar;
@@ -68,6 +47,29 @@ public class GameConfig : MonoBehaviour
     public string kProductID50 = "consumable";
     public string kProductID300 = "consumable";
     public string kProductID5000 = "consumable";
+    string app42_apiKey = "41b8289bb02efae4f37f1c9d891b09bb43f6f801bdbbf17a557bc4598ddf836b";
+    string app42_secretKey = "35d9a321b8d4cfc3b375b5f212f15ffab98bb2b53e4b9da20d22881fc01a0efa";
+
+    void Start()
+    {
+        if (id == "")
+        {
+            App42API.Initialize(app42_apiKey, app42_secretKey);
+            GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
+            Social.localUser.Authenticate(success =>
+            {
+                if (success)
+                {
+                    id = Social.localUser.id;
+                    //Debug.Log(id);
+                    StorageService storageService = App42API.BuildStorageService();
+                    storageService.FindDocumentByKeyValue("Db", "Data", "id", id, new UnityCallBack1());
+                }
+                else
+                    Debug.Log("Failed to authenticate");
+            });
+        }
+    }
 }
 
 public class SaveGold

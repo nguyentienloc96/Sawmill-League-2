@@ -9,7 +9,6 @@ public class Ads : MonoBehaviour {
     [Header("Admob")]
     InterstitialAd interstitalAd;
     BannerView bannerView;
-    RewardBasedVideoAd rewardVideo;
 
     bool isLoadAds = false;
     //bool isShowAds = false;
