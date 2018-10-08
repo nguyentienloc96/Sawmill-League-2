@@ -136,7 +136,7 @@ public class Location : MonoBehaviour
             lsWorking[i].priceUpgrade = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
             lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
-            lsWorking[i].priceOutput = lsWorking[i].priceTruckSent * 3;
+            lsWorking[i].priceOutput = (long)GameConfig.Instance.productCost;
             lsWorking[i].maxSent = lsWorking[i].maxOutputMade;
             lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade;
             lsWorking[i].priceUpgradeTruck = (long)(lsWorking[i].price * GameConfig.Instance.XN1i);
@@ -256,11 +256,11 @@ public class Location : MonoBehaviour
         {
             if (lsWorking[0].isXJob)
             {
-                lsWorking[0].timeWorking += (Time.deltaTime * 1.3f);
+                lsWorking[0].timeWorking += Time.deltaTime * (1f + GameConfig.Instance.WYS);
             }
             else
             {
-                lsWorking[0].timeWorking += (Time.deltaTime);
+                lsWorking[0].timeWorking += Time.deltaTime;
             }
             if (lsWorking[0].timeWorking >= GameConfig.Instance.p0Time)
             {
@@ -300,7 +300,7 @@ public class Location : MonoBehaviour
         {
             if (lsWorking[idType].isXJob)
             {
-                lsWorking[idType].timeWorking += Time.deltaTime * 1.3f;
+                lsWorking[idType].timeWorking += Time.deltaTime * (1f +GameConfig.Instance.WYS);
             }
             else
             {
@@ -327,7 +327,7 @@ public class Location : MonoBehaviour
         }
         lsWorking[idType].input -= materialCurrent;
         lsWorking[idType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].input);
-        lsWorking[idType].output += (long)(1.8f * materialCurrent);
+        lsWorking[idType].output += (long)(GameConfig.Instance.r* materialCurrent);
         lsWorking[idType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].output);
         if (lsWorking[idType].id < lsWorking.Length)
         {
