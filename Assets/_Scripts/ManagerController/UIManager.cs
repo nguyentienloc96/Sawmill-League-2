@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     [Header("ObjectMain")]
     public GameObject worldManager;
     public GameObject locationManager;
+    public RectTransform contentWorld;
 
     [Header("Location")]
     public List<LocationUI> lsLocationUI;
@@ -104,6 +105,7 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.CreatLocation(lsLocationUI[0]);
+            contentWorld.anchoredPosition = Vector3.zero;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
@@ -124,6 +126,8 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.Play("GamePlay",true);
 
             DataPlayer.Instance.LoadDataPlayer();
+            contentWorld.anchoredPosition = Vector3.zero;
+
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
