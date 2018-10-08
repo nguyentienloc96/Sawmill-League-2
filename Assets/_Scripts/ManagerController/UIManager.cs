@@ -84,7 +84,10 @@ public class UIManager : MonoBehaviour
 
     public void BtnSettingOnclick()
     {
-        panelSetting.SetActive(true);
+        if (!panelSetting.activeSelf)
+            panelSetting.SetActive(true);
+        else
+            panelSetting.SetActive(false);
     }
     public void BtnPlayOnclick()
     {
