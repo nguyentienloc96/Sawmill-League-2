@@ -86,7 +86,6 @@ public class Decking : MonoBehaviour
         tree[1 - random].gameObject.SetActive(false);
         tree[random].localPosition = Vector3.zero;
         tree[random].localEulerAngles = Vector3.zero;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -127,9 +126,11 @@ public class Decking : MonoBehaviour
 
     public void CallBackDG(int ID, int IndexType)
     {
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             isInput = false;
             LoadInput();
         }

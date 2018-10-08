@@ -80,9 +80,7 @@ public class DrumDryerPellet : MonoBehaviour
 
     public void LoadInput()
     {
-        lever.localEulerAngles = new Vector3(0f, 0f, 180f);
-        cart.localPosition = new Vector3(-1.5f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
+        
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -98,9 +96,13 @@ public class DrumDryerPellet : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        lever.localEulerAngles = new Vector3(0f, 0f, 180f);
+        cart.localPosition = new Vector3(-1.5f, 0f, 0f);
+        tree.localPosition = Vector3.zero;
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             isInput = false;
             LoadInput();
         }

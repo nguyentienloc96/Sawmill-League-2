@@ -87,8 +87,6 @@ public class Debarking : MonoBehaviour
         random = Random.Range(0, 2);
         tree[random].gameObject.SetActive(true);
         tree[1 - random].gameObject.SetActive(false);
-
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -101,14 +99,16 @@ public class Debarking : MonoBehaviour
         anim.enabled = false;
         particleDebarking.Stop();
         particleEmissions.Stop();
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
 
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             isInput = false;
             LoadInput();
         }

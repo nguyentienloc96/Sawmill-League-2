@@ -79,9 +79,7 @@ public class Bucking : MonoBehaviour
 
     public void LoadInput()
     {
-        tree.GetChild(random).localEulerAngles = Vector3.zero;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tree.localPosition = Vector3.zero;
+        
         random = Random.Range(0, 2);
         tree.GetChild(1 - random).gameObject.SetActive(false);
         tree.GetChild(random).gameObject.SetActive(true);
@@ -102,9 +100,13 @@ public class Bucking : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         tree.GetChild(random).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
         {
+            tree.GetChild(random).localEulerAngles = Vector3.zero;
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
+            tree.localPosition = Vector3.zero;
+            imgHand.enabled = false;
+
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
-                imgHand.enabled = false;
                 isInput = false;
                 LoadInput();
             }

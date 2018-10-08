@@ -88,10 +88,7 @@ public class Drying : MonoBehaviour
 
     public void LoadInput()
     {
-        treeMask.localPosition = Vector3.zero;
-        treeMask.localEulerAngles = Vector3.zero;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-        treeMask.localPosition = Vector3.zero;
+        
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -111,10 +108,15 @@ public class Drying : MonoBehaviour
         {
             treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.25f).OnComplete(() =>
             {
+                treeMask.localPosition = Vector3.zero;
+                treeMask.localEulerAngles = Vector3.zero;
+                cart.localPosition = new Vector3(-4f, 0f, 0f);
+                treeMask.localPosition = Vector3.zero;
                 needle.localEulerAngles = new Vector3(0f, 0f, 90f);
+                imgHand.enabled = false;
+
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
                 {
-                    imgHand.enabled = false;
                     isInput = false;
                     LoadInput();
                 }

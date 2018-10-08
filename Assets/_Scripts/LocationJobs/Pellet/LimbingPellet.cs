@@ -84,7 +84,6 @@ public class LimbingPellet : MonoBehaviour
 
     public void LoadInput()
     {
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -100,12 +99,14 @@ public class LimbingPellet : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        lever.localEulerAngles = Vector3.zero;
+        knife.localPosition = Vector3.up;
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
-            isInput = false;
-            lever.localEulerAngles = Vector3.zero;
-            knife.localPosition = Vector3.up;
+            isInput = false;          
             LoadInput();
         }
         else

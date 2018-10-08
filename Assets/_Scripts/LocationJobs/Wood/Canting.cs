@@ -87,10 +87,7 @@ public class Canting : MonoBehaviour
 
     public void LoadInput()
     {
-        tree.localPosition = Vector3.zero;
-        tree.GetChild(0).localEulerAngles = Vector3.zero;
-        tree.GetChild(1).localEulerAngles = Vector3.zero;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -120,9 +117,14 @@ public class Canting : MonoBehaviour
 
     public void CallBackDG(int ID, int IndexType)
     {
+        tree.localPosition = Vector3.zero;
+        tree.GetChild(0).localEulerAngles = Vector3.zero;
+        tree.GetChild(1).localEulerAngles = Vector3.zero;
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             isInput = false;
             LoadInput();
         }

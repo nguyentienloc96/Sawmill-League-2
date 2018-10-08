@@ -80,7 +80,6 @@ public class Planing : MonoBehaviour
     {
         random = Random.Range(0, tree.Length);
         tree[random].SetActive(true);
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
@@ -96,10 +95,12 @@ public class Planing : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        imgHand.enabled = false;
+
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             tree[random].SetActive(false);
-            imgHand.enabled = false;
             isInput = false;
             LoadInput();
         }
