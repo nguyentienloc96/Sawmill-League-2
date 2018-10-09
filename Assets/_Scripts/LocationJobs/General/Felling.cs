@@ -9,6 +9,7 @@ public class Felling : MonoBehaviour
     public Transform maskFelling;
     public GameObject notification;
 
+    public GameObject tutorialHand;
     private bool isWaiting;
 
     public void OnEnable()
@@ -16,6 +17,7 @@ public class Felling : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
+            tutorialHand.SetActive(true);
             objTrunk.SetActive(true);
             notification.SetActive(false);
         }
@@ -31,6 +33,7 @@ public class Felling : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
+            tutorialHand.SetActive(false);
             AudioManager.Instance.PlayOneShot("Felling");
             anim.SetBool("isFelling", true);
         }
@@ -72,5 +75,10 @@ public class Felling : MonoBehaviour
             animTrunk.SetBool("isFall", false);
             notification.SetActive(true);
         }
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

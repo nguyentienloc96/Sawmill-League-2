@@ -12,11 +12,13 @@ public class Drying : MonoBehaviour
     public Transform needle;
 
     public SpriteRenderer imgHand;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
     private float timeNeedle;
+    private bool isTutorial;
 
     public void Start()
     {
@@ -25,6 +27,7 @@ public class Drying : MonoBehaviour
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -67,6 +70,7 @@ public class Drying : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             timeNeedle = 0;
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
@@ -91,6 +95,11 @@ public class Drying : MonoBehaviour
         
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
             imgHand.enabled = true;
         });
@@ -128,5 +137,10 @@ public class Drying : MonoBehaviour
             });          
         });
         
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

@@ -21,16 +21,18 @@ public class Painting : MonoBehaviour
 
     public List<Transform> way;
     public List<Cart> lsCart;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private int random;
     private int indexPos;
     private int indexTree;
-
+    private bool isTutorial;
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -122,6 +124,7 @@ public class Painting : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -149,6 +152,11 @@ public class Painting : MonoBehaviour
         pen.localPosition = way[indexPos].localPosition;
         cart.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
         });
     }
@@ -174,5 +182,10 @@ public class Painting : MonoBehaviour
         {
             notification.SetActive(true);
         }
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

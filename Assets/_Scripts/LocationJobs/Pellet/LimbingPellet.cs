@@ -13,10 +13,12 @@ public class LimbingPellet : MonoBehaviour
     public Transform lever;
     public Transform knife;
     public SpriteRenderer imgHand;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
+    private bool isTutorial;
 
     public void Start()
     {
@@ -25,6 +27,7 @@ public class LimbingPellet : MonoBehaviour
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -62,6 +65,7 @@ public class LimbingPellet : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
@@ -86,6 +90,11 @@ public class LimbingPellet : MonoBehaviour
     {
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
             imgHand.enabled = true;
         });
@@ -114,5 +123,10 @@ public class LimbingPellet : MonoBehaviour
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

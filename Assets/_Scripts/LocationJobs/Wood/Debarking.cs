@@ -13,11 +13,13 @@ public class Debarking : MonoBehaviour
     public ParticleSystem particleEmissions;
 
     public SpriteRenderer imgHand;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
     private int random;
+    private bool isTutorial;
 
     public void Start()
     {
@@ -26,6 +28,7 @@ public class Debarking : MonoBehaviour
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -61,6 +64,7 @@ public class Debarking : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleDebarking.Play();
             particleEmissions.Play();
@@ -89,6 +93,11 @@ public class Debarking : MonoBehaviour
         tree[1 - random].gameObject.SetActive(false);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
             imgHand.enabled = true;
         });
@@ -117,5 +126,10 @@ public class Debarking : MonoBehaviour
             tree[random].gameObject.SetActive(false);
             notification.SetActive(true);
         }
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

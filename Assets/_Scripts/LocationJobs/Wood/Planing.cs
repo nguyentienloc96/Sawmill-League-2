@@ -11,11 +11,13 @@ public class Planing : MonoBehaviour
     public ParticleSystem particleEmissions;
 
     public SpriteRenderer imgHand;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
     private int random;
+    private bool isTutorial;
 
     public void Start()
     {
@@ -24,6 +26,7 @@ public class Planing : MonoBehaviour
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -58,6 +61,7 @@ public class Planing : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             imgHand.sprite = UIManager.Instance.spHand[0];
@@ -82,6 +86,11 @@ public class Planing : MonoBehaviour
         tree[random].SetActive(true);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
             imgHand.enabled = true;
         });
@@ -118,5 +127,10 @@ public class Planing : MonoBehaviour
         {
             obj.SetActive(false);
         }
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }

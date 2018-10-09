@@ -10,10 +10,12 @@ public class MillPellet : MonoBehaviour
     public Transform flour;
     public MeshRenderer scroll;
     public SpriteRenderer imgHand;
+    public GameObject tutorialHand;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
+    private bool isTutorial;
 
     private float ScrollSpeed = 0.5f;
     private float Offset;
@@ -24,6 +26,7 @@ public class MillPellet : MonoBehaviour
 
     private void OnEnable()
     {
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -60,6 +63,7 @@ public class MillPellet : MonoBehaviour
     {
         if (isInput)
         {
+            tutorialHand.SetActive(false);
             imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -76,7 +80,11 @@ public class MillPellet : MonoBehaviour
 
     public void LoadInput()
     {
-        
+        if (isTutorial)
+        {
+            tutorialHand.SetActive(true);
+            isTutorial = false;
+        }
         isInput = true;
         imgHand.enabled = true;
     }
@@ -105,5 +113,10 @@ public class MillPellet : MonoBehaviour
                 notification.SetActive(true);
             }
         });
+    }
+
+    public void Help()
+    {
+        tutorialHand.SetActive(true);
     }
 }
