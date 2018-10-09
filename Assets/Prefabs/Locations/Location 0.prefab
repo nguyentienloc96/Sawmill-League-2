@@ -7095,6 +7095,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7120,6 +7121,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7145,6 +7147,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7170,6 +7173,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7195,6 +7199,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7220,6 +7225,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7245,6 +7251,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7270,6 +7277,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7295,6 +7303,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -7320,6 +7329,7 @@ MonoBehaviour:
     output: 0
     priceOutput: 0
     maxOutputMade: 0
+    maxOutputMadeStart: 0
     timeWorking: 0
     isXJob: 0
     levelTruck: 0
@@ -11441,7 +11451,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8b593f3dc667fa74fa959195cc2fbd0f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 27e73cc69bd58d743979e5415e71e8cf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18304,8 +18314,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22, y: 10}
-  m_SizeDelta: {x: -114, y: -20}
+  m_AnchoredPosition: {x: -10.01, y: -10.66}
+  m_SizeDelta: {x: -137.99, y: -21.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224083185933575240
 RectTransform:
@@ -19145,10 +19155,10 @@ RectTransform:
   m_Father: {fileID: 224627698432428296}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 155, y: 71}
-  m_SizeDelta: {x: 241, y: 87}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -120.7, y: -160}
+  m_SizeDelta: {x: 240.6, y: 87}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224224803344627990
 RectTransform:
@@ -22866,7 +22876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 75, y: 7.5}
+  m_AnchoredPosition: {x: 75, y: -10.3}
   m_SizeDelta: {x: -190, y: -45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224789014014941872
