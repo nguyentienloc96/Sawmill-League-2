@@ -106,11 +106,11 @@ public class Trimming : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         imgHand.enabled = false;
+        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             tree[random].SetActive(false);
-            isInput = false;
             LoadInput();
         }
         else

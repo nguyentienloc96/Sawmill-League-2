@@ -103,9 +103,10 @@ public class MillPellet : MonoBehaviour
             tray.localPosition = Vector3.zero;
             flour.localPosition = Vector3.zero;
             imgHand.enabled = false;
+            isInput = false;
+
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
-                isInput = false;
                 LoadInput();
             }
             else

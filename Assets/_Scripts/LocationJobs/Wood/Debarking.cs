@@ -115,10 +115,10 @@ public class Debarking : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         imgHand.enabled = false;
+        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            isInput = false;
             LoadInput();
         }
         else

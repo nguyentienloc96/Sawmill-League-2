@@ -120,9 +120,10 @@ public class ChipperPellet : MonoBehaviour
             gear2.localEulerAngles = Vector3.zero;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             cart.localPosition = new Vector3(-4f, 0f, 0f);
+            isInput = false;
+
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
-                isInput = false;
                 LoadInput();
             }
             else

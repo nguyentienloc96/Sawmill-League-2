@@ -123,10 +123,10 @@ public class Drying : MonoBehaviour
                 treeMask.localPosition = Vector3.zero;
                 needle.localEulerAngles = new Vector3(0f, 0f, 90f);
                 imgHand.enabled = false;
+                isInput = false;
 
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
                 {
-                    isInput = false;
                     LoadInput();
                 }
                 else

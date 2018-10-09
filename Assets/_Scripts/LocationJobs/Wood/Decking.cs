@@ -137,10 +137,10 @@ public class Decking : MonoBehaviour
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         imgHand.enabled = false;
+        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            isInput = false;
             LoadInput();
         }
         else

@@ -113,9 +113,10 @@ public class ChipperPaper : MonoBehaviour
             animFlour.Rebind();
             animFlour.enabled = false;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            isInput = false;
+
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
-                isInput = false;
                 LoadInput();
             }
             else
