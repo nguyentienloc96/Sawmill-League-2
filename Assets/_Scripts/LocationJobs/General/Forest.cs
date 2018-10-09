@@ -99,11 +99,11 @@ public class Forest : MonoBehaviour
     {
         foreach (GameObject obj in lsTree)
         {
-            obj.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), GameConfig.Instance.fellingTime);
+            obj.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), GameConfig.Instance.growTime);
         }
         isGrow = false;
         location.forest.tree = 16;
-        Invoke("FullTree", GameConfig.Instance.fellingTime);
+        Invoke("FullTree", GameConfig.Instance.growTime);
     }
 
     public void FullTree()

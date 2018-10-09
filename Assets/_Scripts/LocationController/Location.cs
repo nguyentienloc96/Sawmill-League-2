@@ -264,7 +264,7 @@ public class Location : MonoBehaviour
             {
                 lsWorking[0].timeWorking += Time.deltaTime;
             }
-            if (lsWorking[0].timeWorking >= GameConfig.Instance.p0Time)
+            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime)
             {
                 FellingComplete();
                 lsWorking[0].timeWorking = 0;

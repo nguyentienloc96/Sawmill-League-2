@@ -24,6 +24,7 @@ public class GameConfig : MonoBehaviour
     public int dollarVideoAd;
     public int timeInterAd;
     public int fellingTime;
+    public int growTime;
     public int p0;
     public float p0Time;
     public float c0;

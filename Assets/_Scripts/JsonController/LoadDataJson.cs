@@ -38,6 +38,7 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.dollarVideoAd = objJson["dollarVideoAd"].AsInt;
             GameConfig.Instance.timeInterAd = objJson["timeInterAd"].AsInt;
             GameConfig.Instance.fellingTime = objJson["fellingTime"].AsInt;
+            GameConfig.Instance.growTime = objJson["growTime"].AsInt;
             GameConfig.Instance.p0 = objJson["p0"].AsInt;
             GameConfig.Instance.p0Time = objJson["p0Time"].AsFloat;
             GameConfig.Instance.c0 = objJson["c0"].AsFloat;
