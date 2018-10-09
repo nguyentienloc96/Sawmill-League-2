@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class HandMove : MonoBehaviour
 {
@@ -9,43 +10,82 @@ public class HandMove : MonoBehaviour
     public Transform hand;
     public Transform tfBegin;
     public Transform tfEnd;
+    public bool isPath;
+    public Transform[] tfWay;
+    private Vector3[] v3Way;
 
     private bool isAction;
     private float timeAction;
+    private bool isOne;
+
+    public void Start()
+    {
+        if (isPath)
+        {
+            v3Way = new Vector3[tfWay.Length];
+            for (int i = 0; i < tfWay.Length; i++)
+            {
+                v3Way[i] = tfWay[i].position;
+            }
+        }
+    }
 
     public void OnEnable()
     {
-        if (tfBegin != null)
+        if (!isPath)
         {
-            hand.position = tfBegin.position;
+            if (tfBegin != null)
+            {
+                hand.position = tfBegin.position;
+            }
+        }
+        else
+        {
+            isOne = true;
+            hand.position = tfWay[0].position;
         }
     }
 
     public void Update()
     {
-        if (tfBegin != null && tfEnd != null)
+        if (!isPath)
         {
-            if (isAction)
+            if (tfBegin != null && tfEnd != null)
             {
-                hand.position = Vector3.MoveTowards(hand.position, tfEnd.position, 1.5f * Time.deltaTime);
-                if (hand.position == tfEnd.position)
+                if (isAction)
                 {
-                    hand.position = tfBegin.position;
-                    anim.enabled = true;
-                    isAction = false;
-                    timeAction = 0;
+                    hand.position = Vector3.MoveTowards(hand.position, tfEnd.position, 1.5f * Time.deltaTime);
+                    if (hand.position == tfEnd.position)
+                    {
+                        hand.position = tfBegin.position;
+                        anim.enabled = true;
+                        isAction = false;
+                        timeAction = 0;
+                    }
+                }
+                else
+                {
+                    timeAction += Time.deltaTime;
+                    if (timeAction >= 1f)
+                    {
+                        anim.Rebind();
+                        anim.enabled = false;
+                        isAction = true;
+                        timeAction = 0;
+                    }
                 }
             }
-            else
+        }
+        else
+        {
+            if (isOne)
             {
-                timeAction += Time.deltaTime;
-                if (timeAction >= 1f)
+                isOne = false;
+                hand.DOPath(v3Way, 3f).OnComplete(() =>
                 {
-                    anim.Rebind();
-                    anim.enabled = false;
-                    isAction = true;
-                    timeAction = 0;
-                }
+                    hand.position = tfWay[0].position;
+                    isOne = true;
+                });
             }
         }
     }
