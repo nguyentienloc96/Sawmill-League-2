@@ -96,7 +96,7 @@ public class DataPlayer : MonoBehaviour
             long totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
             if (totalTime > 0)
             {
-                string strGive = "You were offline for" + totalTime + " hours \n You have just recived" + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive) + "$";
+                string strGive = "You were offline for" + UIManager.Instance.ConvertNumber(totalTime) + " hours \n You have just recived" + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive) + "$";
                 UIManager.Instance.PushNotification(strGive);
                 PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
             }
