@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     [Header("GamePlay")]
     public long gold = 0;
     public long dollar = 0;
+    public long dollarGive = 0;
 
 
     public int IDLocation;

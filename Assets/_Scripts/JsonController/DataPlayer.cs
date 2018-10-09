@@ -36,6 +36,7 @@ public class DataPlayer : MonoBehaviour
     [HideInInspector]
     public List<LocationJSON> lsLocation;
     private bool isFirst;
+    private DateTime dateNowPlayer;
 
     public void SaveDataPlayer()
     {
@@ -73,6 +74,7 @@ public class DataPlayer : MonoBehaviour
 
     public void LoadDataPlayer()
     {
+        dateNowPlayer = DateTime.Now;
         string _path = Path.Combine(Application.persistentDataPath, "DataPlayer.json");
         string dataAsJson = File.ReadAllText(_path);
         var objJson = SimpleJSON_DatDz.JSON.Parse(dataAsJson);
@@ -91,6 +93,13 @@ public class DataPlayer : MonoBehaviour
             StartCoroutine(IELoadLocationJson(lsData));
             GameManager.Instance.locationManager.gameObject.SetActive(true);
             GameManager.Instance.locationManager.SetAsFirstSibling();
+            long totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+            if (totalTime > 0)
+            {
+                string strGive = "You were offline for" + totalTime + " hours \n You have just recived" + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive) + "$";
+                UIManager.Instance.PushNotification(strGive);
+                PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+            }
         }
 
     }
@@ -197,13 +206,14 @@ public class DataPlayer : MonoBehaviour
             {
                 if (UIManager.Instance.isContinue)
                 {
-                    long totalTime = (long)((TimeSpan)(DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+                    long totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
                     if (totalTime > 0)
                     {
                         if (totalTime * 10 > 100)
                             totalTime = 10;
-                        GameManager.Instance.dollar += totalTime * 10 * location.lsWorking[location.countType].priceOutput;
-                        PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+                        long adddollar = totalTime * 10 * location.lsWorking[location.countType].priceOutput;
+                        GameManager.Instance.dollar += adddollar;
+                        GameManager.Instance.dollarGive += adddollar;
                     }
                 }
                 isFirst = true;
