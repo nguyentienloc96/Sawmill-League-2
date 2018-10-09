@@ -32,6 +32,7 @@ public struct TypeOfWorkST
     public long priceOutput;
 
     public long maxOutputMade; //C0
+    public long maxOutputMadeStart; //C0
 
     [HideInInspector]
     public float timeWorking;
@@ -133,6 +134,7 @@ public class Location : MonoBehaviour
             lsWorking[i].UN2 = GameConfig.Instance.UN2;
             lsWorking[i].price = (long)(GameConfig.Instance.p0 * Mathf.Pow(GameConfig.Instance.p0i, i));
             lsWorking[i].maxOutputMade = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
+            lsWorking[i].maxOutputMadeStart = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
             lsWorking[i].priceUpgrade = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
             lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
@@ -168,7 +170,7 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
             // Update thông số
             lsWorking[indexType].level++;
-            lsWorking[indexType].maxOutputMade = (long)((GameConfig.Instance.c0 * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex));
+            lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex));
             lsWorking[indexType].priceUpgrade = (long)((float)lsWorking[indexType].priceUpgrade * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
             lsWorking[indexType].priceOutput = (long)(lsWorking[indexType].priceOutput * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
 

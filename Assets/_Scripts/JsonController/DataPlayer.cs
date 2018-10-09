@@ -165,6 +165,7 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].priceOutput = lsWorking[j]["priceOutput"].AsLong;
 
                 location.lsWorking[j].maxOutputMade = lsWorking[j]["maxOutputMade"].AsLong;
+                location.lsWorking[j].maxOutputMadeStart = lsWorking[j]["maxOutputMadeStart"].AsLong;
 
                 location.lsWorking[j].levelTruck = lsWorking[j]["levelTruck"].AsInt;
                 location.lsWorking[j].priceUpgradeTruck = lsWorking[j]["priceUpgradeTruck"].AsLong;
