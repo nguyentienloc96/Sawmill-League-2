@@ -93,19 +93,14 @@ public class DataPlayer : MonoBehaviour
             StartCoroutine(IELoadLocationJson(lsData));
             GameManager.Instance.locationManager.gameObject.SetActive(true);
             GameManager.Instance.locationManager.SetAsFirstSibling();
-            long totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
-            if (totalTime > 0)
-            {
-                string strGive = "You were offline for" + UIManager.Instance.ConvertNumber(totalTime) + " hours \n You have just recived" + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive) + "$";
-                UIManager.Instance.PushNotification(strGive);
-                PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
-            }
+           
         }
 
     }
 
     public IEnumerator IELoadLocationJson(SimpleJSON_DatDz.JSONArray lsData)
     {
+        long totalTime = 0;
         for (int i = 0; i < lsData.Count; i++)
         {
             int indexTypeWork = lsData[i]["indexTypeWork"].AsInt;
@@ -206,7 +201,7 @@ public class DataPlayer : MonoBehaviour
             {
                 if (UIManager.Instance.isContinue)
                 {
-                    long totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+                    totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
                     if (totalTime > 0)
                     {
                         if (totalTime * 10 > 100)
@@ -214,6 +209,7 @@ public class DataPlayer : MonoBehaviour
                         long adddollar = totalTime * 10 * location.lsWorking[location.countType].priceOutput;
                         GameManager.Instance.dollar += adddollar;
                         GameManager.Instance.dollarGive += adddollar;
+
                     }
                 }
                 isFirst = true;
@@ -223,6 +219,17 @@ public class DataPlayer : MonoBehaviour
         }
 
         yield return new WaitUntil(() => UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].interactable);
+
+        if (totalTime > 0)
+        {
+            string strGive = "You were offline for "
+                + UIManager.Instance.ConvertNumber(totalTime)
+                + " hours \n You have just recived "
+                + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive)
+                + "$";
+            UIManager.Instance.PushNotification(strGive);
+            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+        }
 
         ScenesManager.Instance.isNextScene = true;
 
