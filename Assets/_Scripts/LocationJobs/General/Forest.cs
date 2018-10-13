@@ -28,7 +28,7 @@ public class Forest : MonoBehaviour
             car.SetActive(false);
             for (int i = 0; i < lsTree.Length; i++)
             {
-                lsTree[i].transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                lsTree[i].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                 if (i < lsTree.Length - location.forest.tree)
                 {
                     lsTree[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -97,17 +97,23 @@ public class Forest : MonoBehaviour
 
     public void GrowTrees()
     {
-        foreach (GameObject obj in lsTree)
+        for (int i = 0; i < lsTree.Length; i++)
         {
-            obj.transform.DOScale(new Vector3(0.5f, 0.5f, 0.5f), GameConfig.Instance.growTime);
+            if (i == 0)
+            {
+                lsTree[i].transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), GameConfig.Instance.growTime)
+                    .OnComplete(() =>
+                    {
+                        isGrowed = true;
+                    });
+            }
+            else
+            {
+                lsTree[i].transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), GameConfig.Instance.growTime);
+            }
         }
+        location.forest.tree = lsTree.Length;
         isGrow = false;
-        location.forest.tree = 16;
-        Invoke("FullTree", GameConfig.Instance.growTime);
     }
 
-    public void FullTree()
-    {
-        isGrowed = true;
-    }
 }

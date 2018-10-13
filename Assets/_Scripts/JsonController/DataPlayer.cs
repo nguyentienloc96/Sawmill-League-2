@@ -70,6 +70,7 @@ public class DataPlayer : MonoBehaviour
         string _path = Path.Combine(Application.persistentDataPath, "DataPlayer.json");
         File.WriteAllText(_path, JsonUtility.ToJson(data, true));
         File.ReadAllText(_path);
+        PlayerPrefs.SetInt("Continue", 1);
     }
 
     public void LoadDataPlayer()
@@ -173,11 +174,13 @@ public class DataPlayer : MonoBehaviour
 
                 location.lsWorking[j].levelTruck = lsWorking[j]["levelTruck"].AsInt;
                 location.lsWorking[j].priceUpgradeTruck = lsWorking[j]["priceUpgradeTruck"].AsLong;
+                location.lsWorking[j].priceUpgradeTruckStart = lsWorking[j]["priceUpgradeTruckStart"].AsLong;
                 location.lsWorking[j].priceTruckSent = lsWorking[j]["priceTruckSent"].AsLong;
                 location.lsWorking[j].priceTruckSentStart = lsWorking[j]["priceTruckSentStart"].AsLong;
                 location.lsWorking[j].currentSent = lsWorking[j]["currentSent"].AsLong;
                 location.lsWorking[j].maxSent = lsWorking[j]["maxSent"].AsLong;
                 location.lsWorking[j].maxSentStart = lsWorking[j]["maxSentStart"].AsLong;
+                location.lsWorking[j].maxSentStartX5 = lsWorking[j]["maxSentStartX5"].AsLong;
 
                 location.lsWorking[j].priceUpgrade = lsWorking[j]["priceUpgrade"].AsLong;
                 location.lsWorking[j].price = lsWorking[j]["price"].AsLong;

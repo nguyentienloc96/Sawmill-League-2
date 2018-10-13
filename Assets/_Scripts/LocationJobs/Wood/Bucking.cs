@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class Bucking : MonoBehaviour
 {
@@ -12,20 +13,24 @@ public class Bucking : MonoBehaviour
 
     public SpriteRenderer imgHand;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-    private int random;
+    private Vector3 posCheckHand;
     private bool isTutorial;
 
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
+        posCheckHand = transform.GetChild(1).position;
     }
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
@@ -50,6 +55,10 @@ public class Bucking : MonoBehaviour
             {
                 float dis = Input.mousePosition.y - posDown.y;
                 cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+            }
+            if (imgHand.transform.position.y > posCheckHand.y)
+            {
+                imgHand.enabled = false;
             }
             if (cart.position.y > posCheck.y)
             {
@@ -83,10 +92,6 @@ public class Bucking : MonoBehaviour
 
     public void LoadInput()
     {
-        
-        random = Random.Range(0, 2);
-        tree.GetChild(1 - random).gameObject.SetActive(false);
-        tree.GetChild(random).gameObject.SetActive(true);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -106,25 +111,36 @@ public class Bucking : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        tree.GetChild(random).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
+        tree.GetChild(0).GetChild(0).DOLocalMove(new Vector3(0f, 3f, 0f), 0.5f).OnComplete(() =>
         {
-            tree.GetChild(random).localEulerAngles = Vector3.zero;
-            cart.localPosition = new Vector3(-4f, 0f, 0f);
-            tree.localPosition = Vector3.zero;
-            imgHand.enabled = false;
-            isInput = false;
+            tree.GetChild(0).GetChild(0).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(()=> tree.GetChild(0).GetChild(0).gameObject.SetActive(false));
+            tree.GetChild(0).GetChild(1).DOLocalMove(new Vector3(0f, 3f, 0f), 0.5f).OnComplete(() =>
+            {
+                tree.GetChild(0).GetChild(1).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
+                {
+                    GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+                    tree.GetChild(0).GetChild(0).localPosition = 
+                        tree.GetChild(0).GetChild(1).localPosition =
+                        tree.GetChild(0).GetChild(0).localEulerAngles = 
+                        tree.GetChild(0).GetChild(1).localEulerAngles = Vector3.zero;
+                        tree.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                    cart.localPosition = new Vector3(-4f, 0f, 0f);
+                    tree.localPosition = Vector3.zero;
+                    isInput = false;
 
-            if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
-            {
-                LoadInput();
-            }
-            else
-            {
-                tree.gameObject.SetActive(false);
-                notification.SetActive(true);
-            }
+                    if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+                    {
+                        LoadInput();
+                    }
+                    else
+                    {
+                        tree.gameObject.SetActive(false);
+                        notification.SetActive(true);
+                    }
+                });
+            });
         });
+        
     }
 
     public void Help()

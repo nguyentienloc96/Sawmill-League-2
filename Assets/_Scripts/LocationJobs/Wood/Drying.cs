@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class Drying : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Drying : MonoBehaviour
 
     public SpriteRenderer imgHand;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
@@ -27,6 +29,8 @@ public class Drying : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;

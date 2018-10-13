@@ -1,29 +1,31 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Felling : MonoBehaviour
 {
 
     public Animator anim;
-    public Animator animTrunk;
-    public GameObject objTrunk;
-    public Transform maskFelling;
+    public Image imgTree;
     public GameObject notification;
 
     public GameObject tutorialHand;
     private bool isWaiting;
+    private int indexFelling;
 
     public void OnEnable()
     {
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
+            indexFelling = 0;
             tutorialHand.SetActive(true);
-            objTrunk.SetActive(true);
+            imgTree.sprite = UIManager.Instance.spTree[indexFelling];
             notification.SetActive(false);
         }
         else
         {
-            objTrunk.SetActive(false);
+            indexFelling = 3;
+            imgTree.sprite = UIManager.Instance.spTree[indexFelling];
             notification.SetActive(true);
         }
     }
@@ -46,11 +48,11 @@ public class Felling : MonoBehaviour
             int ID = GameManager.Instance.IDLocation;
             if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
             {
+                indexFelling++;
                 anim.SetBool("isFelling", false);
-                maskFelling.localScale += new Vector3(0.5f, 0f, 0f);
-                if (maskFelling.localScale.x >= 2.5f)
+                imgTree.sprite = UIManager.Instance.spTree[indexFelling];
+                if (indexFelling == 3)
                 {
-                    animTrunk.SetBool("isFall", true);
                     isWaiting = true;
                     Invoke("ResetTree", 0.5f);
                 }
@@ -64,15 +66,14 @@ public class Felling : MonoBehaviour
         if(GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].forest.tree > 0)
         {
             isWaiting = false;
-            maskFelling.localScale = new Vector3(0f, 2f, 1f);
-            animTrunk.SetBool("isFall", false);
+            indexFelling = 0;
+            imgTree.sprite = UIManager.Instance.spTree[indexFelling];
         }
         else
         {
             anim.SetBool("isFelling", false);
-            objTrunk.SetActive(false);
-            maskFelling.localScale = new Vector3(0f, 2f, 1f);
-            animTrunk.SetBool("isFall", false);
+            indexFelling = 3;
+            imgTree.sprite = UIManager.Instance.spTree[indexFelling];
             notification.SetActive(true);
         }
     }

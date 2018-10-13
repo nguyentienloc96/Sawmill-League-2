@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChipperPellet : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class ChipperPellet : MonoBehaviour
     public Transform gear1;
     public Transform gear2;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
@@ -32,6 +34,8 @@ public class ChipperPellet : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;

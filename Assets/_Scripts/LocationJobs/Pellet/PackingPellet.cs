@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class PackingPellet : MonoBehaviour
 {
@@ -12,19 +13,24 @@ public class PackingPellet : MonoBehaviour
 
     public SpriteRenderer imgHand;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
+    private Vector3 posCheckHand;
     private bool isTutorial;
 
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
+        posCheckHand = transform.GetChild(1).position;
     }
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
@@ -49,6 +55,10 @@ public class PackingPellet : MonoBehaviour
             {
                 float dis = Input.mousePosition.x - posDown.x;
                 cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
+            }
+            if (imgHand.transform.position.x > posCheckHand.x)
+            {
+                imgHand.enabled = false;
             }
             if (cart.position.x > posCheck.x)
             {
@@ -106,7 +116,6 @@ public class PackingPellet : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-1f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-        imgHand.enabled = false;
         isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

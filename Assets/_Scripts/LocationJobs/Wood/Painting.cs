@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 [System.Serializable]
 public struct Cart
@@ -22,6 +23,7 @@ public class Painting : MonoBehaviour
     public List<Transform> way;
     public List<Cart> lsCart;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
@@ -32,6 +34,8 @@ public class Painting : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;

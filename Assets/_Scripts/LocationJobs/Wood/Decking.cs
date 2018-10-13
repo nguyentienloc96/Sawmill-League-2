@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class Decking : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Decking : MonoBehaviour
 
     public SpriteRenderer imgHand;
     public GameObject tutorialHand;
+    public Image imgBG;
 
     private bool isRun;
     private Vector3 posDown;
@@ -26,6 +28,8 @@ public class Decking : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
@@ -136,7 +140,6 @@ public class Decking : MonoBehaviour
     public void CallBackDG(int ID, int IndexType)
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        imgHand.enabled = false;
         isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

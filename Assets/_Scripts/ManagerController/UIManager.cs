@@ -27,6 +27,22 @@ public class UIManager : MonoBehaviour
     public void Start()
     {
         scene = TypeScene.HOME;
+        if (!PlayerPrefs.HasKey("Continue"))
+        {
+            PlayerPrefs.SetInt("Continue", 0);
+            btncontinue.interactable = false;
+        }
+        else
+        {
+            if(PlayerPrefs.GetInt("Continue") == 0)
+            {
+                btncontinue.interactable = false;
+            }
+            else
+            {
+                btncontinue.interactable = true;
+            }
+        }
     }
 
     [Header("InfoPlayer")]
@@ -64,9 +80,15 @@ public class UIManager : MonoBehaviour
 
     [Header("MiniGame")]
     public Sprite[] spHand;
+    public Sprite[] spTree;
+    public Sprite[] spBG;
 
     [Header("UIHome")]
+    public Button btncontinue;
     public bool isClick;
+
+    [Header("SellJob")]
+    public Button btnSell;
 
     public void Update()
     {
@@ -301,7 +323,14 @@ public class UIManager : MonoBehaviour
 
     public void SaveExit()
     {
+        scene = TypeScene.HOME;
+        AudioManager.Instance.Play("Menu", true);
+        AudioManager.Instance.Stop("GamePlay", true);
+        AudioManager.Instance.Play("Click");
         DataPlayer.Instance.SaveDataPlayer();
-        Application.Quit();
+        panelSetting.SetActive(false);
+        GameManager.Instance.ClearLocation();
+        ScenesManager.Instance.secenes[0].objects.SetActive(true);
+        ScenesManager.Instance.currentScenes = 0;
     }
 }
