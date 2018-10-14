@@ -2378,7 +2378,6 @@ GameObject:
   - component: {fileID: 222968899288689098}
   - component: {fileID: 114792238259877994}
   - component: {fileID: 114383903293276166}
-  - component: {fileID: 95920192466809260}
   m_Layer: 5
   m_Name: Car
   m_TagString: Untagged
@@ -5473,23 +5472,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95920192466809260
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1430609680980764}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114001823639713968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6937,11 +6919,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114155206086008102}
     priceUpgrade: 0
     price: 0
@@ -6963,11 +6947,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114309302257426786}
     priceUpgrade: 0
     price: 0
@@ -6989,11 +6975,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114713025612457564}
     priceUpgrade: 0
     price: 0
@@ -7015,11 +7003,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114309079179111636}
     priceUpgrade: 0
     price: 0
@@ -7041,11 +7031,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114869473484867914}
     priceUpgrade: 0
     price: 0
@@ -7067,11 +7059,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114868904977102050}
     priceUpgrade: 0
     price: 0
@@ -7093,11 +7087,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114582975147300630}
     priceUpgrade: 0
     price: 0
@@ -7119,11 +7115,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114013074552473590}
     priceUpgrade: 0
     price: 0
@@ -7145,11 +7143,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114609416659748058}
     priceUpgrade: 0
     price: 0
@@ -7171,11 +7171,13 @@ MonoBehaviour:
     isXJob: 0
     levelTruck: 0
     priceUpgradeTruck: 0
+    priceUpgradeTruckStart: 0
     priceTruckSent: 0
     priceTruckSentStart: 0
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
+    maxSentStartX5: 0
     truckManager: {fileID: 114984501623571314}
     priceUpgrade: 0
     price: 0
