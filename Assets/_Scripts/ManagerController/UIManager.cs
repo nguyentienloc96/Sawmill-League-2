@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            if(PlayerPrefs.GetInt("Continue") == 0)
+            if (PlayerPrefs.GetInt("Continue") == 0)
             {
                 btncontinue.interactable = false;
             }
@@ -67,6 +67,10 @@ public class UIManager : MonoBehaviour
     public GameObject JobSell;
     public GameObject JobUpgrade;
     public GameObject TruckUpgrade;
+    public Image[] arrXJob;
+    public Image[] arrXTrunk;
+    public bool isJobX10;
+    public bool isTrunkX10;
 
     [Header("Notifications")]
     public GameObject PopupNotification;
@@ -89,6 +93,9 @@ public class UIManager : MonoBehaviour
 
     [Header("SellJob")]
     public Button btnSell;
+    public Button btnUpgradeJob;
+    public Button btnUpgradeTrunk;
+
 
     public void Update()
     {
@@ -119,8 +126,8 @@ public class UIManager : MonoBehaviour
             isClick = true;
             isContinue = false;
             AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu",true);
-            AudioManager.Instance.Play("GamePlay",true);
+            AudioManager.Instance.Stop("Menu", true);
+            AudioManager.Instance.Play("GamePlay", true);
 
             ScenesManager.Instance.isNextScene = false;
 
@@ -144,8 +151,8 @@ public class UIManager : MonoBehaviour
             isContinue = true;
 
             AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu",true);
-            AudioManager.Instance.Play("GamePlay",true);
+            AudioManager.Instance.Stop("Menu", true);
+            AudioManager.Instance.Play("GamePlay", true);
 
             DataPlayer.Instance.LoadDataPlayer();
             contentWorld.anchoredPosition = Vector3.zero;
@@ -253,12 +260,51 @@ public class UIManager : MonoBehaviour
         return smoney;
     }
 
+    public void UpgradeJobX10(bool x10)
+    {
+        int id = GameManager.Instance.IDLocation;
+        int indexType = GameManager.Instance.lsLocation[id].indexType;
+        isJobX10 = x10;
+        if (!x10)
+        {
+            arrXJob[0].color = new Color32(255, 255, 255, 255);
+            arrXJob[1].color = new Color32(255, 255, 255, 128);
+            GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkST(indexType);
+        }
+        else
+        {
+            arrXJob[0].color = new Color32(255, 255, 255, 128);
+            arrXJob[1].color = new Color32(255, 255, 255, 255);
+            GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkSTX10(indexType);
+        }
+    }
+    public void UpgradeTrunkX10(bool x10)
+    {
+        int id = GameManager.Instance.IDLocation;
+        int indexType = GameManager.Instance.lsLocation[id].indexType;
+        isTrunkX10 = x10;
+        if (!x10)
+        {
+            arrXTrunk[0].color = new Color32(255, 255, 255, 255);
+            arrXTrunk[1].color = new Color32(255, 255, 255, 128);
+            GameManager.Instance.lsLocation[id].CheckInfoTruck(indexType);
+        }
+        else
+        {
+            arrXTrunk[0].color = new Color32(255, 255, 255, 128);
+            arrXTrunk[1].color = new Color32(255, 255, 255, 255);
+            GameManager.Instance.lsLocation[id].CheckInfoTruckX10(indexType);
+        }
+    }
 
     public void YesUpgradeJob()
     {
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
-        JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
+        if (!isJobX10)
+            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
+        else
+            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
     }
     public void NoUpgradeJob()
     {
@@ -270,7 +316,10 @@ public class UIManager : MonoBehaviour
     {
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
-        TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
+        if (!isTrunkX10)
+            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
+        else
+            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
     }
     public void NoUpgradeTruck()
     {

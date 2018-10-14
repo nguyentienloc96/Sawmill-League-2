@@ -183,6 +183,7 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].maxSentStartX5 = lsWorking[j]["maxSentStartX5"].AsLong;
 
                 location.lsWorking[j].priceUpgrade = lsWorking[j]["priceUpgrade"].AsLong;
+                location.lsWorking[j].priceUpgradeStart = lsWorking[j]["priceUpgradeStart"].AsLong;
                 location.lsWorking[j].price = lsWorking[j]["price"].AsLong;
                 location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsFloat;
 
