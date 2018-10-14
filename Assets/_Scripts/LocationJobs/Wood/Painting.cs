@@ -31,6 +31,7 @@ public class Painting : MonoBehaviour
     private int indexPos;
     private int indexTree;
     private bool isTutorial;
+    private bool isStop;
 
     private void OnEnable()
     {
@@ -46,80 +47,94 @@ public class Painting : MonoBehaviour
         }
         else
         {
+            isStop = false;
             notification.SetActive(true);
         }
     }
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if ((indexPos + 1) < way.Count)
+            if (isRun)
             {
-                if (way[indexPos].localPosition.y == way[indexPos + 1].localPosition.y)
+                if ((indexPos + 1) < way.Count)
                 {
-                    if (Input.mousePosition.x > posDown.x)
+                    if (way[indexPos].localPosition.y == way[indexPos + 1].localPosition.y)
                     {
-                        float dis = Input.mousePosition.x - posDown.x;
-                        pen.localPosition += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
-                        if (pen.localPosition.x >= way[indexPos + 1].localPosition.x)
+                        if (Input.mousePosition.x > posDown.x)
                         {
-                            pen.localPosition = way[indexPos + 1].localPosition;
-                            if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
+                            float dis = Input.mousePosition.x - posDown.x;
+                            pen.localPosition += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
+                            if (pen.localPosition.x >= way[indexPos + 1].localPosition.x)
                             {
-                                lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
-                                indexTree++;
+                                pen.localPosition = way[indexPos + 1].localPosition;
+                                if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
+                                {
+                                    lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                    indexTree++;
+                                }
+                                indexPos++;
                             }
-                            indexPos++;
+                        }
+                        pen.localEulerAngles = new Vector3(0f, 0f, -90f);
+                    }
+                    else
+                    {
+                        if (way[indexPos].localPosition.y > way[indexPos + 1].localPosition.y)
+                        {
+                            if (Input.mousePosition.y < posDown.y)
+                            {
+                                float dis = Input.mousePosition.y - posDown.y;
+                                pen.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                                if (pen.localPosition.y <= way[indexPos + 1].localPosition.y)
+                                {
+                                    pen.localPosition = way[indexPos + 1].localPosition;
+                                    if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
+                                    {
+                                        lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                        indexTree++;
+                                    }
+                                    indexPos++;
+                                }
+                            }
+                            pen.localEulerAngles = new Vector3(0f, 0f, -180f);
+                        }
+                        else if (way[indexPos].localPosition.y < way[indexPos + 1].localPosition.y)
+                        {
+                            if (Input.mousePosition.y > posDown.y)
+                            {
+                                float dis = Input.mousePosition.y - posDown.y;
+                                pen.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                                if (pen.localPosition.y >= way[indexPos + 1].localPosition.y)
+                                {
+                                    pen.localPosition = way[indexPos + 1].localPosition;
+                                    if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
+                                    {
+                                        lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                        indexTree++;
+                                    }
+                                    indexPos++;
+                                }
+                            }
+                            pen.localEulerAngles = new Vector3(0f, 0f, 0f);
                         }
                     }
-                    pen.localEulerAngles = new Vector3(0f, 0f, -90f);
                 }
                 else
                 {
-                    if (way[indexPos].localPosition.y > way[indexPos + 1].localPosition.y)
-                    {
-                        if (Input.mousePosition.y < posDown.y)
-                        {
-                            float dis = Input.mousePosition.y - posDown.y;
-                            pen.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                            if (pen.localPosition.y <= way[indexPos + 1].localPosition.y)
-                            {
-                                pen.localPosition = way[indexPos + 1].localPosition;
-                                if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
-                                {
-                                    lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
-                                    indexTree++;
-                                }
-                                indexPos++;
-                            }
-                        }
-                        pen.localEulerAngles = new Vector3(0f, 0f, -180f);
-                    }
-                    else if (way[indexPos].localPosition.y < way[indexPos + 1].localPosition.y)
-                    {
-                        if (Input.mousePosition.y > posDown.y)
-                        {
-                            float dis = Input.mousePosition.y - posDown.y;
-                            pen.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                            if (pen.localPosition.y >= way[indexPos + 1].localPosition.y)
-                            {
-                                pen.localPosition = way[indexPos + 1].localPosition;
-                                if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
-                                {
-                                    lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
-                                    indexTree++;
-                                }
-                                indexPos++;
-                            }
-                        }
-                        pen.localEulerAngles = new Vector3(0f, 0f, 0f);
-                    }
+                    CompleteJob();
                 }
             }
-            else
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+              .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -184,6 +199,7 @@ public class Painting : MonoBehaviour
         }
         else
         {
+            isStop = false;
             notification.SetActive(true);
         }
     }

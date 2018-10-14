@@ -21,6 +21,7 @@ public class LimbingPellet : MonoBehaviour
     private Vector3 posDown;
     private Vector3 posCheck;
     private bool isTutorial;
+    private bool isStop;
 
     public void Start()
     {
@@ -42,6 +43,7 @@ public class LimbingPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -49,18 +51,32 @@ public class LimbingPellet : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y < posDown.y)
+            if (isRun)
             {
-                float dis = -Input.mousePosition.y + posDown.y;
-                lever.localEulerAngles += new Vector3(0f, 0f, dis * 0.1f * Time.deltaTime);
-                cart.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                knife.localPosition -= new Vector3(0f, dis * 0.007f * Time.deltaTime, 0f);
+                if (Input.mousePosition.y < posDown.y)
+                {
+                    float dis = -Input.mousePosition.y + posDown.y;
+                    lever.localEulerAngles += new Vector3(0f, 0f, dis * 0.1f * Time.deltaTime);
+                    cart.localPosition += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    knife.localPosition -= new Vector3(0f, dis * 0.007f * Time.deltaTime, 0f);
+                }
+                if (lever.localEulerAngles.z > 45f)
+                {
+                    CompleteJob();
+                }
             }
-            if (lever.localEulerAngles.z > 45f)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+            .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                tree.gameObject.SetActive(true);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -124,6 +140,7 @@ public class LimbingPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

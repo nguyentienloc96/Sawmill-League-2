@@ -21,6 +21,8 @@ public class MillPellet : MonoBehaviour
 
     private float ScrollSpeed = 0.5f;
     private float Offset;
+    private bool isStop;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -40,25 +42,39 @@ public class MillPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             notification.SetActive(true);
         }
     }
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y < posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                lever.localPosition += new Vector3(0f, dis * 0.018f * Time.deltaTime, 0f);
-                flour.localPosition -= new Vector3(dis * 0.015f * Time.deltaTime, 0f, 0f);
-                tray.localPosition -= new Vector3(dis * 0.05f * Time.deltaTime, 0f, 0f);
-                scroll.material.mainTextureOffset += new Vector2(dis * 0.005f * Time.deltaTime, 0f);
+                if (Input.mousePosition.y < posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    lever.localPosition += new Vector3(0f, dis * 0.018f * Time.deltaTime, 0f);
+                    flour.localPosition -= new Vector3(dis * 0.015f * Time.deltaTime, 0f, 0f);
+                    tray.localPosition -= new Vector3(dis * 0.05f * Time.deltaTime, 0f, 0f);
+                    scroll.material.mainTextureOffset += new Vector2(dis * 0.005f * Time.deltaTime, 0f);
+                }
+                if (tray.position.x > posCheck.x)
+                {
+                    CompleteJob();
+                }
             }
-            if (tray.position.x > posCheck.x)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+           .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -115,6 +131,7 @@ public class MillPellet : MonoBehaviour
             }
             else
             {
+                isStop = false;
                 notification.SetActive(true);
             }
         });

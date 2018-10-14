@@ -20,6 +20,7 @@ public class Bucking : MonoBehaviour
     private Vector3 posCheck;
     private Vector3 posCheckHand;
     private bool isTutorial;
+    private bool isStop;
 
     public void Start()
     {
@@ -42,6 +43,7 @@ public class Bucking : MonoBehaviour
         }
         else
         {
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -49,20 +51,34 @@ public class Bucking : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y > posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                if (Input.mousePosition.y > posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                }
+                if (imgHand.transform.position.y > posCheckHand.y)
+                {
+                    imgHand.enabled = false;
+                }
+                if (cart.position.y > posCheck.y)
+                {
+                    CompleteJob();
+                }
             }
-            if (imgHand.transform.position.y > posCheckHand.y)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+               .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                imgHand.enabled = false;
-            }
-            if (cart.position.y > posCheck.y)
-            {
-                CompleteJob();
+                notification.SetActive(false);
+                tree.gameObject.SetActive(true);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -134,6 +150,7 @@ public class Bucking : MonoBehaviour
                     }
                     else
                     {
+                        isStop = true;
                         tree.gameObject.SetActive(false);
                         notification.SetActive(true);
                     }

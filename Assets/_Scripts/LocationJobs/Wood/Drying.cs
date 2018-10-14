@@ -21,6 +21,7 @@ public class Drying : MonoBehaviour
     private Vector3 posCheck;
     private float timeNeedle;
     private bool isTutorial;
+    private bool isStop;
 
     public void Start()
     {
@@ -42,6 +43,7 @@ public class Drying : MonoBehaviour
         }
         else
         {
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -49,23 +51,37 @@ public class Drying : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y > posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-            }
-            if (cart.position.y > posCheck.y)
-            {
-                CompleteJob();
-            }
+                if (Input.mousePosition.y > posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                }
+                if (cart.position.y > posCheck.y)
+                {
+                    CompleteJob();
+                }
 
-            timeNeedle += Time.deltaTime;
-            if(timeNeedle >= 2f)
+                timeNeedle += Time.deltaTime;
+                if (timeNeedle >= 2f)
+                {
+                    needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1.5f);
+                    timeNeedle = 0;
+                }
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+               .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1.5f);
-                timeNeedle = 0;
+                notification.SetActive(false);
+                tree.gameObject.SetActive(true);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -135,6 +151,7 @@ public class Drying : MonoBehaviour
                 }
                 else
                 {
+                    isStop = true;
                     tree.gameObject.SetActive(false);
                     notification.SetActive(true);
                 }

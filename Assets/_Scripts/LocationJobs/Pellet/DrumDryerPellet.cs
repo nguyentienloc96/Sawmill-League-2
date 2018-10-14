@@ -20,6 +20,7 @@ public class DrumDryerPellet : MonoBehaviour
     private Vector3 posDown;
     private Vector3 posCheck;
     private bool isTutorial;
+    private bool isStop;
 
     public void Start()
     {
@@ -41,6 +42,7 @@ public class DrumDryerPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -48,17 +50,31 @@ public class DrumDryerPellet : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y < posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position -= new Vector3(dis * 0.01f * Time.deltaTime,0f, 0f);
-                lever.localEulerAngles += new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
+                if (Input.mousePosition.y < posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position -= new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
+                    lever.localEulerAngles += new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
+                }
+                if (cart.position.x > posCheck.x)
+                {
+                    CompleteJob();
+                }
             }
-            if (cart.position.x > posCheck.x)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+            .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                tree.gameObject.SetActive(true);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -121,6 +137,7 @@ public class DrumDryerPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

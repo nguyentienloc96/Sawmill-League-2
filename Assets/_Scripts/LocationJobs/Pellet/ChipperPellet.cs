@@ -26,6 +26,7 @@ public class ChipperPellet : MonoBehaviour
     private Vector3 posCheck;
     private bool time;
     private bool isTutorial;
+    private bool isStop;
 
     public void Start()
     {
@@ -47,6 +48,7 @@ public class ChipperPellet : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -54,19 +56,33 @@ public class ChipperPellet : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y < posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position -= new Vector3(0f, dis *0.01f* Time.deltaTime, 0f);
-                gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
-                gear1.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
-                gear2.localEulerAngles -= new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
+                if (Input.mousePosition.y < posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position -= new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
+                    gear1.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    gear2.localEulerAngles -= new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
+                }
+                if (gear2.localEulerAngles.z > 150f)
+                {
+                    CompleteJob();
+                }
             }
-            if (gear2.localEulerAngles.z > 150f)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+              .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                tree.gameObject.SetActive(true);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -132,6 +148,7 @@ public class ChipperPellet : MonoBehaviour
             }
             else
             {
+                isStop = false;
                 tree.gameObject.SetActive(false);
                 notification.SetActive(true);
             }
