@@ -155,7 +155,6 @@ public class Location : MonoBehaviour
     }
 
 
-
     public void CheckInfoTypeOfWorkST(int idType)
     {
         indexType = idType;
@@ -369,7 +368,6 @@ public class Location : MonoBehaviour
     }
 
 
-
     #region Felling
     public void Felling()
     {
@@ -459,7 +457,6 @@ public class Location : MonoBehaviour
         }
     }
     #endregion
-
 
 
     public void Update()
