@@ -58,6 +58,7 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.capIndex = objJson["capIndex"].AsFloat;
             GameConfig.Instance.captruckIndex = objJson["captruckIndex"].AsFloat;
             GameConfig.Instance.WYS = objJson["WYS"].AsFloat;
+            GameConfig.Instance.AutoPlant = objJson["AutoPlant"].AsFloat;
             GameConfig.Instance.idInter_android = objJson["idInter_android"];
             GameConfig.Instance.idInter_ios = objJson["idInter_ios"];
             GameConfig.Instance.idBanner_ios = objJson["idBanner_ios"];

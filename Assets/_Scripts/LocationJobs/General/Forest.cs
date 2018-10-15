@@ -21,6 +21,10 @@ public class Forest : MonoBehaviour
 
     public bool isGrowed;
 
+    public bool isAutoPlant;
+
+    private GameObject popupAutoPlant;
+
     public void LoadTree()
     {
         if (location.forest.tree > 0)
@@ -56,6 +60,7 @@ public class Forest : MonoBehaviour
             lsTree[i].transform.GetChild(0).gameObject.SetActive(true);
         }
         isGrowed = false;
+        isAutoPlant = true;
     }
 
     public void RunCarGrow()
@@ -63,6 +68,8 @@ public class Forest : MonoBehaviour
         isRun = true;
         car.transform.GetChild(1).gameObject.SetActive(false);
         lsTree[index].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        Destroy(popupAutoPlant);
+        isAutoPlant = false;
     }
 
     public void Update()
@@ -93,6 +100,17 @@ public class Forest : MonoBehaviour
                 GrowTrees();
             }
         }
+        if (isAutoPlant)
+        {
+            long money = (long)(GameConfig.Instance.AutoPlant * (float)location.lsWorking[0].price);
+            if (location.id != GameManager.Instance.IDLocation && GameManager.Instance.dollar >= money)
+            {
+                string str = "You want to spend " + UIManager.Instance.ConvertNumber(money) + "$ on reforestation in " + location.name;
+                popupAutoPlant = Instantiate(UIManager.Instance.PopupAutoPlant, UIManager.Instance.posAutoPlant);
+                popupAutoPlant.GetComponent<AutoPlant>().AutoPlant_Onclick(str, RunCarGrow);
+                isAutoPlant = false;
+            }
+        }
     }
 
     public void GrowTrees()
@@ -115,5 +133,4 @@ public class Forest : MonoBehaviour
         location.forest.tree = lsTree.Length;
         isGrow = false;
     }
-
 }
