@@ -6,6 +6,12 @@ public class LocationUI : MonoBehaviour {
     public int id;
     public string nameLocationUI;
     public int indexTypeWork;
+    public Image imageLocation;
+
+    public void Start()
+    {
+        imageLocation.alphaHitTestMinimumThreshold = 0.5f;
+    }
 
     public void OnclickLocation()
     {

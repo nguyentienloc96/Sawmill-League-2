@@ -20,7 +20,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -48,7 +48,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0
   textureType: 8
   textureShape: 1
   maxTextureSizeSet: 0
@@ -109,7 +109,35 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
-    physicsShape: []
+    physicsShape:
+    - - {x: 3.498825, y: 157.96146}
+      - {x: -51.59372, y: 156.69217}
+      - {x: -37.749313, y: 118.09732}
+      - {x: -85.898254, y: 71.93494}
+      - {x: -105.512245, y: 52.33716}
+      - {x: -84.51294, y: 26.234268}
+      - {x: -114.62924, y: 16.195297}
+      - {x: -105.238754, y: 0.96492004}
+      - {x: -77.979416, y: -21.044724}
+      - {x: -65.465866, y: -0.6922302}
+      - {x: -59.844013, y: -63.40036}
+      - {x: -15.539146, y: -160.5}
+      - {x: 19.287659, y: -131.58615}
+      - {x: 24.186386, y: -102.45242}
+      - {x: 20.55693, y: -80.38374}
+      - {x: 98.1232, y: -9.173676}
+      - {x: 116.96146, y: -5.5759277}
+      - {x: 111.711334, y: 56.024887}
+      - {x: 105.518036, y: 49.11992}
+      - {x: 91.49774, y: 48.93524}
+      - {x: 66.37576, y: 60.066254}
+      - {x: 37.978195, y: 67.22653}
+      - {x: 23.40303, y: 80.851166}
+      - {x: 29.208939, y: 89.39639}
+      - {x: 29.123474, y: 101.1413}
+      - {x: 9.097794, y: 110.766205}
+      - {x: 1.2413101, y: 119.01181}
+      - {x: 15.419342, y: 124.26984}
   spritePackingTag: Country
   userData: 
   assetBundleName: 
