@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
+//using UnityEngine.SocialPlatforms.GameCenter;
 using com.shephertz.app42.paas.sdk.csharp;
 using com.shephertz.app42.paas.sdk.csharp.storage;
 
@@ -59,7 +59,7 @@ public class GameConfig : MonoBehaviour
         if (id == "")
         {
             App42API.Initialize(app42_apiKey, app42_secretKey);
-            GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
+            //GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
             Social.localUser.Authenticate(success =>
             {
                 if (success)

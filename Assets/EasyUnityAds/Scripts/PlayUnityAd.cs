@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 //if Unity Ads are configured correctly, the code between '#if UNITY_ADS' and '#endif' 
 //is executed. If it is grayed out, the ads are not available.
-
 #if UNITY_ADS
 using UnityEngine.Advertisements; // only compile Ads code on supported platforms
 #endif
