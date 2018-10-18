@@ -19,7 +19,7 @@ public class Painting : MonoBehaviour
     public Animator anim;
     public GameObject notification;
 
-
+    public SpriteRenderer imgHand;
     public List<Transform> way;
     public List<Cart> lsCart;
     public GameObject tutorialHand;
@@ -143,6 +143,7 @@ public class Painting : MonoBehaviour
     {
         if (isInput)
         {
+            imgHand.sprite = UIManager.Instance.spHand[0];
             tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Debarking");
@@ -153,6 +154,7 @@ public class Painting : MonoBehaviour
 
     public void TapUp()
     {
+        imgHand.sprite = UIManager.Instance.spHand[1];
         anim.enabled = false;
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
@@ -176,6 +178,7 @@ public class Painting : MonoBehaviour
                 tutorialHand.SetActive(true);
                 isTutorial = false;
             }
+            imgHand.enabled = true;
             isInput = true;
         });
     }
@@ -187,6 +190,7 @@ public class Painting : MonoBehaviour
             lsCart[i].gTree[random].SetActive(false);
             lsCart[i].spTree[random].color = new Color32(255, 255, 255, 0);
         }
+        imgHand.enabled = false;
         anim.enabled = false;
         isRun = false;
         int ID = GameManager.Instance.IDLocation;

@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         lsLocation.Clear();
     }
 
-    public void CreatLocation(LocationUI locationUI)
+    public void CreatLocation(LocationUI locationUI, bool isStart = false)
     {
         GameObject objLocation = Instantiate(lsItemLocation[locationUI.indexTypeWork], locationManager);
         objLocation.name = locationUI.nameLocationUI;
@@ -128,6 +128,15 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.lsBtnLocationUI[location.id].interactable = true;
         location.LoadLocation();
         lsLocation.Add(location);
+        if (isStart)
+        {
+            location.countType++;
+            location.indexType = location.countType;
+            location.lsWorking[location.countType].icon.color = Color.white;
+            location.lsWorking[location.countType].info.SetActive(true);
+            location.lsWorking[location.countType].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].input);
+            location.lsWorking[location.countType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].output);
+        }
     }
 
     public void BonusAds(long dollarBonus, long goldBonus)

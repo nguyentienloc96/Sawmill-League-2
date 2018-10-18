@@ -58,6 +58,7 @@ public class UIManager : MonoBehaviour
     public GameObject worldManager;
     public GameObject locationManager;
     public RectTransform contentWorld;
+    public Transform handWorld;
 
     [Header("Location")]
     public List<LocationUI> lsLocationUI;
@@ -72,7 +73,7 @@ public class UIManager : MonoBehaviour
     public bool isJobX10;
     public bool isTrunkX10;
 
-    [Header("Notifications")]
+    [Header("PopupOther")]
     public GameObject PopupGiveGold;
     public GameObject PopupAutoPlant;
     public Transform posAutoPlant;
@@ -136,7 +137,8 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.ClearLocation();
-            GameManager.Instance.CreatLocation(lsLocationUI[0]);
+            GameManager.Instance.CreatLocation(lsLocationUI[0],true);
+            handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {

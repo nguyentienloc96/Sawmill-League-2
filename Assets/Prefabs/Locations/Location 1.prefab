@@ -6906,7 +6906,7 @@ MonoBehaviour:
   id: 0
   nameLocation: 
   indexTypeWork: 1
-  countType: 0
+  countType: -1
   forest:
     tree: 0
     forestClass: {fileID: 114300505531642078}
@@ -6915,7 +6915,7 @@ MonoBehaviour:
     id: 0
     level: 0
     icon: {fileID: 114669197263692436}
-    textInput: {fileID: 0}
+    textInput: {fileID: 114965673529105008}
     textOutput: {fileID: 114432190242477900}
     info: {fileID: 1080528905554970}
     build: {fileID: 1939947355457840}
@@ -6969,7 +6969,7 @@ MonoBehaviour:
     priceUpgradeStart: 0
     price: 0
     UN2: 0
-  - name: Bucking
+  - name: Chipper
     id: 2
     level: 0
     icon: {fileID: 114284931526911170}
@@ -6998,7 +6998,7 @@ MonoBehaviour:
     priceUpgradeStart: 0
     price: 0
     UN2: 0
-  - name: Debarking
+  - name: Drum Dryer
     id: 3
     level: 0
     icon: {fileID: 114267122132553582}
@@ -7027,7 +7027,7 @@ MonoBehaviour:
     priceUpgradeStart: 0
     price: 0
     UN2: 0
-  - name: Decking
+  - name: Pellet mill
     id: 4
     level: 0
     icon: {fileID: 114498938878614414}
@@ -7056,7 +7056,7 @@ MonoBehaviour:
     priceUpgradeStart: 0
     price: 0
     UN2: 0
-  - name: Canting
+  - name: Cooler
     id: 5
     level: 0
     icon: {fileID: 114046982084586774}
@@ -7085,7 +7085,7 @@ MonoBehaviour:
     priceUpgradeStart: 0
     price: 0
     UN2: 0
-  - name: Drying
+  - name: Packing
     id: 6
     level: 0
     icon: {fileID: 114661868528937918}
@@ -11237,7 +11237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -15842,8 +15842,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224041471288064984
 RectTransform:
@@ -16533,8 +16533,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224156997711331716
 RectTransform:
@@ -17843,8 +17843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224419845608862626
 RectTransform:
@@ -17957,8 +17957,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224427764582822206
 RectTransform:
@@ -20213,8 +20213,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224811514421721970
 RectTransform:
@@ -20398,8 +20398,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.5, y: 10}
-  m_SizeDelta: {x: -45, y: -20}
+  m_AnchoredPosition: {x: -22.5, y: 0}
+  m_SizeDelta: {x: -45, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224843454057861434
 RectTransform:

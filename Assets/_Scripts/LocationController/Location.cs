@@ -361,8 +361,9 @@ public class Location : MonoBehaviour
             lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
             if (countType + 1 == lsWorking.Length)
             {
-                //UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
-                GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[GameManager.Instance.lsLocation.Count]);
+                int indexLsLocation = GameManager.Instance.lsLocation.Count;
+                GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
+                UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             }
         }
     }
@@ -381,7 +382,7 @@ public class Location : MonoBehaviour
             {
                 lsWorking[0].timeWorking += Time.deltaTime;
             }
-            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime * ((float)100 / (float)(forest.forestClass.lsTree.Length)))
+            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime * (GameConfig.Instance.TimeForest / (float)(forest.forestClass.lsTree.Length)))
             {
                 FellingComplete();
                 lsWorking[0].timeWorking = 0;

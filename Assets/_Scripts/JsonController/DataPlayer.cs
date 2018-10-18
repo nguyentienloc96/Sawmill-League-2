@@ -94,7 +94,7 @@ public class DataPlayer : MonoBehaviour
             StartCoroutine(IELoadLocationJson(lsData));
             GameManager.Instance.locationManager.gameObject.SetActive(true);
             GameManager.Instance.locationManager.SetAsFirstSibling();
-           
+
         }
 
     }
@@ -223,7 +223,7 @@ public class DataPlayer : MonoBehaviour
         }
 
         yield return new WaitUntil(() => UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].interactable);
-
+        UIManager.Instance.handWorld.position = UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f); ;
         if (totalTime > 0)
         {
             string strGive = "You were offline for "

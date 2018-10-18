@@ -46,6 +46,7 @@ public class GameConfig : MonoBehaviour
     public float WYS;
     public float AutoPlant;
     public float TruckSpeed;
+    public float TimeForest;
     public string idInter_android;
     public string idInter_ios;
     public string idBanner_ios;
