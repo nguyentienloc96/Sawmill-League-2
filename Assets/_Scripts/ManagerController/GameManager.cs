@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < lsLocation.Count; i++)
         {
+            UIManager.Instance.lsBtnLocationUI[lsLocation[i].id].interactable = false;
             Destroy(lsLocation[i].gameObject);
         }
         lsLocation.Clear();
@@ -124,6 +125,7 @@ public class GameManager : MonoBehaviour
         Location location = objLocation.GetComponent<Location>();
         location.id = locationUI.id;
         location.nameLocation = locationUI.nameLocationUI;
+        UIManager.Instance.lsBtnLocationUI[location.id].interactable = true;
         location.LoadLocation();
         lsLocation.Add(location);
     }

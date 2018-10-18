@@ -361,7 +361,7 @@ public class Location : MonoBehaviour
             lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
             if (countType + 1 == lsWorking.Length)
             {
-                UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
+                //UIManager.Instance.lsBtnLocationUI[GameManager.Instance.lsLocation.Count].interactable = true;
                 GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[GameManager.Instance.lsLocation.Count]);
             }
         }
@@ -381,7 +381,7 @@ public class Location : MonoBehaviour
             {
                 lsWorking[0].timeWorking += Time.deltaTime;
             }
-            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime * (100 / (forest.forestClass.lsTree.Length + 5)))
+            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime * ((float)100 / (float)(forest.forestClass.lsTree.Length)))
             {
                 FellingComplete();
                 lsWorking[0].timeWorking = 0;
@@ -488,7 +488,7 @@ public class Location : MonoBehaviour
         {
             UIManager.Instance.isJobX10 = false;
             string str = "You want to buy " + lsWorking[idType].name + " " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
-            UIManager.Instance.JobSell.transform.GetChild(1).GetComponent<Text>().text = str;
+            UIManager.Instance.JobSell.transform.GetChild(0).GetComponent<Text>().text = str;
             UIManager.Instance.JobSell.SetActive(true);
             if (GameManager.Instance.dollar >= lsWorking[idType].price)
             {

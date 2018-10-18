@@ -37,7 +37,7 @@ public class TruckManager : MonoBehaviour
             {
                 if (!isRetrograde)
                 {
-                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos + 1].transform.position, 0.25f * Time.deltaTime);
+                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos + 1].transform.position, GameConfig.Instance.TruckSpeed * Time.deltaTime);
                     if (truck.transform.position == way[indexPos + 1].transform.position)
                     {
                         indexPos++;
@@ -55,7 +55,7 @@ public class TruckManager : MonoBehaviour
                 }
                 else
                 {
-                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos - 1].transform.position, 0.25f * Time.deltaTime);
+                    truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos - 1].transform.position, GameConfig.Instance.TruckSpeed * Time.deltaTime);
                     if (truck.transform.position == way[indexPos - 1].transform.position)
                     {
                         indexPos--;
@@ -101,7 +101,7 @@ public class TruckManager : MonoBehaviour
                 location.lsWorking[indexType].currentSent = location.lsWorking[indexType].maxSent;
                 location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
             }
-            else if(location.lsWorking[indexType].output > 0)
+            else if (location.lsWorking[indexType].output > 0)
             {
                 long outputSent = location.lsWorking[indexType].output;
                 location.lsWorking[indexType].truckManager.txtSent.text = UIManager.Instance.ConvertNumber(outputSent);

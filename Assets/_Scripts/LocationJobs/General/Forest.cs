@@ -32,7 +32,7 @@ public class Forest : MonoBehaviour
             car.SetActive(false);
             for (int i = 0; i < lsTree.Length; i++)
             {
-                lsTree[i].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+                lsTree[i].transform.localScale = new Vector3(1f, 1f, 1f);
                 if (i < lsTree.Length - location.forest.tree)
                 {
                     lsTree[i].transform.GetChild(0).gameObject.SetActive(false);
@@ -105,7 +105,7 @@ public class Forest : MonoBehaviour
             long money = (long)(GameConfig.Instance.AutoPlant * (float)location.lsWorking[0].price);
             if (location.id != GameManager.Instance.IDLocation && GameManager.Instance.dollar >= money)
             {
-                string str = "You want to spend " + UIManager.Instance.ConvertNumber(money) + "$ on reforestation in " + location.name;
+                string str = "Do you want to spend  " + UIManager.Instance.ConvertNumber(money) + "$ Auto Reforestation in " + location.name;
                 popupAutoPlant = Instantiate(UIManager.Instance.PopupAutoPlant, UIManager.Instance.posAutoPlant);
                 popupAutoPlant.GetComponent<AutoPlant>().AutoPlant_Onclick(str, RunCarGrow);
                 isAutoPlant = false;
@@ -119,7 +119,7 @@ public class Forest : MonoBehaviour
         {
             if (i == 0)
             {
-                lsTree[i].transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), GameConfig.Instance.growTime)
+                lsTree[i].transform.DOScale(new Vector3(1f, 1f, 1f), GameConfig.Instance.growTime)
                     .OnComplete(() =>
                     {
                         isGrowed = true;
@@ -127,7 +127,7 @@ public class Forest : MonoBehaviour
             }
             else
             {
-                lsTree[i].transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), GameConfig.Instance.growTime);
+                lsTree[i].transform.DOScale(new Vector3(1f, 1f, 1f), GameConfig.Instance.growTime);
             }
         }
         location.forest.tree = lsTree.Length;

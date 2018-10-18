@@ -29,6 +29,7 @@
   "captruckIndex": 4,
   "WYS": 0.3,
   "AutoPlant": 10,
+  "TruckSpeed ": 0.25,
   "kProductID50": "consumable",
   "kProductID300": "consumable",
   "kProductID5000": "consumable"

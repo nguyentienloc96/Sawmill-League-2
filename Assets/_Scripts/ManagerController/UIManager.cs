@@ -73,7 +73,7 @@ public class UIManager : MonoBehaviour
     public bool isTrunkX10;
 
     [Header("Notifications")]
-    public GameObject PopupNotification;
+    public GameObject PopupGiveGold;
     public GameObject PopupAutoPlant;
     public Transform posAutoPlant;
 
@@ -135,6 +135,7 @@ public class UIManager : MonoBehaviour
 
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.gold = GameConfig.Instance.goldStart;
+            GameManager.Instance.ClearLocation();
             GameManager.Instance.CreatLocation(lsLocationUI[0]);
             contentWorld.anchoredPosition = Vector3.zero;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
@@ -190,10 +191,10 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void PushNotification(string str)
+    public void PushGiveGold(string str)
     {
-        PopupNotification.SetActive(true);
-        PopupNotification.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = str;
+        PopupGiveGold.SetActive(true);
+        PopupGiveGold.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = str;
     }
     public string ConvertNumber(long number)
     {

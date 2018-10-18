@@ -231,7 +231,7 @@ public class DataPlayer : MonoBehaviour
                 + " hours \n You have just recived "
                 + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive)
                 + "$";
-            UIManager.Instance.PushNotification(strGive);
+            UIManager.Instance.PushGiveGold(strGive);
             PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
 
