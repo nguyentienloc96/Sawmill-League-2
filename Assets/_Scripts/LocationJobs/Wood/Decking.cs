@@ -11,7 +11,6 @@ public class Decking : MonoBehaviour
     public Animator anim;
     public ParticleSystem particleEmissions;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -85,7 +84,6 @@ public class Decking : MonoBehaviour
             tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -97,7 +95,6 @@ public class Decking : MonoBehaviour
         anim.enabled = false;
         particleEmissions.Stop();
 
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -117,7 +114,6 @@ public class Decking : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 

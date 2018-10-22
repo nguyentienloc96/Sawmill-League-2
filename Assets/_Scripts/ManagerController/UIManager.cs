@@ -86,12 +86,12 @@ public class UIManager : MonoBehaviour
     public bool isContinue;
 
     [Header("MiniGame")]
-    public Sprite[] spHand;
     public Sprite[] spTree;
     public Sprite[] spBG;
 
     [Header("UIHome")]
     public Button btncontinue;
+    public GameObject popupStart;
     public bool isClick;
 
     [Header("SellJob")]
@@ -123,6 +123,17 @@ public class UIManager : MonoBehaviour
             panelSetting.SetActive(false);
     }
     public void BtnPlayOnclick()
+    {
+        if (PlayerPrefs.GetInt("Continue") == 0)
+        {
+            BtnYesPlayOnclick();
+        }
+        else
+        {
+            popupStart.SetActive(true);
+        }
+    }
+    public void BtnYesPlayOnclick()
     {
         if (!isClick)
         {

@@ -60,9 +60,9 @@ public class ChipperPellet : MonoBehaviour
         {
             if (isRun)
             {
-                if (Input.mousePosition.y < posDown.y)
+                if (Input.mousePosition.y > posDown.y)
                 {
-                    float dis = Input.mousePosition.y - posDown.y;
+                    float dis = -Input.mousePosition.y + posDown.y;
                     cart.position -= new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                     gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
                     gear1.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);

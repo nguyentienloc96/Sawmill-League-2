@@ -61,6 +61,7 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.AutoPlant = objJson["AutoPlant"].AsFloat;
             GameConfig.Instance.TruckSpeed = objJson["TruckSpeed"].AsFloat;
             GameConfig.Instance.TimeForest = objJson["TimeForest"].AsFloat;
+            GameConfig.Instance.MaxSentStartX5 = objJson["MaxSentStartX5"].AsInt;
             GameConfig.Instance.idInter_android = objJson["idInter_android"];
             GameConfig.Instance.idInter_ios = objJson["idInter_ios"];
             GameConfig.Instance.idBanner_ios = objJson["idBanner_ios"];

@@ -31,6 +31,7 @@
   "AutoPlant": 10,
   "TruckSpeed": 0.25,
   "TimeForest": 180,
+  "MaxSentStartX5 ": 5,
   "kProductID50": "consumable",
   "kProductID300": "consumable",
   "kProductID5000": "consumable"

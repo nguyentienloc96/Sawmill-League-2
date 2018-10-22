@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Trimming : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class Trimming : MonoBehaviour
     public Animator anim;
     public ParticleSystem particleEmissions;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -60,13 +60,9 @@ public class Trimming : MonoBehaviour
                     float dis = Input.mousePosition.y - posDown.y;
                     cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                 }
-                if (imgHand.transform.position.y > posCheckHand.y)
-                {
-                    imgHand.enabled = false;
-                }
                 if (cart.position.y > posCheck.y)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
             }
         }
@@ -89,8 +85,7 @@ public class Trimming : MonoBehaviour
             tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Drill");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -100,8 +95,7 @@ public class Trimming : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Drill");
         isRun = false;
     }
 
@@ -117,20 +111,20 @@ public class Trimming : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         anim.enabled = false;
         particleEmissions.Stop();
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

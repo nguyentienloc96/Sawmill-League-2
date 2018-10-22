@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,7 +66,7 @@ public class Maker : MonoBehaviour
                 }
                 if (tree.position.y > posCheck.y)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
             }
         }
@@ -116,18 +117,19 @@ public class Maker : MonoBehaviour
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         particleEmissions.Stop();
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        yield return new WaitForSeconds(0.5f);
         screw.localPosition = Vector3.zero;
         tree.localPosition = Vector3.zero;
         treeMask.localPosition = Vector3.zero;
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
-        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

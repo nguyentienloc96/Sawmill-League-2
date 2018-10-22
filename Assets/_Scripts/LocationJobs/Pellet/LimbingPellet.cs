@@ -13,7 +13,6 @@ public class LimbingPellet : MonoBehaviour
     public ParticleSystem particleLimbing;
     public Transform lever;
     public Transform knife;
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -89,7 +88,6 @@ public class LimbingPellet : MonoBehaviour
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -101,7 +99,6 @@ public class LimbingPellet : MonoBehaviour
         anim.enabled = false;
         particleLimbing.Stop();
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -116,7 +113,6 @@ public class LimbingPellet : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
@@ -131,7 +127,6 @@ public class LimbingPellet : MonoBehaviour
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         lever.localEulerAngles = Vector3.zero;
         knife.localPosition = Vector3.up;
-        imgHand.enabled = false;
         isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

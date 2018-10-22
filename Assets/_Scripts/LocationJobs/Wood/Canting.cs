@@ -13,7 +13,6 @@ public class Canting : MonoBehaviour
     public ParticleSystem particleCanting1;
     public ParticleSystem particleCanting2;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -89,7 +88,6 @@ public class Canting : MonoBehaviour
             particleCanting1.Play();
             particleCanting2.Play();
 
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -103,7 +101,6 @@ public class Canting : MonoBehaviour
         particleCanting1.Stop();
         particleCanting2.Stop();
 
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -119,7 +116,6 @@ public class Canting : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
@@ -149,7 +145,6 @@ public class Canting : MonoBehaviour
         tree.GetChild(0).localEulerAngles = Vector3.zero;
         tree.GetChild(1).localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        imgHand.enabled = false;
         isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

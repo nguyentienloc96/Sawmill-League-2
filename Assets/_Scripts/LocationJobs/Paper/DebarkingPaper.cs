@@ -15,8 +15,6 @@ public class DebarkingPaper : MonoBehaviour
     public ParticleSystem particleLimbing;
     public Transform propeller;
 
-    public SpriteRenderer imgHand;
-
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
@@ -67,7 +65,6 @@ public class DebarkingPaper : MonoBehaviour
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -79,7 +76,6 @@ public class DebarkingPaper : MonoBehaviour
         anim.enabled = false;
         particleLimbing.Stop();
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -90,7 +86,6 @@ public class DebarkingPaper : MonoBehaviour
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
@@ -107,7 +102,6 @@ public class DebarkingPaper : MonoBehaviour
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             LoadInput();
         }
         else

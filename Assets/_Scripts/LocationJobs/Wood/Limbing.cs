@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Limbing : MonoBehaviour
 {
@@ -12,7 +14,6 @@ public class Limbing : MonoBehaviour
     public ParticleSystem particleEmissions;
     public ParticleSystem particleLimbing;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -61,13 +62,9 @@ public class Limbing : MonoBehaviour
                     float dis = Input.mousePosition.y - posDown.y;
                     cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                 }
-                if (imgHand.transform.position.y > posCheckHand.y)
-                {
-                    imgHand.enabled = false;
-                }
                 if (cart.position.y > posCheck.y)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
             }
         }
@@ -92,7 +89,6 @@ public class Limbing : MonoBehaviour
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -104,14 +100,13 @@ public class Limbing : MonoBehaviour
         anim.enabled = false;
         particleLimbing.Stop();
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 
     public void LoadInput()
     {
-        
+
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -120,11 +115,10 @@ public class Limbing : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         anim.enabled = false;
         particleLimbing.Stop();
@@ -132,6 +126,7 @@ public class Limbing : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         tree.localPosition = Vector3.zero;

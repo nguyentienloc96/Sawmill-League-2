@@ -15,8 +15,6 @@ public class DeLigninPaper : MonoBehaviour
     public Transform propeller;
     public Transform propeller1;
 
-    public SpriteRenderer imgHand;
-
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
@@ -67,7 +65,6 @@ public class DeLigninPaper : MonoBehaviour
         {
             anim.enabled = true;
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -78,7 +75,6 @@ public class DeLigninPaper : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -89,7 +85,6 @@ public class DeLigninPaper : MonoBehaviour
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
@@ -105,7 +100,6 @@ public class DeLigninPaper : MonoBehaviour
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-            imgHand.enabled = false;
             LoadInput();
         }
         else

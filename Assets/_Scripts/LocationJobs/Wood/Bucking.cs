@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Bucking : MonoBehaviour
 {
@@ -11,7 +13,6 @@ public class Bucking : MonoBehaviour
     public Animator anim;
     public ParticleSystem particleEmissions;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -60,10 +61,6 @@ public class Bucking : MonoBehaviour
                     float dis = Input.mousePosition.y - posDown.y;
                     cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                 }
-                if (imgHand.transform.position.y > posCheckHand.y)
-                {
-                    imgHand.enabled = false;
-                }
                 if (cart.position.y > posCheck.y)
                 {
                     CompleteJob();
@@ -90,8 +87,7 @@ public class Bucking : MonoBehaviour
             tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
-            imgHand.sprite = UIManager.Instance.spHand[0];
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Drill");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -101,8 +97,7 @@ public class Bucking : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-        imgHand.sprite = UIManager.Instance.spHand[1];
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Drill");
         isRun = false;
     }
 
@@ -116,7 +111,6 @@ public class Bucking : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 

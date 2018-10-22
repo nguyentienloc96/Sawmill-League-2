@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Dryer : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class Dryer : MonoBehaviour
     public GameObject notification;
     public Animator anim;
     public Transform needle;
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -59,13 +59,9 @@ public class Dryer : MonoBehaviour
                     float dis = Input.mousePosition.y - posDown.y;
                     cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                 }
-                if (imgHand.transform.position.y > posCheckHand.y)
-                {
-                    imgHand.enabled = false;
-                }
                 if (cart.position.y > posCheck.y)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
                 timeNeedle += Time.deltaTime;
                 if (timeNeedle >= 2f)
@@ -95,7 +91,6 @@ public class Dryer : MonoBehaviour
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             tutorialHand.SetActive(false);
             anim.enabled = true;
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -105,7 +100,6 @@ public class Dryer : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
@@ -122,19 +116,19 @@ public class Dryer : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         anim.enabled = false;
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-        isInput = false;
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

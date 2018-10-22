@@ -48,7 +48,6 @@ public struct TypeOfWorkST
     public long currentSent;
     public long maxSent; //CI0
     public long maxSentStart; //CI0
-    public long maxSentStartX5; //CI0
     public TruckManager truckManager;
 
     [Header("Price")]
@@ -143,9 +142,8 @@ public class Location : MonoBehaviour
             lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
             lsWorking[i].priceOutput = (long)GameConfig.Instance.productCost;
-            lsWorking[i].maxSent = lsWorking[i].maxOutputMade;
-            lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade;
-            lsWorking[i].maxSentStartX5 = lsWorking[i].maxOutputMade * 5;
+            lsWorking[i].maxSent = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
+            lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
             lsWorking[i].priceUpgradeTruck = (long)(lsWorking[i].price * GameConfig.Instance.XN1i);
             lsWorking[i].priceUpgradeTruckStart = (long)(lsWorking[i].price * GameConfig.Instance.XN1i);
         }

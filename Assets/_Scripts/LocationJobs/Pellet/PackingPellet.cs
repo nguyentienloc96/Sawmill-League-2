@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PackingPellet : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class PackingPellet : MonoBehaviour
     public Animator anim;
     public ParticleSystem particleEmissions;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -60,13 +60,9 @@ public class PackingPellet : MonoBehaviour
                     float dis = Input.mousePosition.x - posDown.x;
                     cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
                 }
-                if (imgHand.transform.position.x > posCheckHand.x)
-                {
-                    imgHand.enabled = false;
-                }
                 if (cart.position.x > posCheck.x)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
             }
         }
@@ -90,7 +86,6 @@ public class PackingPellet : MonoBehaviour
             tutorialHand.SetActive(false);
             particleEmissions.Play();
             anim.enabled = true;
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -102,14 +97,13 @@ public class PackingPellet : MonoBehaviour
         anim.enabled = false;
         particleEmissions.Stop();
 
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 
     public void LoadInput()
     {
-       
+
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -118,21 +112,21 @@ public class PackingPellet : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         particleEmissions.Stop();
         anim.enabled = false;
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-1f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-        isInput = false;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

@@ -10,7 +10,6 @@ public class MillPellet : MonoBehaviour
     public Transform lever;
     public Transform flour;
     public MeshRenderer scroll;
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -84,7 +83,6 @@ public class MillPellet : MonoBehaviour
         if (isInput)
         {
             tutorialHand.SetActive(false);
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -93,7 +91,6 @@ public class MillPellet : MonoBehaviour
 
     public void TapUp()
     {
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -106,7 +103,6 @@ public class MillPellet : MonoBehaviour
             isTutorial = false;
         }
         isInput = true;
-        imgHand.enabled = true;
     }
 
     public void CompleteJob()
@@ -122,7 +118,6 @@ public class MillPellet : MonoBehaviour
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             tray.localPosition = Vector3.zero;
             flour.localPosition = Vector3.zero;
-            imgHand.enabled = false;
             isInput = false;
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

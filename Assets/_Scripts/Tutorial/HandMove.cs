@@ -66,7 +66,7 @@ public class HandMove : MonoBehaviour
                 else
                 {
                     timeAction += Time.deltaTime;
-                    if (timeAction >= 1f)
+                    if (timeAction >= (1f/3f))
                     {
                         anim.Rebind();
                         anim.enabled = false;

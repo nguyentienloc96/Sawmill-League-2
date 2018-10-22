@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System.Collections;
 
 public class CoolerPellet : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class CoolerPellet : MonoBehaviour
     public Transform needle;
     public Transform needle1;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -65,7 +65,7 @@ public class CoolerPellet : MonoBehaviour
                 }
                 if (cart.position.x > posCheck.x)
                 {
-                    CompleteJob();
+                    StartCoroutine(CompleteJob());
                 }
                 timeNeedle += Time.deltaTime;
                 if (timeNeedle >= 2f)
@@ -97,7 +97,6 @@ public class CoolerPellet : MonoBehaviour
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             needle1.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
-            imgHand.sprite = UIManager.Instance.spHand[0];
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -107,14 +106,13 @@ public class CoolerPellet : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        imgHand.sprite = UIManager.Instance.spHand[1];
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 
     public void LoadInput()
     {
-        
+
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -123,24 +121,24 @@ public class CoolerPellet : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
         needle1.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
         anim.enabled = false;
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         lever.localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-        imgHand.enabled = false;
-        isInput = false;
+
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

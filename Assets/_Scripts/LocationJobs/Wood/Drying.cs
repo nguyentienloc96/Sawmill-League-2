@@ -11,8 +11,8 @@ public class Drying : MonoBehaviour
     public GameObject notification;
     public Animator anim;
     public Transform needle;
+    public ParticleSystem particleEmissions;
 
-    public SpriteRenderer imgHand;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -94,7 +94,7 @@ public class Drying : MonoBehaviour
             timeNeedle = 0;
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
-            imgHand.sprite = UIManager.Instance.spHand[0];
+            particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -104,7 +104,7 @@ public class Drying : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        imgHand.sprite = UIManager.Instance.spHand[1];
+        particleEmissions.Stop();
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
@@ -121,13 +121,13 @@ public class Drying : MonoBehaviour
                 isTutorial = false;
             }
             isInput = true;
-            imgHand.enabled = true;
         });
     }
 
     public void CompleteJob()
     {
         anim.enabled = false;
+        particleEmissions.Stop();
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
@@ -142,7 +142,6 @@ public class Drying : MonoBehaviour
                 cart.localPosition = new Vector3(-4f, 0f, 0f);
                 treeMask.localPosition = Vector3.zero;
                 needle.localEulerAngles = new Vector3(0f, 0f, 90f);
-                imgHand.enabled = false;
                 isInput = false;
 
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
