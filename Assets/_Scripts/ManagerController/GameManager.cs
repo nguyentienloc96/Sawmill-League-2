@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public long gold = 0;
     public long dollar = 0;
     public long dollarGive = 0;
-
+    public int sumHomeAll = 0;
 
     public int IDLocation;
     public Transform locationManager;

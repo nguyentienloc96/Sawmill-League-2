@@ -133,8 +133,9 @@ public class Location : MonoBehaviour
     {
         for (int i = 0; i < lsWorking.Length; i++)
         {
+            int LevelHome = GameManager.Instance.sumHomeAll + i;
             lsWorking[i].UN2 = GameConfig.Instance.UN2;
-            lsWorking[i].price = (long)(GameConfig.Instance.p0 * Mathf.Pow(GameConfig.Instance.p0i, i));
+            lsWorking[i].price = (long)(GameConfig.Instance.p0 * Mathf.Pow(GameConfig.Instance.p0i, LevelHome));
             lsWorking[i].maxOutputMade = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
             lsWorking[i].maxOutputMadeStart = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
             lsWorking[i].priceUpgrade = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
@@ -149,7 +150,11 @@ public class Location : MonoBehaviour
         }
         isLoaded = true;
         isLoadFull = true;
-        if (!UIManager.Instance.isContinue) ScenesManager.Instance.isNextScene = true;
+        if (!UIManager.Instance.isContinue)
+        {
+            ScenesManager.Instance.isNextScene = true;
+            GameManager.Instance.sumHomeAll += lsWorking.Length;
+        }
     }
 
 
@@ -469,7 +474,7 @@ public class Location : MonoBehaviour
 
         if (!forest.isAutoPlant && forest.isOnBtnAutoPlant)
         {
-            if(GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
+            if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
             {
                 forest.btnAutoPlant.interactable = true;
             }
