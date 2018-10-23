@@ -84,14 +84,8 @@ public class GameManager : MonoBehaviour
             int year = dateGame.Year;
             dateGame = dateGame.AddDays(1f);
             SetDate();
-            UpdateGame();
             time = 0;
         }
-    }
-
-    public void UpdateGame()
-    {
-
     }
 
     public void LoadLocation()
@@ -136,6 +130,7 @@ public class GameManager : MonoBehaviour
             location.lsWorking[location.countType].info.SetActive(true);
             location.lsWorking[location.countType].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].input);
             location.lsWorking[location.countType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].output);
+            location.forest.btnAutoPlant.interactable = true;
         }
     }
 

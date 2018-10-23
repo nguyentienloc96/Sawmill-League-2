@@ -154,7 +154,17 @@ public class DataPlayer : MonoBehaviour
             location.countType = lsData[i]["countType"].AsInt;
 
             location.forest.tree = lsData[i]["forest"]["tree"].AsInt;
+            location.forest.isOnBtnAutoPlant = lsData[i]["forest"]["isOnBtnAutoPlant"].AsBool;
+            location.forest.isAutoPlant = lsData[i]["forest"]["isAutoPlant"].AsBool;
             location.forest.forestClass.LoadTree();
+
+            if ((i + 1) != lsData.Count && location.countType >= 0)
+            {
+                if (!location.forest.isAutoPlant)
+                {
+                    location.forest.btnAutoPlant.interactable = true;
+                }
+            }
 
             var lsWorking = lsData[i]["lsWorking"].AsArray;
             for (int j = 0; j < lsWorking.Count; j++)

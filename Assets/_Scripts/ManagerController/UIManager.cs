@@ -76,7 +76,6 @@ public class UIManager : MonoBehaviour
     [Header("PopupOther")]
     public GameObject PopupGiveGold;
     public GameObject PopupAutoPlant;
-    public Transform posAutoPlant;
 
     [Header("Json")]
     public bool isSaveJson;

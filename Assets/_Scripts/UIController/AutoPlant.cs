@@ -10,6 +10,7 @@ public class AutoPlant : MonoBehaviour {
     public void AutoPlant_Onclick(string str, UnityAction actionYes)
     {
         txtInfo.text = str;
+        btnYes.onClick.RemoveAllListeners();
         btnYes.onClick.AddListener(() =>
         {
             actionYes();

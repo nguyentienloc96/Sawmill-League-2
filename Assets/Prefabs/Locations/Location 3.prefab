@@ -11754,7 +11754,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114286658342744564}
-        m_MethodName: RunCarGrow
+        m_MethodName: BtnRunCarGrow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13098,7 +13098,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114930988683708644}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114778064795481614}
+        m_MethodName: AutoPlant
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114748113903582004
@@ -13521,6 +13532,8 @@ MonoBehaviour:
   forest:
     tree: 0
     forestClass: {fileID: 114286658342744564}
+    btnAutoPlant: {fileID: 114746197222128226}
+    isAutoPlant: 0
   lsWorking:
   - name: Felling
     id: 0

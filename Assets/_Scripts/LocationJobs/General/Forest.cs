@@ -61,6 +61,19 @@ public class Forest : MonoBehaviour
         }
         isGrowed = false;
         isAutoPlant = true;
+
+        if (location.forest.isAutoPlant)
+        {
+            RunCarGrow();
+        }
+    }
+
+    public void BtnRunCarGrow()
+    {
+        if (!location.forest.isAutoPlant)
+        {
+            RunCarGrow();
+        }
     }
 
     public void RunCarGrow()
@@ -106,8 +119,7 @@ public class Forest : MonoBehaviour
             if (location.id != GameManager.Instance.IDLocation && GameManager.Instance.dollar >= money)
             {
                 string str = "Do you want to spend  " + UIManager.Instance.ConvertNumber(money) + "$ Auto Reforestation in " + location.name;
-                popupAutoPlant = Instantiate(UIManager.Instance.PopupAutoPlant, UIManager.Instance.posAutoPlant);
-                popupAutoPlant.GetComponent<AutoPlant>().AutoPlant_Onclick(str, RunCarGrow);
+
                 isAutoPlant = false;
             }
         }
