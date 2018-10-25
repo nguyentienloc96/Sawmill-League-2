@@ -26,7 +26,7 @@ public class TruckManager : MonoBehaviour
             indexPos = 0;
             truck.gameObject.SetActive(true);
             truck.transform.position = way[0].transform.position;
-            animCar.SetFloat("indexRun",0);
+            animCar.SetFloat("indexRun", 0);
             SentedOutput();
         }
     }
@@ -46,25 +46,57 @@ public class TruckManager : MonoBehaviour
                         if (indexPos + 1 < way.Length)
                         {
                             //truck.transform.right = way[indexPos + 1].transform.position - truck.transform.position;
-                            float height = way[indexPos + 1].transform.position.y -  truck.transform.position.y;
-                            float weight = way[indexPos + 1].transform.position.x -  truck.transform.position.x;
-                            if(Mathf.Abs(height) > Mathf.Abs(weight)){
-                                if(height > 0){
-                                    animCar.SetFloat("indexRun",1);
-                                }else{
-                                    animCar.SetFloat("indexRun",0);
+                            float height = way[indexPos + 1].transform.position.y - truck.transform.position.y;
+                            float weight = way[indexPos + 1].transform.position.x - truck.transform.position.x;
+                            if (Mathf.Abs(height) > Mathf.Abs(weight))
+                            {
+                                if (height > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 1);
                                 }
-                            }else{
-                                if(weight > 0){
-                                    animCar.SetFloat("indexRun",3);
-                                }else{
-                                    animCar.SetFloat("indexRun",2);
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 0);
+                                }
+                            }
+                            else
+                            {
+                                if (weight > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 3);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 2);
                                 }
                             }
                         }
                         else
                         {
-                            animCar.SetFloat("indexRun",0);
+                            float height = way[indexPos - 1].transform.position.y - truck.transform.position.y;
+                            float weight = way[indexPos - 1].transform.position.x - truck.transform.position.x;
+                            if (Mathf.Abs(height) > Mathf.Abs(weight))
+                            {
+                                if (height > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 1);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 0);
+                                }
+                            }
+                            else
+                            {
+                                if (weight > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 3);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 2);
+                                }
+                            }
                             isRetrograde = true;
                             ReceivedOutput();
                         }
@@ -79,25 +111,57 @@ public class TruckManager : MonoBehaviour
                         if (indexPos > 0)
                         {
                             //truck.transform.right = way[indexPos - 1].transform.position - truck.transform.position;
-                            float height = way[indexPos - 1].transform.position.y -  truck.transform.position.y;
-                            float weight = way[indexPos - 1].transform.position.x -  truck.transform.position.x;
-                            if(Mathf.Abs(height) > Mathf.Abs(weight)){
-                                if(height > 0){
-                                    animCar.SetFloat("indexRun",1);
-                                }else{
-                                    animCar.SetFloat("indexRun",0);
+                            float height = way[indexPos - 1].transform.position.y - truck.transform.position.y;
+                            float weight = way[indexPos - 1].transform.position.x - truck.transform.position.x;
+                            if (Mathf.Abs(height) > Mathf.Abs(weight))
+                            {
+                                if (height > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 1);
                                 }
-                            }else{
-                                if(weight > 0){
-                                    animCar.SetFloat("indexRun",3);
-                                }else{
-                                    animCar.SetFloat("indexRun",2);
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 0);
+                                }
+                            }
+                            else
+                            {
+                                if (weight > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 3);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 2);
                                 }
                             }
                         }
                         else
                         {
-                            animCar.SetFloat("indexRun",1);
+                            float height = way[indexPos + 1].transform.position.y - truck.transform.position.y;
+                            float weight = way[indexPos + 1].transform.position.x - truck.transform.position.x;
+                            if (Mathf.Abs(height) > Mathf.Abs(weight))
+                            {
+                                if (height > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 1);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 0);
+                                }
+                            }
+                            else
+                            {
+                                if (weight > 0)
+                                {
+                                    animCar.SetFloat("indexRun", 3);
+                                }
+                                else
+                                {
+                                    animCar.SetFloat("indexRun", 2);
+                                }
+                            }
                             isRetrograde = false;
                             SentedOutput();
                         }
