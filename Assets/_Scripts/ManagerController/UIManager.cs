@@ -141,7 +141,7 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.Play("Click");
             AudioManager.Instance.Stop("Menu", true);
             AudioManager.Instance.Play("GamePlay", true);
-
+            popupStart.SetActive(false);
             ScenesManager.Instance.isNextScene = false;
 			GameManager.Instance.sumHomeAll = 0;
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;

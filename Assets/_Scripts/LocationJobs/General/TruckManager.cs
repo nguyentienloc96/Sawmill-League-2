@@ -8,6 +8,8 @@ public class TruckManager : MonoBehaviour
     public GameObject truck;
     public Text txtSent;
 
+    public Animator animCar;
+
     public int indexType;
     public bool isRun;
     public bool isOff;
@@ -20,12 +22,12 @@ public class TruckManager : MonoBehaviour
     {
         if (!isRun)
         {
+            isRun = true;
             indexPos = 0;
             truck.gameObject.SetActive(true);
             truck.transform.position = way[0].transform.position;
-            truck.transform.right = way[indexPos + 1].transform.position - truck.transform.position;
+            animCar.SetFloat("indexRun",0);
             SentedOutput();
-            isRun = true;
         }
     }
 
@@ -43,11 +45,26 @@ public class TruckManager : MonoBehaviour
                         indexPos++;
                         if (indexPos + 1 < way.Length)
                         {
-                            truck.transform.right = way[indexPos + 1].transform.position - truck.transform.position;
+                            //truck.transform.right = way[indexPos + 1].transform.position - truck.transform.position;
+                            float height = way[indexPos + 1].transform.position.y -  truck.transform.position.y;
+                            float weight = way[indexPos + 1].transform.position.x -  truck.transform.position.x;
+                            if(Mathf.Abs(height) > Mathf.Abs(weight)){
+                                if(height > 0){
+                                    animCar.SetFloat("indexRun",1);
+                                }else{
+                                    animCar.SetFloat("indexRun",0);
+                                }
+                            }else{
+                                if(weight > 0){
+                                    animCar.SetFloat("indexRun",3);
+                                }else{
+                                    animCar.SetFloat("indexRun",2);
+                                }
+                            }
                         }
                         else
                         {
-                            truck.transform.right = way[way.Length - 2].transform.position - truck.transform.position;
+                            animCar.SetFloat("indexRun",0);
                             isRetrograde = true;
                             ReceivedOutput();
                         }
@@ -61,11 +78,26 @@ public class TruckManager : MonoBehaviour
                         indexPos--;
                         if (indexPos > 0)
                         {
-                            truck.transform.right = way[indexPos - 1].transform.position - truck.transform.position;
+                            //truck.transform.right = way[indexPos - 1].transform.position - truck.transform.position;
+                            float height = way[indexPos - 1].transform.position.y -  truck.transform.position.y;
+                            float weight = way[indexPos - 1].transform.position.x -  truck.transform.position.x;
+                            if(Mathf.Abs(height) > Mathf.Abs(weight)){
+                                if(height > 0){
+                                    animCar.SetFloat("indexRun",1);
+                                }else{
+                                    animCar.SetFloat("indexRun",0);
+                                }
+                            }else{
+                                if(weight > 0){
+                                    animCar.SetFloat("indexRun",3);
+                                }else{
+                                    animCar.SetFloat("indexRun",2);
+                                }
+                            }
                         }
                         else
                         {
-                            truck.transform.right = way[1].transform.position - truck.transform.position;
+                            animCar.SetFloat("indexRun",1);
                             isRetrograde = false;
                             SentedOutput();
                         }
@@ -77,7 +109,7 @@ public class TruckManager : MonoBehaviour
                 if (location.lsWorking[indexType].output > 0
                     && GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
                 {
-                    isRun = true;
+                    LoadTruck();
                 }
             }
         }
@@ -96,7 +128,7 @@ public class TruckManager : MonoBehaviour
 
             if (location.lsWorking[indexType].output >= location.lsWorking[indexType].maxSent)
             {
-                location.lsWorking[indexType].truckManager.txtSent.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].maxSent);
+                txtSent.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].maxSent);
                 location.lsWorking[indexType].output -= location.lsWorking[indexType].maxSent;
                 location.lsWorking[indexType].currentSent = location.lsWorking[indexType].maxSent;
                 location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
@@ -104,25 +136,25 @@ public class TruckManager : MonoBehaviour
             else if (location.lsWorking[indexType].output > 0)
             {
                 long outputSent = location.lsWorking[indexType].output;
-                location.lsWorking[indexType].truckManager.txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
+                txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
                 location.lsWorking[indexType].currentSent = outputSent;
                 location.lsWorking[indexType].output -= outputSent;
                 location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
             }
             else
             {
-                location.lsWorking[indexType].truckManager.isRun = false;
+                isRun = false;
             }
         }
         else
         {
-            location.lsWorking[indexType].truckManager.isRun = false;
+            isRun = false;
         }
     }
 
     public void ReceivedOutput()
     {
-        location.lsWorking[indexType].truckManager.txtSent.text = "";
+        txtSent.text = "";
         if (location.countType <= indexType)
         {
             GameManager.Instance.dollar += location.lsWorking[indexType].currentSent * location.lsWorking[indexType].priceOutput;

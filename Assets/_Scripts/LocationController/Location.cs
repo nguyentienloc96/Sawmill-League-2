@@ -168,7 +168,7 @@ public class Location : MonoBehaviour
         string stInfo = "";
         stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         UIManager.Instance.JobUpgrade.SetActive(true);
         UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
@@ -187,12 +187,12 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
             // Update thông số
             lsWorking[indexType].level++;
-            lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex));
+            lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex)));
             lsWorking[indexType].priceUpgrade = (long)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
 
             stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         }
         else
@@ -215,7 +215,7 @@ public class Location : MonoBehaviour
         string stInfo = "";
         stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + (level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)(level + 10) / GameConfig.Instance.capIndex))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
         UIManager.Instance.JobUpgrade.SetActive(true);
         UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
@@ -236,7 +236,7 @@ public class Location : MonoBehaviour
             GameManager.Instance.dollar -= priceUpgradeTotal;
             // Update thông số
             lsWorking[indexType].level += 10;
-            lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)(lsWorking[indexType].level + 10) / GameConfig.Instance.capIndex));
+            lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 10) / GameConfig.Instance.capIndex)));
             lsWorking[indexType].priceUpgrade = (long)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level + 10 - 1)));
 
             level = lsWorking[indexType].level;
@@ -249,7 +249,7 @@ public class Location : MonoBehaviour
 
             stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
                 + "Level : " + (lsWorking[indexType].level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * Mathf.Pow(2, lsWorking[indexType].id)) * (1 + (float)(level + 10) / GameConfig.Instance.capIndex))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
         }
         else
@@ -486,19 +486,34 @@ public class Location : MonoBehaviour
             Job(i);
         }
 
-        if (!forest.isAutoPlant
-            && forest.isOnBtnAutoPlant
-            && id != (GameManager.Instance.lsLocation.Count - 1)
-            && GameManager.Instance.lsLocation[id + 1].countType >= 0)
+        if (!forest.isAutoPlant && forest.isOnBtnAutoPlant)
         {
-            if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
+            if (id + 1 < GameManager.Instance.lsLocation.Count)
             {
-                forest.btnAutoPlant.interactable = true;
+                if (GameManager.Instance.lsLocation[id + 1].countType >= 0)
+                {
+                    if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
+                    {
+                        forest.btnAutoPlant.interactable = true;
+                    }
+                    else
+                    {
+                        forest.btnAutoPlant.interactable = false;
+                    }
+                }
+                else
+                {
+                    forest.btnAutoPlant.interactable = false;
+                }
             }
             else
             {
                 forest.btnAutoPlant.interactable = false;
             }
+        }
+        else
+        {
+            forest.btnAutoPlant.interactable = false;
         }
     }
 
@@ -537,7 +552,7 @@ public class Location : MonoBehaviour
         else if (countType + 1 == idType)
         {
             UIManager.Instance.isJobX10 = false;
-            string str = "You want to buy " + lsWorking[idType].name + " " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
+            string str = "You want to buy " + lsWorking[idType].name + " \nPrice : " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
             UIManager.Instance.JobSell.transform.GetChild(0).GetComponent<Text>().text = str;
             UIManager.Instance.JobSell.SetActive(true);
             if (GameManager.Instance.dollar >= lsWorking[idType].price)

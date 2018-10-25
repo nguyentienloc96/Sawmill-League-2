@@ -46,7 +46,7 @@ public class Forest : MonoBehaviour
     {
         index = 0;
         car.SetActive(true);
-        car.transform.GetChild(1).gameObject.SetActive(true);
+        car.transform.GetChild(1).GetComponent<Image>().enabled = true;
         car.transform.position = lsTree[index].transform.position;
         car.transform.right = lsTree[index + 1].transform.position - lsTree[index].transform.position;
 
@@ -65,7 +65,7 @@ public class Forest : MonoBehaviour
 
     public void BtnRunCarGrow()
     {
-		if (!location.forest.isAutoPlant && location.countType >= 0)
+        if (!location.forest.isAutoPlant && location.countType >= 0)
         {
             RunCarGrow();
         }
@@ -73,9 +73,9 @@ public class Forest : MonoBehaviour
 
     public void RunCarGrow()
     {
-        isRun = true;
-        car.transform.GetChild(1).gameObject.SetActive(false);
+        car.transform.GetChild(1).GetComponent<Image>().enabled = false;
         lsTree[index].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        isRun = true;
     }
 
     public void Update()
@@ -90,6 +90,21 @@ public class Forest : MonoBehaviour
                 if (index + 1 < lsTree.Length)
                 {
                     car.transform.right = lsTree[index + 1].transform.position - lsTree[index].transform.position;
+                    Vector3 angleCar = car.transform.localEulerAngles;
+                    if (angleCar.z != 0)
+                    {
+                        if (index % 2 == 0)
+                        {
+                            angleCar.y = 180;
+                        }
+                        else
+                        {
+                            angleCar.y = 0;
+                        }
+                    }
+                    angleCar.z = 0;
+
+                    car.transform.localEulerAngles = angleCar;
                 }
                 else
                 {
@@ -107,17 +122,20 @@ public class Forest : MonoBehaviour
             }
         }
 
-		if (location.countType < 0) {
-			if(car.transform.GetChild (0).GetComponent<Button> ().interactable)
-				car.transform.GetChild (0).GetComponent<Button> ().interactable = false;
-			if(car.transform.GetChild (1).gameObject.activeInHierarchy)
-				car.transform.GetChild (1).gameObject.SetActive (false);
-		} else {
-			if(!car.transform.GetChild (0).GetComponent<Button> ().interactable)
-				car.transform.GetChild (0).GetComponent<Button> ().interactable = true;
-			if(!car.transform.GetChild (1).gameObject.activeInHierarchy)
-				car.transform.GetChild (1).gameObject.SetActive (true);
-		}
+        if (location.countType < 0)
+        {
+            if (car.transform.GetChild(0).GetComponent<Button>().interactable)
+                car.transform.GetChild(0).GetComponent<Button>().interactable = false;
+            if (car.transform.GetChild(1).gameObject.activeInHierarchy)
+                car.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            if (!car.transform.GetChild(0).GetComponent<Button>().interactable)
+                car.transform.GetChild(0).GetComponent<Button>().interactable = true;
+            if (!car.transform.GetChild(1).gameObject.activeInHierarchy)
+                car.transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
 
     public void GrowTrees()
@@ -130,6 +148,7 @@ public class Forest : MonoBehaviour
                     .OnComplete(() =>
                     {
                         isGrowed = true;
+                        location.forest.tree = lsTree.Length;
                     });
             }
             else
@@ -137,7 +156,6 @@ public class Forest : MonoBehaviour
                 lsTree[i].transform.DOScale(new Vector3(1f, 1f, 1f), GameConfig.Instance.growTime);
             }
         }
-        location.forest.tree = lsTree.Length;
         isGrow = false;
     }
 }

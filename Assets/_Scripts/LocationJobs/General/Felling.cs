@@ -32,12 +32,15 @@ public class Felling : MonoBehaviour
 
     public void FellingTree()
     {
-        int ID = GameManager.Instance.IDLocation;
-        if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
+        if (!isWaiting)
         {
-            tutorialHand.SetActive(false);
-            AudioManager.Instance.PlayOneShot("Felling");
-            anim.SetBool("isFelling", true);
+            int ID = GameManager.Instance.IDLocation;
+            if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
+            {
+                tutorialHand.SetActive(false);
+                AudioManager.Instance.PlayOneShot("Felling");
+                anim.SetBool("isFelling", true);
+            }
         }
     }
 
@@ -63,7 +66,7 @@ public class Felling : MonoBehaviour
     public void ResetTree()
     {
         GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].FellingComplete();
-        if(GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].forest.tree > 0)
+        if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].forest.tree > 0)
         {
             isWaiting = false;
             indexFelling = 0;
@@ -75,6 +78,7 @@ public class Felling : MonoBehaviour
             indexFelling = 3;
             imgTree.sprite = UIManager.Instance.spTree[indexFelling];
             notification.SetActive(true);
+            isWaiting = false;
         }
     }
 
