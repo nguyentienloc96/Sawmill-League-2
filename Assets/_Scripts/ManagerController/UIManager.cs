@@ -143,7 +143,7 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.Play("GamePlay", true);
 
             ScenesManager.Instance.isNextScene = false;
-
+			GameManager.Instance.sumHomeAll = 0;
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.ClearLocation();

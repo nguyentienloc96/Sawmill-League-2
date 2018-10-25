@@ -21,10 +21,6 @@ public class Forest : MonoBehaviour
 
     public bool isGrowed;
 
-    public bool isAutoPlant;
-
-    private GameObject popupAutoPlant;
-
     public void LoadTree()
     {
         if (location.forest.tree > 0)
@@ -60,7 +56,6 @@ public class Forest : MonoBehaviour
             lsTree[i].transform.GetChild(0).gameObject.SetActive(true);
         }
         isGrowed = false;
-        isAutoPlant = true;
 
         if (location.forest.isAutoPlant)
         {
@@ -70,7 +65,7 @@ public class Forest : MonoBehaviour
 
     public void BtnRunCarGrow()
     {
-        if (!location.forest.isAutoPlant)
+		if (!location.forest.isAutoPlant && location.countType >= 0)
         {
             RunCarGrow();
         }
@@ -81,8 +76,6 @@ public class Forest : MonoBehaviour
         isRun = true;
         car.transform.GetChild(1).gameObject.SetActive(false);
         lsTree[index].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-        Destroy(popupAutoPlant);
-        isAutoPlant = false;
     }
 
     public void Update()
@@ -113,16 +106,18 @@ public class Forest : MonoBehaviour
                 GrowTrees();
             }
         }
-        if (isAutoPlant)
-        {
-            long money = (long)(GameConfig.Instance.AutoPlant * (float)location.lsWorking[0].price);
-            if (location.id != GameManager.Instance.IDLocation && GameManager.Instance.dollar >= money)
-            {
-                string str = "Do you want to spend  " + UIManager.Instance.ConvertNumber(money) + "$ Auto Reforestation in " + location.name;
 
-                isAutoPlant = false;
-            }
-        }
+		if (location.countType < 0) {
+			if(car.transform.GetChild (0).GetComponent<Button> ().interactable)
+				car.transform.GetChild (0).GetComponent<Button> ().interactable = false;
+			if(car.transform.GetChild (1).gameObject.activeInHierarchy)
+				car.transform.GetChild (1).gameObject.SetActive (false);
+		} else {
+			if(!car.transform.GetChild (0).GetComponent<Button> ().interactable)
+				car.transform.GetChild (0).GetComponent<Button> ().interactable = true;
+			if(!car.transform.GetChild (1).gameObject.activeInHierarchy)
+				car.transform.GetChild (1).gameObject.SetActive (true);
+		}
     }
 
     public void GrowTrees()

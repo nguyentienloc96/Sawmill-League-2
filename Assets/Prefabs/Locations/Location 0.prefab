@@ -7863,10 +7863,12 @@ MonoBehaviour:
   nameLocation: 
   indexTypeWork: 0
   countType: -1
+  txtNameLocation: {fileID: 114209452854070806}
   forest:
     tree: 0
     forestClass: {fileID: 114745355999593838}
     btnAutoPlant: {fileID: 114989356535882982}
+    isOnBtnAutoPlant: 0
     isAutoPlant: 0
   lsWorking:
   - name: Felling
@@ -15151,7 +15153,6 @@ MonoBehaviour:
   - {fileID: 1289701161315244}
   - {fileID: 1667224970829144}
   isGrowed: 0
-  isAutoPlant: 0
 --- !u!114 &114746252215525168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -15889,14 +15890,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   location: {fileID: 114115791643223928}
   arrPrefab:
-  - {fileID: 21300000, guid: 291c6ec386eab2d428ee3e9891ee0900, type: 3}
-  - {fileID: 21300000, guid: 4e82027032c99af48909c35b05cdebb0, type: 3}
+  - {fileID: 21300000, guid: 87ba708320eff454ea254c29a3711ff7, type: 3}
+  - {fileID: 21300000, guid: 83df5e8e1a7e3dd428a2b3948ad87aac, type: 3}
   - {fileID: 21300000, guid: 22b890611eea383449a4e03ac20bece9, type: 3}
   - {fileID: 21300000, guid: 944d4815834bfcb4a85e0ae558edd813, type: 3}
   - {fileID: 21300000, guid: 5ebe244915fb1b64db640256cf6638d6, type: 3}
   - {fileID: 21300000, guid: 6cd21530cc4163d48b116fdbd14037fc, type: 3}
-  - {fileID: 21300000, guid: 87ba708320eff454ea254c29a3711ff7, type: 3}
-  - {fileID: 21300000, guid: 83df5e8e1a7e3dd428a2b3948ad87aac, type: 3}
   lsPoint:
   - {fileID: 114256845473006872}
   - {fileID: 114515292705081580}
