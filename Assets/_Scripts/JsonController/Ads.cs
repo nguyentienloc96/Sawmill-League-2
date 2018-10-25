@@ -147,7 +147,12 @@ public class Ads : MonoBehaviour {
 
     public void SuccessAdsUnity()
     {
-        Debug.Log("Cong tien : " + GameConfig.Instance.dollarVideoAd);
+        //Debug.Log("Cong tien : " + GameConfig.Instance.dollarVideoAd);
+        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+        int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
+        long dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+        GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
+        UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
     }
     #endregion
 }

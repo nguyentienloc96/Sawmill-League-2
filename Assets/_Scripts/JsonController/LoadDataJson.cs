@@ -79,30 +79,36 @@ public class LoadDataJson : MonoBehaviour
 
     public void GoldToDollar()
     {
-        Debug.Log(GameManager.Instance.gold);
-        Debug.Log(PlayerPrefs.GetInt("GoldPre"));
+        //Debug.Log(GameManager.Instance.gold);
+        //Debug.Log(PlayerPrefs.GetInt("GoldPre"));
         if (GameManager.Instance.gold > 0)
         {
+            int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+            int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
+            long dollarRecive = 0;
             if (GameManager.Instance.gold >= 5)
             {
                 //SetNumber(GetNumber2(dola) + 50000, dola);
                 //PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) - 5);
                 GameManager.Instance.gold -= 5;
-                GameManager.Instance.dollar += 5 * GameConfig.Instance.goldToDollar;
+                dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+                GameManager.Instance.dollar += dollarRecive; 
                 //gold.text = SetNumberString(PlayerPrefs.GetInt("Gold", 10));
             }
             else
             {
                 //SetNumber(GetNumber2(dola) + PlayerPrefs.GetInt("Gold", 10) * 10000, dola);
                 //PlayerPrefs.SetInt("Gold", 0);
-                GameManager.Instance.dollar += GameManager.Instance.gold * GameConfig.Instance.goldToDollar;
+                dollarRecive = GameManager.Instance.gold * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+                GameManager.Instance.dollar += dollarRecive;
                 GameManager.Instance.gold = 0;
                 //gold.text = "0";
             }
+            UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
             if (GameManager.Instance.gold > 10)// && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
             {
                 PlayerPrefs.SetInt("GoldPre", (int)GameManager.Instance.gold);
-                Debug.Log(PlayerPrefs.GetInt("GoldPre"));
+                //Debug.Log(PlayerPrefs.GetInt("GoldPre"));
                 StorageService storageService = App42API.BuildStorageService();
                 storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, (int)GameManager.Instance.gold)), new UnityCallBack2());
             }
