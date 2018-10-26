@@ -19,7 +19,6 @@ public class Debarking : MonoBehaviour
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-    private Vector3 posCheckHand;
     private int random;
     private bool isTutorial;
     private bool isStop;
@@ -27,7 +26,6 @@ public class Debarking : MonoBehaviour
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
-        posCheckHand = transform.GetChild(1).position;
     }
 
     private void OnEnable()

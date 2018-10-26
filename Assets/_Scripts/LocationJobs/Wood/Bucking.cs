@@ -19,14 +19,12 @@ public class Bucking : MonoBehaviour
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-    private Vector3 posCheckHand;
     private bool isTutorial;
     private bool isStop;
 
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
-        posCheckHand = transform.GetChild(1).position;
     }
 
     private void OnEnable()

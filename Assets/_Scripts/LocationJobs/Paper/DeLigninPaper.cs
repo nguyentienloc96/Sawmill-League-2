@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class DeLigninPaper : MonoBehaviour
@@ -14,11 +15,13 @@ public class DeLigninPaper : MonoBehaviour
     public ParticleSystem particleEmissions;
     public Transform propeller;
     public Transform propeller1;
-
+    public GameObject tutorialHand;
+    public Image imgBG;
     private bool isRun;
     private Vector3 posDown;
     private Vector3 posCheck;
-
+    private bool isTutorial;
+    private bool isStop;
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -26,6 +29,9 @@ public class DeLigninPaper : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -36,6 +42,7 @@ public class DeLigninPaper : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -43,18 +50,31 @@ public class DeLigninPaper : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y > posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                propeller.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
-                propeller1.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                if (Input.mousePosition.y > posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    propeller.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    propeller1.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                }
+                if (cart.position.y > posCheck.y)
+                {
+                    StartCoroutine(CompleteJob());
+                }
             }
-            if (cart.position.y > posCheck.y)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+               .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -68,6 +88,7 @@ public class DeLigninPaper : MonoBehaviour
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
+            tutorialHand.SetActive(false);
         }
     }
 
@@ -81,29 +102,35 @@ public class DeLigninPaper : MonoBehaviour
 
     public void LoadInput()
     {
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
         });
     }
 
-    public void CompleteJob()
+    public IEnumerator CompleteJob()
     {
         anim.enabled = false;
         particleEmissions.Stop();
         isRun = false;
+        isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        isInput = false;
-
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

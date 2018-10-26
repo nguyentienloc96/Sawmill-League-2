@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChipperPaper : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class ChipperPaper : MonoBehaviour
 
     public ParticleSystem particleEmissions;
     public ParticleSystem particleLimbing;
-
+    public GameObject tutorialHand;
+    public Image imgBG;
     public Transform gear;
     public Transform gear1;
     public Transform gear2;
@@ -24,7 +26,8 @@ public class ChipperPaper : MonoBehaviour
     private Vector3 posDown;
     private Vector3 posCheck;
     private bool time;
-
+    private bool isTutorial;
+    private bool isStop;
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -32,6 +35,9 @@ public class ChipperPaper : MonoBehaviour
 
     private void OnEnable()
     {
+        int randomBG = Random.Range(0, UIManager.Instance.spBG.Length);
+        imgBG.sprite = UIManager.Instance.spBG[randomBG];
+        isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
@@ -42,6 +48,7 @@ public class ChipperPaper : MonoBehaviour
         }
         else
         {
+            isStop = false;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -49,19 +56,32 @@ public class ChipperPaper : MonoBehaviour
 
     public void Update()
     {
-        if (isRun)
+        if (!isStop)
         {
-            if (Input.mousePosition.y > posDown.y)
+            if (isRun)
             {
-                float dis = Input.mousePosition.y - posDown.y;
-                cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
-                gear1.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
-                gear2.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                if (Input.mousePosition.y > posDown.y)
+                {
+                    float dis = Input.mousePosition.y - posDown.y;
+                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
+                    gear1.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    gear2.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                }
+                if (cart.position.y > posCheck.y)
+                {
+                    CompleteJob();
+                }
             }
-            if (cart.position.y > posCheck.y)
+        }
+        else
+        {
+            if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
+               .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
-                CompleteJob();
+                notification.SetActive(false);
+                LoadInput();
+                isStop = false;
             }
         }
     }
@@ -75,6 +95,7 @@ public class ChipperPaper : MonoBehaviour
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
+            tutorialHand.SetActive(false);
         }
     }
 
@@ -92,6 +113,11 @@ public class ChipperPaper : MonoBehaviour
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
+            if (isTutorial)
+            {
+                tutorialHand.SetActive(true);
+                isTutorial = false;
+            }
             isInput = true;
         });
     }
@@ -105,8 +131,8 @@ public class ChipperPaper : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        gear.DOLocalRotate(gear2.localEulerAngles - new Vector3(0f, 0f, 180f), 1.5f);
-        gear1.DOLocalRotate(gear2.localEulerAngles + new Vector3(0f, 0f, 180f), 1.5f);
+        gear.DOLocalRotate(gear.localEulerAngles - new Vector3(0f, 0f, 180f), 1.5f);
+        gear1.DOLocalRotate(gear1.localEulerAngles + new Vector3(0f, 0f, 180f), 1.5f);
         gear2.DOLocalRotate(gear2.localEulerAngles + new Vector3(0f, 0f, 180f), 1.5f).OnComplete(() =>
         {
             particleLimbing.Stop();
