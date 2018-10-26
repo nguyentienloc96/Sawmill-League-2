@@ -61,10 +61,10 @@ public class HeadboxFormingPaper : MonoBehaviour
                 if (Input.mousePosition.x > posDown.x)
                 {
                     float dis = Input.mousePosition.x - posDown.x;
-                    cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
+                    cart.position += new Vector3(dis * 0.005f * Time.deltaTime, 0f, 0f);
                     foreach (Transform tf in gear)
                     {
-                        tf.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                        tf.localEulerAngles -= new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
                     }
                 }
                 if (cart.position.x > posCheck.x)

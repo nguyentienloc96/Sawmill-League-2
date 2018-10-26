@@ -107,8 +107,9 @@ public class UIManager : MonoBehaviour
         {
             int id = GameManager.Instance.IDLocation;
             int indexType = GameManager.Instance.lsLocation[id].indexType;
-            if (indexType != 0) GameManager.Instance.lsTypeMiniGame[id].lsMiniGame[indexType].inputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
-            GameManager.Instance.lsTypeMiniGame[id].lsMiniGame[indexType].outputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
+            int indexTypeWork = GameManager.Instance.lsLocation[id].indexTypeWork;
+            if (indexType != 0) GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].inputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
+            GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].outputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
 
         }
     }
