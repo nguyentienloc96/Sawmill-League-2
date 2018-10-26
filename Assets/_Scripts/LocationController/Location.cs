@@ -400,7 +400,7 @@ public class Location : MonoBehaviour
             {
                 lsWorking[0].timeWorking += Time.deltaTime;
             }
-            if (lsWorking[0].timeWorking >= GameConfig.Instance.fellingTime * (GameConfig.Instance.TimeForest / (float)(forest.forestClass.lsTree.Length)))
+            if (lsWorking[0].timeWorking >= (GameConfig.Instance.TimeForest / (float)(forest.forestClass.lsTree.Length)))
             {
                 FellingComplete();
                 lsWorking[0].timeWorking = 0;

@@ -6907,7 +6907,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114194532655273560}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -6935,7 +6935,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114520643411172704}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -6963,7 +6963,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114410353212326514}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -6991,7 +6991,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114181154605297286}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -7019,7 +7019,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114605261782037526}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -7047,7 +7047,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114884126608918724}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -7075,7 +7075,7 @@ MonoBehaviour:
     currentSent: 0
     maxSent: 0
     maxSentStart: 0
-    truckManager: {fileID: 0}
+    truckManager: {fileID: 114908597047940072}
     priceUpgrade: 0
     priceUpgradeStart: 0
     price: 0
@@ -7101,7 +7101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1807409830643402}
   txtSent: {fileID: 114379886288730760}
   animCar: {fileID: 95782673920120460}
@@ -7226,7 +7226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1723867402109356}
   txtSent: {fileID: 114506025536257198}
   animCar: {fileID: 95631567112895246}
@@ -8859,7 +8859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1751643390018404}
   txtSent: {fileID: 114533755964056292}
   animCar: {fileID: 95659483409571544}
@@ -9666,7 +9666,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1898160159985052}
   txtSent: {fileID: 114840754419429606}
   animCar: {fileID: 95129785465979646}
@@ -10447,7 +10447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1670645390584756}
   txtSent: {fileID: 114266859279988784}
   animCar: {fileID: 95029858387282456}
@@ -11901,7 +11901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b0393bf406ddd4e9ea6868b0251ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   arrPrefabsStreet:
   - {fileID: 1419683814958274, guid: 5b588945bbe82f040b2504b5c8edc3be, type: 2}
   - {fileID: 1096740522688238, guid: 860bd811612607b40af3c603fceb5b13, type: 2}
@@ -12455,7 +12455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1438739288209370}
   txtSent: {fileID: 114556684869415602}
   animCar: {fileID: 95188864796268032}
@@ -12684,7 +12684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633813640d5e8e942a58ffb12e4afe37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 0}
+  location: {fileID: 114180251991032314}
   truck: {fileID: 1360633098177558}
   txtSent: {fileID: 114086106933293434}
   animCar: {fileID: 95580576203095646}
