@@ -96,12 +96,10 @@ public class Location : MonoBehaviour
     public void LoadLocation()
     {
         StartCoroutine(IELoadLocation());
-        txtNameLocation.text = nameLocation;
     }
     public void LoadLocationJson()
     {
         StartCoroutine(IELoadLocationJson());
-        txtNameLocation.text = nameLocation;
     }
     public IEnumerator IELoadLocation()
     {
@@ -117,6 +115,7 @@ public class Location : MonoBehaviour
         isLoaded = false;
         LoadInfoTypeOfWorkST();
         yield return new WaitUntil(() => isLoaded);
+        txtNameLocation.text = nameLocation;
     }
     public IEnumerator IELoadLocationJson()
     {
@@ -132,6 +131,7 @@ public class Location : MonoBehaviour
         isLoaded = false;
         LoadInfoTypeOfWorkST();
         yield return new WaitUntil(() => isLoaded);
+        txtNameLocation.text = nameLocation;
     }
     public void LoadInfoTypeOfWorkST()
     {
