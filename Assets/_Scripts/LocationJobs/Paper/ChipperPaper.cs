@@ -110,7 +110,6 @@ public class ChipperPaper : MonoBehaviour
 
     public void LoadInput()
     {
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -140,6 +139,7 @@ public class ChipperPaper : MonoBehaviour
             animFlour.enabled = false;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             isInput = false;
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

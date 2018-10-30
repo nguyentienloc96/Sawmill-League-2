@@ -552,7 +552,7 @@ public class Location : MonoBehaviour
         else if (countType + 1 == idType)
         {
             UIManager.Instance.isJobX10 = false;
-            string str = "You want to buy " + lsWorking[idType].name + " \nPrice : " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
+            string str = lsWorking[idType].name + " \nPrice : " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
             UIManager.Instance.JobSell.transform.GetChild(0).GetComponent<Text>().text = str;
             UIManager.Instance.JobSell.SetActive(true);
             if (GameManager.Instance.dollar >= lsWorking[idType].price)

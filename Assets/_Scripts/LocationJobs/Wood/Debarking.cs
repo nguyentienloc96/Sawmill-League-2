@@ -7,12 +7,11 @@ public class Debarking : MonoBehaviour
 {
     public bool isInput;
     public Transform cart;
-    public Transform[] tree;
+    public Transform tree;
     public GameObject notification;
     public Animator anim;
     public ParticleSystem particleDebarking;
     public ParticleSystem particleEmissions;
-
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -37,14 +36,15 @@ public class Debarking : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
+            tree.gameObject.SetActive(true);
             notification.SetActive(false);
             LoadInput();
         }
         else
         {
             isStop = true;
-            tree[0].gameObject.SetActive(false);
-            tree[1].gameObject.SetActive(false);
+            tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
@@ -105,8 +105,6 @@ public class Debarking : MonoBehaviour
     public void LoadInput()
     {
         random = Random.Range(0, 2);
-        tree[random].gameObject.SetActive(true);
-        tree[1 - random].gameObject.SetActive(false);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -138,7 +136,7 @@ public class Debarking : MonoBehaviour
         else
         {
             isStop = true;
-            tree[random].gameObject.SetActive(false);
+            tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
