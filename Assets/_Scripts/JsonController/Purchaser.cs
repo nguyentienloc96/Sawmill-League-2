@@ -6,7 +6,7 @@ using UnityEngine.Purchasing;
 
 public class Purchaser : MonoBehaviour, IStoreListener
 {
-    private static IStoreController m_StoreController;          
+    private static IStoreController m_StoreController;
     private static IExtensionProvider m_StoreExtensionProvider;
 
     // Apple App Store-specific product identifier for the subscription product.
@@ -125,46 +125,37 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // A consumable product has been purchased by this user.
         if (String.Equals(args.purchasedProduct.definition.id, GameConfig.Instance.kProductID50, StringComparison.Ordinal))
         {
-            PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 50);
-            if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
-            {
-                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
-                StorageService storageService = App42API.BuildStorageService();
-                storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
-            }
-            //Mng.mng.ui.gold.text = Mng.mng.ui.SetNumberString(PlayerPrefs.GetInt("Gold", 10));
-            //Mng.mng.ui.loading.SetActive(false);
-            if (PlayerPrefs.GetInt("NoAds") == 0)
-                PlayerPrefs.SetInt("NoAds", 1);
+            GameManager.Instance.gold += 50;
+            //if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
+            //{
+            PlayerPrefs.SetInt("GoldPre", (int)GameManager.Instance.gold);
+            StorageService storageService = App42API.BuildStorageService();
+            storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, (int)GameManager.Instance.gold)), new UnityCallBack2());
+            //}
+            PlayerPrefs.SetInt("NoAds", 1);
+            UIManager.Instance.PushGiveGold("You have recived 50 gold ");
         }
         // Or ... a non-consumable product has been purchased by this user.
         else if (String.Equals(args.purchasedProduct.definition.id, GameConfig.Instance.kProductID300, StringComparison.Ordinal))
         {
-            PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 300);
-            if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
-            {
-                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
-                StorageService storageService = App42API.BuildStorageService();
-                storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
-            }
-            //Mng.mng.ui.gold.text = Mng.mng.ui.SetNumberString(StarPrefs.GetInt("Gold", 10));
-            //Mng.mng.ui.loading.SetActive(false);
-            if (PlayerPrefs.GetInt("NoAds") == 0)
-                PlayerPrefs.SetInt("NoAds", 1);
+            GameManager.Instance.gold += 300;
+
+            PlayerPrefs.SetInt("GoldPre", (int)GameManager.Instance.gold);
+            StorageService storageService = App42API.BuildStorageService();
+            storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, (int)GameManager.Instance.gold)), new UnityCallBack2());
+            UIManager.Instance.PushGiveGold("You have recived 300 gold ");
+            PlayerPrefs.SetInt("NoAds", 1);
         }
         // Or ... a subscription product has been purchased by this user.
         else if (String.Equals(args.purchasedProduct.definition.id, GameConfig.Instance.kProductID5000, StringComparison.Ordinal))
         {
-            PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) + 5000);
-            if (PlayerPrefs.GetInt("Gold", 10) > 50 && Mathf.Abs(PlayerPrefs.GetInt("GoldPre", 0) - PlayerPrefs.GetInt("Gold", 10)) >= 50)
-            {
-                PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
-                StorageService storageService = App42API.BuildStorageService();
-                storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, PlayerPrefs.GetInt("Gold", 10))), new UnityCallBack2());
-            }
-            //Mng.mng.ui.gold.text = Mng.mng.ui.SetNumberString(StarPrefs.GetInt("Gold", 10));
-            if (PlayerPrefs.GetInt("NoAds") == 0)
-                PlayerPrefs.SetInt("NoAds", 1);
+            GameManager.Instance.gold += 5000;
+
+            PlayerPrefs.SetInt("GoldPre", (int)GameManager.Instance.gold);
+            StorageService storageService = App42API.BuildStorageService();
+            storageService.UpdateDocumentByKeyValue("Db", "Data", "id", GameConfig.id, JsonUtility.ToJson(new SaveGold(GameConfig.id, (int)GameManager.Instance.gold)), new UnityCallBack2());
+            UIManager.Instance.PushGiveGold("You have recived 5000 gold ");
+            PlayerPrefs.SetInt("NoAds", 1);
         }
         // Or ... an unknown product has been purchased by this user. Fill in additional products here....
         else
