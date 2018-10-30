@@ -33,17 +33,18 @@ public class Decking : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        random = Random.Range(0, tree.Length);
+        ResetTree();
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-
+            tree[random].gameObject.SetActive(true);
             notification.SetActive(false);
             LoadInput();
         }
         else
         {
             isStop = true;
-            tree[0].gameObject.SetActive(false);
-            tree[1].gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
@@ -70,6 +71,9 @@ public class Decking : MonoBehaviour
             if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
                .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
+                random = Random.Range(0, tree.Length);
+                ResetTree();
+                tree[random].gameObject.SetActive(true);
                 notification.SetActive(false);
                 LoadInput();
                 isStop = false;
@@ -94,18 +98,12 @@ public class Decking : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
 
     public void LoadInput()
     {
-        random = Random.Range(0, 2);
-        tree[random].gameObject.SetActive(true);
-        tree[1 - random].gameObject.SetActive(false);
-        tree[random].localPosition = Vector3.zero;
-        tree[random].localEulerAngles = Vector3.zero;
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -121,7 +119,6 @@ public class Decking : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
@@ -152,16 +149,16 @@ public class Decking : MonoBehaviour
     {
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         isInput = false;
-
+        random = Random.Range(0, tree.Length);
+        ResetTree();
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
+            tree[random].gameObject.SetActive(true);
             LoadInput();
         }
         else
         {
             isStop = true;
-            tree[0].gameObject.SetActive(false);
-            tree[1].gameObject.SetActive(false);
             notification.SetActive(true);
         }
     }
@@ -169,5 +166,15 @@ public class Decking : MonoBehaviour
     public void Help()
     {
         tutorialHand.SetActive(true);
+    }
+
+    public void ResetTree()
+    {
+        foreach (Transform obj in tree)
+        {
+            obj.localPosition = Vector3.zero;
+            obj.localEulerAngles = Vector3.zero;
+            obj.gameObject.SetActive(false);
+        }
     }
 }

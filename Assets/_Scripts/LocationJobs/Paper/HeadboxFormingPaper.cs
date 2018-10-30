@@ -38,6 +38,8 @@ public class HeadboxFormingPaper : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        paperRoll.localPosition = Vector3.zero;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
@@ -116,7 +118,6 @@ public class HeadboxFormingPaper : MonoBehaviour
 
     public void LoadInput()
     {
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -142,6 +143,8 @@ public class HeadboxFormingPaper : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         paperRoll.DOLocalMove(new Vector3(150, 0f, 0f), 1.5f).OnComplete(() =>
         {
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
+            paperRoll.localPosition = Vector3.zero;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
