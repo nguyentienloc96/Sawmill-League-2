@@ -38,6 +38,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
@@ -89,7 +90,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         {
             tutorialHand.SetActive(false);
             anim.enabled = true;
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Polish");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -99,7 +100,7 @@ public class TextileDyeingCellulose : MonoBehaviour
     {
         anim.enabled = false;
 
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Polish");
         isRun = false;
     }
 
@@ -127,7 +128,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        cart.localPosition = new Vector3(-2f, 0f, 0f);
+        cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

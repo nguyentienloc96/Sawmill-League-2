@@ -11,6 +11,8 @@ public struct ForestST
     public Button btnAutoPlant;
     public bool isOnBtnAutoPlant;
     public bool isAutoPlant;
+    [HideInInspector]
+    public float timeFelling;
 }
 
 [System.Serializable]
@@ -23,10 +25,10 @@ public struct TypeOfWorkST
 
     [Header("UI")]
     public Image icon;
+    public Animator anim;
     public Text textInput;
     public Text textOutput;
     public GameObject info;
-    public GameObject build;
 
     [Header("Parameters")]
     public long input;
@@ -66,9 +68,8 @@ public class Location : MonoBehaviour
     public string nameLocation;
     public int indexTypeWork;
     public int countType;
-
-    public Text txtNameLocation;
-
+    [HideInInspector]
+    public int makerType;
     public ForestST forest;
     public TypeOfWorkST[] lsWorking;
 
@@ -115,7 +116,10 @@ public class Location : MonoBehaviour
         isLoaded = false;
         LoadInfoTypeOfWorkST();
         yield return new WaitUntil(() => isLoaded);
-        txtNameLocation.text = nameLocation;
+        if (indexTypeWork == 0)
+        {
+            lsWorking[lsWorking.Length - 1].anim.SetFloat("indexMaker", makerType);
+        }
     }
     public IEnumerator IELoadLocationJson()
     {
@@ -131,7 +135,10 @@ public class Location : MonoBehaviour
         isLoaded = false;
         LoadInfoTypeOfWorkST();
         yield return new WaitUntil(() => isLoaded);
-        txtNameLocation.text = nameLocation;
+        if (indexTypeWork == 0)
+        {
+            lsWorking[lsWorking.Length - 1].anim.SetFloat("indexMaker", makerType);
+        }
     }
     public void LoadInfoTypeOfWorkST()
     {
@@ -166,9 +173,9 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
+        stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         UIManager.Instance.JobUpgrade.SetActive(true);
         UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
@@ -190,9 +197,9 @@ public class Location : MonoBehaviour
             lsWorking[indexType].maxOutputMade = (long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex)));
             lsWorking[indexType].priceUpgrade = (long)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
 
-            stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
+            stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         }
         else
@@ -213,9 +220,9 @@ public class Location : MonoBehaviour
             priceUpgradeTotal += (long)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (level - 1)));
         }
         string stInfo = "";
-        stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
+        stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
         UIManager.Instance.JobUpgrade.SetActive(true);
         UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
@@ -247,9 +254,9 @@ public class Location : MonoBehaviour
                 priceUpgradeTotal += (long)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (level - 1)));
             }
 
-            stInfo = lsWorking[indexType].name + " " + nameLocation + "\n"
+            stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
         }
         else
@@ -265,7 +272,7 @@ public class Location : MonoBehaviour
     {
         indexType = idType;
         string stInfo = "";
-        stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
+        stInfo = "Truck " + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
@@ -291,7 +298,7 @@ public class Location : MonoBehaviour
             lsWorking[indexType].priceTruckSent = (long)((float)lsWorking[indexType].priceTruckSentStart * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
             lsWorking[indexType].priceUpgradeTruck = (long)((float)lsWorking[indexType].priceUpgradeTruckStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
 
-            stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
+            stInfo = "Truck " + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
@@ -315,7 +322,7 @@ public class Location : MonoBehaviour
             priceUpgradeTruckTotal += (long)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
         }
         string stInfo = "";
-        stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
+        stInfo = "Truck " + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
             + "Transportation Fee : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
@@ -350,7 +357,7 @@ public class Location : MonoBehaviour
             {
                 priceUpgradeTruckTotal += (long)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
             }
-            stInfo = "Truck " + lsWorking[indexType].name + " " + nameLocation + "\n"
+            stInfo = "Truck " + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((long)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
@@ -388,6 +395,33 @@ public class Location : MonoBehaviour
 
 
     #region Felling
+    public void FellingForest()
+    {
+        if (forest.tree > 0 && forest.forestClass.isGrowed)
+        {
+            if (lsWorking[0].isXJob)
+            {
+                forest.timeFelling += Time.deltaTime * (1f + GameConfig.Instance.WYS);
+            }
+            else
+            {
+                forest.timeFelling += Time.deltaTime;
+            }
+            if (forest.timeFelling >= (GameConfig.Instance.TimeForest / (float)forest.forestClass.lsTree.Length))
+            {
+                if (forest.tree > 0)
+                {
+                    forest.forestClass.lsTree[forest.forestClass.lsTree.Length - forest.tree].transform.GetChild(0).gameObject.SetActive(false);
+                    forest.tree--;
+                }
+                if (forest.tree <= 0)
+                {
+                    forest.forestClass.ResetForest();
+                }
+                forest.timeFelling = 0;
+            }
+        }
+    }
     public void Felling()
     {
         if (forest.tree > 0 && forest.forestClass.isGrowed)
@@ -400,7 +434,7 @@ public class Location : MonoBehaviour
             {
                 lsWorking[0].timeWorking += Time.deltaTime;
             }
-            if (lsWorking[0].timeWorking >= (GameConfig.Instance.TimeForest / (float)(forest.forestClass.lsTree.Length)))
+            if (lsWorking[0].timeWorking >= GameConfig.Instance.p0Time)
             {
                 FellingComplete();
                 lsWorking[0].timeWorking = 0;
@@ -410,17 +444,10 @@ public class Location : MonoBehaviour
 
     public void FellingComplete()
     {
-        if (forest.tree > 0)
-        {
-            forest.forestClass.lsTree[forest.forestClass.lsTree.Length - forest.tree].transform.GetChild(0).gameObject.SetActive(false);
-            forest.tree--;
-        }
-        lsWorking[0].output += ((long)((100 * lsWorking[0].maxOutputMade) / forest.forestClass.transform.childCount));
+
+        lsWorking[0].output += (long)(GameConfig.Instance.r * lsWorking[0].maxOutputMade);
         lsWorking[0].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[0].output);
-        if (forest.tree <= 0)
-        {
-            forest.forestClass.ResetForest();
-        }
+
         if (lsWorking[0].id < lsWorking.Length)
         {
             if (lsWorking[0].output > 0)
@@ -480,6 +507,7 @@ public class Location : MonoBehaviour
 
     public void Update()
     {
+        FellingForest();
         Felling();
         for (int i = 1; i <= countType; i++)
         {
@@ -546,8 +574,7 @@ public class Location : MonoBehaviour
         indexType = idType;
         if (countType >= idType)
         {
-            lsWorking[idType].build.SetActive(true);
-            HideObject(lsWorking[idType].build, 10f);
+            WordYourSelf(idType);
         }
         else if (countType + 1 == idType)
         {

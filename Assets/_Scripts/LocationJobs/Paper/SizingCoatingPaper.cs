@@ -108,7 +108,7 @@ public class SizingCoatingPaper : MonoBehaviour
     {
         if (isInput)
         {
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Painting");
             isRun = true;
             tutorialHand.SetActive(false);
         }
@@ -116,7 +116,7 @@ public class SizingCoatingPaper : MonoBehaviour
 
     public void TapUp()
     {
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Painting");
         isRun = false;
     }
 

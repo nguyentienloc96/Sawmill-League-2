@@ -34,11 +34,11 @@ public class GameManager : MonoBehaviour
 
     #region GamePlay
     [Header("GamePlay")]
-    public long gold = 0;
-    public long dollar = 0;
-    public long dollarGive = 0;
-    public int sumHomeAll = 0;
-
+    public long gold;
+    public long dollar;
+    public long dollarGive;
+    public int sumHomeAll;
+    public int indexSawmill;
     public int IDLocation;
     public Transform locationManager;
     public List<Location> lsLocation;
@@ -91,11 +91,19 @@ public class GameManager : MonoBehaviour
     public void LoadLocation()
     {
         lsLocation[IDLocation].transform.localPosition = Vector3.zero;
+        for (int animL = 0; animL < lsLocation[IDLocation].lsWorking.Length; animL++)
+        {
+            lsLocation[IDLocation].lsWorking[animL].anim.enabled = true;
+        }
         for (int i = 0; i < lsLocation.Count; i++)
         {
             if (i != IDLocation)
             {
                 lsLocation[i].transform.localPosition = new Vector3(3000f, 0f, 0f);
+                for (int animLH = 0; animLH < lsLocation[i].lsWorking.Length; animLH++)
+                {
+                    lsLocation[i].lsWorking[animLH].anim.enabled = false;
+                }
             }
         }
     }
@@ -118,6 +126,11 @@ public class GameManager : MonoBehaviour
         objLocation.transform.localPosition = new Vector3(3000f, 0f, 0f);
         Location location = objLocation.GetComponent<Location>();
         location.id = locationUI.id;
+        if (location.indexTypeWork == 0)
+        {
+            location.makerType = indexSawmill;
+            indexSawmill++;
+        }
         location.nameLocation = locationUI.nameLocationUI;
         UIManager.Instance.lsBtnLocationUI[location.id].interactable = true;
         location.LoadLocation();

@@ -95,7 +95,7 @@ public class PressingDryingPaper : MonoBehaviour
     {
         if (isInput)
         {
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
             tutorialHand.SetActive(false);
@@ -104,7 +104,7 @@ public class PressingDryingPaper : MonoBehaviour
 
     public void TapUp()
     {
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
     }
 
@@ -148,7 +148,7 @@ public class PressingDryingPaper : MonoBehaviour
         isInput = false;
 
         paperOutput.enabled = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.6f);
         paperInput.localScale = new Vector3(0f, 1f, 1f);
         gasPusher.DOScaleY(1f, 0.5f).OnComplete(() =>
         {

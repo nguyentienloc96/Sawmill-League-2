@@ -89,7 +89,7 @@ public class Maker : MonoBehaviour
         {
             tutorialHand.SetActive(false);
             particleEmissions.Play();
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Drill");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -98,14 +98,14 @@ public class Maker : MonoBehaviour
     public void TapUp()
     {
         particleEmissions.Stop();
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Drill");
         isRun = false;
     }
 
     public void LoadInput()
     {
-        int randomSp = Random.Range(0, spOutput.Length);
-        spTreeMask.sprite = spOutput[randomSp];
+        int ID = GameManager.Instance.IDLocation;
+        spTreeMask.sprite = spOutput[GameManager.Instance.lsLocation[ID].makerType];
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)

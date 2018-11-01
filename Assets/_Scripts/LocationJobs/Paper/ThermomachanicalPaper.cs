@@ -90,7 +90,7 @@ public class ThermomachanicalPaper : MonoBehaviour
             animFoam.enabled = true;
             anim.enabled = true;
             particleEmissions.Play();
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
             tutorialHand.SetActive(false);
@@ -102,7 +102,7 @@ public class ThermomachanicalPaper : MonoBehaviour
         anim.enabled = false;
         animFoam.enabled = false;
         particleEmissions.Stop();
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
     }
 

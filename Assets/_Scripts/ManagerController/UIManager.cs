@@ -85,7 +85,6 @@ public class UIManager : MonoBehaviour
     public bool isContinue;
 
     [Header("MiniGame")]
-    public Sprite[] spTree;
     public Sprite[] spBG;
 
     [Header("UIHome")]
@@ -144,11 +143,11 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.Play("GamePlay", true);
             popupStart.SetActive(false);
             ScenesManager.Instance.isNextScene = false;
-			GameManager.Instance.sumHomeAll = 0;
+            GameManager.Instance.sumHomeAll = 0;
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.ClearLocation();
-            GameManager.Instance.CreatLocation(lsLocationUI[0],true);
+            GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
@@ -274,6 +273,13 @@ public class UIManager : MonoBehaviour
             }
         }
         return smoney;
+    }
+
+    public void UpgradeJob()
+    {
+        int id = GameManager.Instance.IDLocation;
+        int indexType = GameManager.Instance.lsLocation[id].indexType;
+        GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkST(indexType);
     }
 
     public void UpgradeJobX10(bool x10)

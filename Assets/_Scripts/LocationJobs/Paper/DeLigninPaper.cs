@@ -85,7 +85,7 @@ public class DeLigninPaper : MonoBehaviour
         {
             anim.enabled = true;
             particleEmissions.Play();
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
             tutorialHand.SetActive(false);
@@ -96,7 +96,7 @@ public class DeLigninPaper : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
     }
 

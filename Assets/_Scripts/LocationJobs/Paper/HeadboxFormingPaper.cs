@@ -97,7 +97,7 @@ public class HeadboxFormingPaper : MonoBehaviour
             {
                 ps.Play();
             }
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
             tutorialHand.SetActive(false);
@@ -112,7 +112,7 @@ public class HeadboxFormingPaper : MonoBehaviour
         {
             ps.Stop();
         }
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
     }
 

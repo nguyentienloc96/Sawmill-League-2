@@ -97,7 +97,7 @@ public class CoolerPellet : MonoBehaviour
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             needle1.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -106,7 +106,7 @@ public class CoolerPellet : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
     }
 

@@ -79,7 +79,7 @@ public class PlanningHDF : MonoBehaviour {
         if (isInput)
         {
             anim.enabled = true;
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Polish");
             posDown = Input.mousePosition;
             isRun = true;
             tutorialHand.SetActive(false);
@@ -89,7 +89,7 @@ public class PlanningHDF : MonoBehaviour {
     public void TapUp()
     {
         anim.enabled = false;
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Polish");
         isRun = false;
     }
 

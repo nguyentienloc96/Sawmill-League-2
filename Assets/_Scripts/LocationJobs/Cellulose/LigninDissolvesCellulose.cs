@@ -97,7 +97,7 @@ public class LigninDissolvesCellulose : MonoBehaviour
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
             particleEmissions.Play();
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -107,7 +107,7 @@ public class LigninDissolvesCellulose : MonoBehaviour
     {
         anim.enabled = false;
         particleEmissions.Stop();
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
     }

@@ -89,7 +89,7 @@ public class Dryer : MonoBehaviour
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             tutorialHand.SetActive(false);
             anim.enabled = true;
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -98,7 +98,7 @@ public class Dryer : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Water");
         isRun = false;
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
     }

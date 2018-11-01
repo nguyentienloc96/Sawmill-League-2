@@ -31,6 +31,9 @@ public class DataPlayer : MonoBehaviour
     public int sumHomeAll;
 
     [HideInInspector]
+    public int indexSawmill;
+
+    [HideInInspector]
     public string dateStartPlay;
 
     [HideInInspector]
@@ -47,6 +50,7 @@ public class DataPlayer : MonoBehaviour
         data.gold = GameManager.Instance.gold;
         data.dollar = GameManager.Instance.dollar;
         data.sumHomeAll = GameManager.Instance.sumHomeAll;
+        data.indexSawmill = GameManager.Instance.indexSawmill;
         data.dateStartPlay = GameManager.Instance.dateStartPlay.ToString();
         data.dateGame = GameManager.Instance.dateGame.ToString();
         data.lsLocation = new List<LocationJSON>();
@@ -58,6 +62,7 @@ public class DataPlayer : MonoBehaviour
             locationJson.indexTypeWork = GameManager.Instance.lsLocation[i].indexTypeWork;
             locationJson.countType = GameManager.Instance.lsLocation[i].countType;
             locationJson.indexType = GameManager.Instance.lsLocation[i].indexType;
+            locationJson.makerType = GameManager.Instance.lsLocation[i].makerType;
 
             locationJson.forest = GameManager.Instance.lsLocation[i].forest;
             locationJson.lsWorking = GameManager.Instance.lsLocation[i].lsWorking;
@@ -89,6 +94,7 @@ public class DataPlayer : MonoBehaviour
             GameManager.Instance.gold = objJson["gold"].AsLong;
             GameManager.Instance.dollar = objJson["dollar"].AsLong;
             GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
+            GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
             GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
             GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
 
@@ -157,6 +163,7 @@ public class DataPlayer : MonoBehaviour
             location.nameLocation = lsData[i]["nameLocation"];
             location.indexTypeWork = lsData[i]["indexTypeWork"].AsInt;
             location.countType = lsData[i]["countType"].AsInt;
+            location.makerType = lsData[i]["makerType"].AsInt;
 
             location.forest.tree = lsData[i]["forest"]["tree"].AsInt;
             location.forest.isOnBtnAutoPlant = lsData[i]["forest"]["isOnBtnAutoPlant"].AsBool;
