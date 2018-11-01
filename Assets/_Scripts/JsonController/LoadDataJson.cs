@@ -120,6 +120,9 @@ public class LoadDataJson : MonoBehaviour
         //loading.SetActive(true);
         StorageService storageService = App42API.BuildStorageService();
         storageService.FindDocumentByKeyValue("Db", "Data", "id", GameConfig.id, new UnityCallBack3());
+        UIManager.Instance.panelSetting.SetActive(false);
+
+        UIManager.Instance.PushGiveGold("Waiting ..."); 
     }
 
 }

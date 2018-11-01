@@ -13,6 +13,8 @@ public class Ads : MonoBehaviour {
     bool isLoadAds = false;
     //bool isShowAds = false;
 
+    public GameObject panelPlane;
+
     [Header("Time")]
     public float timeAds = 1;
 
@@ -140,10 +142,20 @@ public class Ads : MonoBehaviour {
     #endregion
 
     #region ===UNITY ADS===
-    //void HidePanelInfo()
-    //{
-    //    WorldManager.Instance.panelInfo.SetActive(false);
-    //}
+    public void Btn_Plane()
+    {
+        panelPlane.SetActive(true);
+    }
+
+    public void SuccessPlaneReciveDollar()
+    {
+        panelPlane.SetActive(false);
+        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+        int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
+        long dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10 ;
+        GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
+        UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");     
+    }
 
     public void SuccessAdsUnity()
     {
