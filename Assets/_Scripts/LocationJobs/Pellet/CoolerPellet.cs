@@ -45,7 +45,7 @@ public class CoolerPellet : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -146,7 +146,7 @@ public class CoolerPellet : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

@@ -47,7 +47,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -137,7 +137,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

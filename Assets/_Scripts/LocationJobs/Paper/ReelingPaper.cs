@@ -40,7 +40,7 @@ public class ReelingPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             cart.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -128,7 +128,7 @@ public class ReelingPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             cart.gameObject.SetActive(false);
             notification.SetActive(true);
         }

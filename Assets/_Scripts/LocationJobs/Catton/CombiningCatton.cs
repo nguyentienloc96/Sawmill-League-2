@@ -45,7 +45,7 @@ public class CombiningCatton : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -135,7 +135,7 @@ public class CombiningCatton : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

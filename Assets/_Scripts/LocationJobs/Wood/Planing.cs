@@ -41,7 +41,7 @@ public class Planing : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             HideTree();
             notification.SetActive(true);
         }
@@ -131,7 +131,7 @@ public class Planing : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree[random].SetActive(false);
             notification.SetActive(true);
         }

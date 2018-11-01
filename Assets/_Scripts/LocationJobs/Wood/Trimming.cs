@@ -34,6 +34,7 @@ public class Trimming : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        cart.localPosition = new Vector3(-4f, 0f, 0f);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
@@ -41,7 +42,7 @@ public class Trimming : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             HideTree();
             notification.SetActive(true);
         }
@@ -131,7 +132,7 @@ public class Trimming : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree[random].SetActive(false);
             notification.SetActive(true);
         }

@@ -46,7 +46,7 @@ public class Painting : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             notification.SetActive(true);
         }
     }
@@ -198,7 +198,7 @@ public class Painting : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             notification.SetActive(true);
         }
     }

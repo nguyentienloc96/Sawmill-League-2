@@ -48,7 +48,7 @@ public class PressingDryingPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             paper.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -167,6 +167,7 @@ public class PressingDryingPaper : MonoBehaviour
             {
                 paper.gameObject.SetActive(false);
                 notification.SetActive(true);
+                isStop = true;
             }
         });
     }

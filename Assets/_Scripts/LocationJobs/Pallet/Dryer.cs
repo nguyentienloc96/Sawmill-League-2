@@ -40,7 +40,7 @@ public class Dryer : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.SetActive(false);
             notification.SetActive(true);
         }
@@ -136,7 +136,7 @@ public class Dryer : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.SetActive(false);
             notification.SetActive(true);
         }

@@ -42,7 +42,7 @@ public class DeLigninPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -130,7 +130,7 @@ public class DeLigninPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

@@ -41,7 +41,7 @@ public class MillPellet : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             notification.SetActive(true);
         }
     }
@@ -126,7 +126,7 @@ public class MillPellet : MonoBehaviour
             }
             else
             {
-                isStop = false;
+                isStop = true;
                 notification.SetActive(true);
             }
         });

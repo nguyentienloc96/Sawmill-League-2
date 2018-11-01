@@ -39,7 +39,7 @@ public class PlanningHDF : MonoBehaviour {
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -123,7 +123,7 @@ public class PlanningHDF : MonoBehaviour {
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

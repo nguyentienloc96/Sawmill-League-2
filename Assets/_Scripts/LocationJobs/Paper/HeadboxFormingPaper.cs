@@ -48,7 +48,7 @@ public class HeadboxFormingPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -156,6 +156,7 @@ public class HeadboxFormingPaper : MonoBehaviour
             {
                 tree.gameObject.SetActive(false);
                 notification.SetActive(true);
+                isStop = true;
             }
         });
 

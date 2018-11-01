@@ -41,7 +41,7 @@ public class PressingHDF : MonoBehaviour {
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -129,7 +129,7 @@ public class PressingHDF : MonoBehaviour {
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }

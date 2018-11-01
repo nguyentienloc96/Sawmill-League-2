@@ -48,7 +48,7 @@ public class ChipperPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             tree.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -149,6 +149,7 @@ public class ChipperPaper : MonoBehaviour
             {
                 tree.gameObject.SetActive(false);
                 notification.SetActive(true);
+                isStop = true;
             }
         });
     }

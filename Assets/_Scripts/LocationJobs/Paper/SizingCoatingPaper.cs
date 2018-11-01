@@ -52,7 +52,7 @@ public class SizingCoatingPaper : MonoBehaviour
         }
         else
         {
-            isStop = false;
+            isStop = true;
             paper.gameObject.SetActive(false);
             notification.SetActive(true);
         }
@@ -155,6 +155,7 @@ public class SizingCoatingPaper : MonoBehaviour
             {
                 paper.gameObject.SetActive(false);
                 notification.SetActive(true);
+                isStop =true;
             }
         });
     }
