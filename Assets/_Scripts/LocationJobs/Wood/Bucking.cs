@@ -34,6 +34,8 @@ public class Bucking : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        cart.localPosition = new Vector3(-2f, 0f, 0f);
+        tree.localPosition = Vector3.zero;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             notification.SetActive(false);
@@ -54,12 +56,12 @@ public class Bucking : MonoBehaviour
         {
             if (isRun)
             {
-                if (Input.mousePosition.y > posDown.y)
+                if (Input.mousePosition.x > posDown.x)
                 {
-                    float dis = Input.mousePosition.y - posDown.y;
-                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    float dis = Input.mousePosition.x - posDown.x;
+                    cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
                 }
-                if (cart.position.y > posCheck.y)
+                if (cart.position.x > posCheck.x)
                 {
                     CompleteJob();
                 }
@@ -119,37 +121,32 @@ public class Bucking : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        tree.GetChild(0).GetChild(0).DOLocalMove(new Vector3(0f, 3f, 0f), 0.5f).OnComplete(() =>
+        tree.GetChild(0).GetChild(0).DOLocalMove(new Vector3(3f, 0f, 0f), 0.5f).OnComplete(() =>
         {
-            tree.GetChild(0).GetChild(0).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(()=> tree.GetChild(0).GetChild(0).gameObject.SetActive(false));
-            tree.GetChild(0).GetChild(1).DOLocalMove(new Vector3(0f, 3f, 0f), 0.5f).OnComplete(() =>
+            tree.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            tree.GetChild(0).GetChild(1).DOLocalMove(new Vector3(3f, 0f, 0f), 0.5f).OnComplete(() =>
             {
-                tree.GetChild(0).GetChild(1).DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90, -45)), 0.5f).OnComplete(() =>
-                {
-                    GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-                    tree.GetChild(0).GetChild(0).localPosition = 
-                        tree.GetChild(0).GetChild(1).localPosition =
-                        tree.GetChild(0).GetChild(0).localEulerAngles = 
-                        tree.GetChild(0).GetChild(1).localEulerAngles = Vector3.zero;
-                        tree.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                    cart.localPosition = new Vector3(-4f, 0f, 0f);
-                    tree.localPosition = Vector3.zero;
-                    isInput = false;
+                GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+                tree.GetChild(0).GetChild(0).localPosition =
+                    tree.GetChild(0).GetChild(1).localPosition = Vector3.zero;
+                tree.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                cart.localPosition = new Vector3(-2f, 0f, 0f);
+                tree.localPosition = Vector3.zero;
+                isInput = false;
 
-                    if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
-                    {
-                        LoadInput();
-                    }
-                    else
-                    {
-                        isStop = true;
-                        tree.gameObject.SetActive(false);
-                        notification.SetActive(true);
-                    }
-                });
+                if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+                {
+                    LoadInput();
+                }
+                else
+                {
+                    isStop = true;
+                    tree.gameObject.SetActive(false);
+                    notification.SetActive(true);
+                }
             });
         });
-        
+
     }
 
     public void Help()
