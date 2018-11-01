@@ -2,7 +2,8 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class AutoPlant : MonoBehaviour {
+public class AutoPlant : MonoBehaviour
+{
 
     public Text txtInfo;
     public Button btnYes;
@@ -14,12 +15,12 @@ public class AutoPlant : MonoBehaviour {
         btnYes.onClick.AddListener(() =>
         {
             actionYes();
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         });
     }
 
     public void btnNo()
     {
-        Destroy(gameObject);
+        this.gameObject.SetActive(false);
     }
 }

@@ -170,14 +170,6 @@ public class DataPlayer : MonoBehaviour
             location.forest.isAutoPlant = lsData[i]["forest"]["isAutoPlant"].AsBool;
             location.forest.forestClass.LoadTree();
 
-            if ((i + 1) != lsData.Count && location.countType >= 0)
-            {
-                if (!location.forest.isAutoPlant)
-                {
-                    location.forest.btnAutoPlant.interactable = true;
-                }
-            }
-
             var lsWorking = lsData[i]["lsWorking"].AsArray;
             for (int j = 0; j < lsWorking.Count; j++)
             {
@@ -222,6 +214,33 @@ public class DataPlayer : MonoBehaviour
                     }
                 }
             }
+
+            yield return new WaitUntil(() => location.lsWorking[0].price != 0);
+
+            if (!location.forest.isAutoPlant)
+            {
+                if (location.forest.isOnBtnAutoPlant)
+                {
+                    if (GameManager.Instance.dollar >= (long)(location.lsWorking[0].price * GameConfig.Instance.AutoPlant))
+                    {
+                        location.forest.btnAutoPlant.interactable = true;
+                    }
+                    else
+                    {
+                        location.forest.btnAutoPlant.interactable = false;
+                    }
+                }
+                else
+                {
+                    location.forest.btnAutoPlant.interactable = false;
+                }
+            }
+            else
+            {
+                location.forest.btnAutoPlant.interactable = false;
+                location.forest.btnAutoPlant.gameObject.SetActive(false);
+            }
+
             if (!isFirst)
             {
                 if (UIManager.Instance.isContinue)

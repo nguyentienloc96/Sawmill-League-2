@@ -40,6 +40,13 @@ public class Forest : MonoBehaviour
             }
             isGrowed = true;
         }
+        else
+        {
+            if (location.forest.isAutoPlant)
+            {
+                RunCarGrow();
+            }
+        }
     }
 
     public void ResetForest()

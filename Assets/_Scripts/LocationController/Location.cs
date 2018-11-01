@@ -388,6 +388,9 @@ public class Location : MonoBehaviour
                 int indexLsLocation = GameManager.Instance.lsLocation.Count;
                 GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
                 UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
+            }
+            if (countType == 0)
+            {
                 forest.isOnBtnAutoPlant = true;
             }
         }
@@ -516,23 +519,9 @@ public class Location : MonoBehaviour
 
         if (!forest.isAutoPlant && forest.isOnBtnAutoPlant)
         {
-            if (id + 1 < GameManager.Instance.lsLocation.Count)
+            if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
             {
-                if (GameManager.Instance.lsLocation[id + 1].countType >= 0)
-                {
-                    if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
-                    {
-                        forest.btnAutoPlant.interactable = true;
-                    }
-                    else
-                    {
-                        forest.btnAutoPlant.interactable = false;
-                    }
-                }
-                else
-                {
-                    forest.btnAutoPlant.interactable = false;
-                }
+                forest.btnAutoPlant.interactable = true;
             }
             else
             {
@@ -549,6 +538,7 @@ public class Location : MonoBehaviour
     public void AutoPlant()
     {
         string str = "Do you want to spend " + UIManager.Instance.ConvertNumber((long)(lsWorking[0].price * GameConfig.Instance.AutoPlant)) + "$ On Auto Reforestation in " + nameLocation;
+        UIManager.Instance.PopupAutoPlant.SetActive(true);
         UIManager.Instance.PopupAutoPlant.GetComponent<AutoPlant>().AutoPlant_Onclick(str, () =>
         {
             if (GameManager.Instance.dollar >= (long)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
@@ -557,6 +547,7 @@ public class Location : MonoBehaviour
                 forest.isAutoPlant = true;
                 forest.btnAutoPlant.interactable = false;
                 UIManager.Instance.PopupAutoPlant.SetActive(false);
+                forest.btnAutoPlant.gameObject.SetActive(false);
             }
         });
     }
