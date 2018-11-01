@@ -11,6 +11,7 @@ public class ReelingPaper : MonoBehaviour
     public Transform cart;
     public GameObject notification;
     public Animator anim;
+    public Animator animGear;
     public ParticleSystem particleEmissions;
     public GameObject tutorialHand;
     public Image imgBG;
@@ -78,6 +79,7 @@ public class ReelingPaper : MonoBehaviour
     {
         if (isInput)
         {
+            animGear.speed = 2f;
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
@@ -89,6 +91,7 @@ public class ReelingPaper : MonoBehaviour
 
     public void TapUp()
     {
+        animGear.speed = 1f;
         anim.enabled = false;
         particleEmissions.Stop();
         AudioManager.Instance.Stop("Debarking");

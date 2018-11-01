@@ -229,9 +229,9 @@ public class DataPlayer : MonoBehaviour
                     totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
                     if (totalTime > 0)
                     {
-                        if (totalTime * 10 > 100)
+                        if (totalTime > 10)
                             totalTime = 10;
-                        long adddollar = totalTime * 10 * location.lsWorking[location.countType].priceOutput;
+                        long adddollar = (long)((float)totalTime * 0.5f * (float)location.lsWorking[location.countType].priceOutput);
                         GameManager.Instance.dollar += adddollar;
                         GameManager.Instance.dollarGive += adddollar;
 

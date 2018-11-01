@@ -147,12 +147,12 @@ public class Location : MonoBehaviour
             int LevelHome = GameManager.Instance.sumHomeAll + i;
             lsWorking[i].UN2 = GameConfig.Instance.UN2;
             lsWorking[i].price = (long)(GameConfig.Instance.p0 * Mathf.Pow(GameConfig.Instance.p0i, LevelHome));
-            lsWorking[i].maxOutputMade = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
-            lsWorking[i].maxOutputMadeStart = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, i));
+            lsWorking[i].maxOutputMade = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, LevelHome));
+            lsWorking[i].maxOutputMadeStart = (long)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, LevelHome));
             lsWorking[i].priceUpgrade = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
             lsWorking[i].priceUpgradeStart = (long)(lsWorking[i].price * GameConfig.Instance.UN1i);
-            lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
-            lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, i));
+            lsWorking[i].priceTruckSent = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, LevelHome));
+            lsWorking[i].priceTruckSentStart = (long)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, LevelHome));
             lsWorking[i].priceOutput = (long)GameConfig.Instance.productCost;
             lsWorking[i].maxSent = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
             lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
