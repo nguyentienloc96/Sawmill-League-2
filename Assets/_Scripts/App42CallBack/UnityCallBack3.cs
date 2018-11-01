@@ -14,10 +14,12 @@ public class UnityCallBack3 : App42CallBack
         GameManager.Instance.gold = saveGold.gold;
         PlayerPrefs.SetInt("GoldPre", PlayerPrefs.GetInt("Gold", 10));
         Debug.Log(GameManager.Instance.gold);
+
+        UIManager.Instance.PushGiveGold("The restore process has completed successfully !");     
         //Mng.mng.ui.loading.SetActive(false);
     }
     public void OnException(Exception e)
     {
-        //Mng.mng.ui.loading.SetActive(false);
+        UIManager.Instance.PushGiveGold("Try again !"); 
     }
 }
