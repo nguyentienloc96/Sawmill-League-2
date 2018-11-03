@@ -156,6 +156,19 @@ public class Forest : MonoBehaviour
                     {
                         isGrowed = true;
                         location.forest.tree = lsTree.Length;
+                        if (PlayerPrefs.GetInt("isTutorial") == 0)
+                        {
+                            UIManager.Instance.isClickHome = true;
+                            if (!UIManager.Instance.popupTutorial.activeInHierarchy)
+                            {
+                                UIManager.Instance.popupTutorial.SetActive(true);
+                            }
+                            if (UIManager.Instance.objTutorial != null)
+                            {
+                                Destroy(UIManager.Instance.objTutorial);
+                            }
+                            UIManager.Instance.ControlHandTutorial(location.lsWorking[0].icon.transform);
+                        }
                     });
             }
             else

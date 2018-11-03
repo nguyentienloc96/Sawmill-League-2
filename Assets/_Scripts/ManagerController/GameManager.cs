@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
             return;
         Instance = this;
         LoadDate();
+        //PlayerPrefs.DeleteAll();
     }
 
     public void LoadDate()

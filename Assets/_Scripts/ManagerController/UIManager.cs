@@ -27,6 +27,10 @@ public class UIManager : MonoBehaviour
     public void Start()
     {
         scene = TypeScene.HOME;
+        if (!PlayerPrefs.HasKey("isTutorial"))
+        {
+            PlayerPrefs.SetInt("isTutorial", 0);
+        }
         if (!PlayerPrefs.HasKey("Continue"))
         {
             PlayerPrefs.SetInt("Continue", 0);
@@ -96,6 +100,20 @@ public class UIManager : MonoBehaviour
     public Button btnSell;
     public Button btnUpgradeJob;
     public Button btnUpgradeTrunk;
+    public Button btnNoUpgradeJob;
+    public Button btnNoUpgradeTrunk;
+
+
+    [Header("Tutorial")]
+    public GameObject popupTutorial;
+    public Transform handTutorial;
+    public GameObject objTutorial;
+    public Transform btnUpgradeTutorial;
+    public Transform btnFellingTutorial;
+    public Transform btnCloseFellingTutorial;
+    public bool isClickHome;
+    public bool isClickTrunk;
+    public float speedTrunkTutorial;
 
 
     public void Update()
@@ -150,6 +168,7 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
+            PlayerPrefs.SetInt("isTutorial", 0);
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
@@ -280,6 +299,14 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkST(indexType);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            ControlHandTutorial(btnUpgradeJob.transform);
+        }
     }
 
     public void UpgradeJobX10(bool x10)
@@ -316,6 +343,18 @@ public class UIManager : MonoBehaviour
             arrXTrunk[0].color = new Color32(255, 255, 255, 128);
             arrXTrunk[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTruckX10(indexType);
+            if (indexType == 0)
+            {
+                arrXTrunk[1].transform.GetChild(1).gameObject.SetActive(true);
+                if (PlayerPrefs.GetInt("isTutorial") == 0)
+                {
+                    if (objTutorial != null)
+                    {
+                        Destroy(objTutorial);
+                    }
+                    ControlHandTutorial(btnUpgradeTrunk.transform);
+                }
+            }
         }
     }
 
@@ -327,10 +366,28 @@ public class UIManager : MonoBehaviour
             JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
         else
             JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            ControlHandTutorial(btnNoUpgradeJob.transform);
+        }
     }
     public void NoUpgradeJob()
     {
         JobUpgrade.SetActive(false);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            ControlHandTutorial(btnFellingTutorial);
+            btnFellingTutorial.gameObject.SetActive(false);
+            objTutorial.GetComponent<Image>().raycastTarget = true;
+        }
     }
 
 
@@ -342,10 +399,33 @@ public class UIManager : MonoBehaviour
             TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
         else
             TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
+        if (indexType == 0)
+        {
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            {
+                if (objTutorial != null)
+                {
+                    Destroy(objTutorial);
+                }
+                ControlHandTutorial(btnNoUpgradeTrunk.transform);
+            }
+        }
     }
     public void NoUpgradeTruck()
     {
         TruckUpgrade.SetActive(false);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            if (UIManager.Instance.popupTutorial.activeInHierarchy)
+            {
+                UIManager.Instance.popupTutorial.SetActive(false);
+            }
+            PlayerPrefs.SetInt("isTutorial", 1);
+        }
     }
 
 
@@ -403,5 +483,23 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ClearLocation();
         ScenesManager.Instance.secenes[0].objects.SetActive(true);
         ScenesManager.Instance.currentScenes = 0;
+        if (PlayerPrefs.GetInt("Continue") == 0)
+        {
+            btncontinue.interactable = false;
+        }
+        else
+        {
+            btncontinue.interactable = true;
+        }
+    }
+
+    public void ControlHandTutorial(Transform obj)
+    {
+        Vector3 posObj = obj.position;
+        Transform tfObj = Instantiate(obj, popupTutorial.transform.GetChild(0));
+        objTutorial = tfObj.gameObject;
+        tfObj.SetAsFirstSibling();
+        tfObj.position = posObj;
+        handTutorial.position = posObj;
     }
 }

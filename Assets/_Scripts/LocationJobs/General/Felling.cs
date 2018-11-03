@@ -52,6 +52,17 @@ public class Felling : MonoBehaviour
             AudioManager.Instance.Stop("Saw");
             anim.SetBool("isFelling", false);
             isWaiting = false;
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            {
+                UIManager.Instance.btnFellingTutorial.gameObject.SetActive(true);
+                if (UIManager.Instance.objTutorial != null)
+                {
+                    Destroy(UIManager.Instance.objTutorial);
+                }
+                UIManager.Instance.ControlHandTutorial(
+                    UIManager.Instance.btnCloseFellingTutorial
+                );
+            }
         }
     }
 
@@ -70,6 +81,23 @@ public class Felling : MonoBehaviour
         else
         {
             notification.SetActive(true);
+        }
+    }
+
+    public void FellingTreeTutorial()
+    {
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            FellingTree();
+        }
+    }
+
+    public void CloseFelling()
+    {
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            UIManager.Instance.popupTutorial.SetActive(false);
+            UIManager.Instance.isClickTrunk = true;
         }
     }
 }

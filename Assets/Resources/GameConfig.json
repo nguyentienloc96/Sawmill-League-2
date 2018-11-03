@@ -29,7 +29,7 @@
   "captruckIndex": 4,
   "WYS": 0.3,
   "AutoPlant": 10,
-  "TruckSpeed": 0.7,
+  "TruckSpeed": 0.25,
   "TimeForest": 180,
   "MaxSentStartX5": 5,
   "kProductID50": "consumable",

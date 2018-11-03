@@ -175,7 +175,10 @@ public class Location : MonoBehaviour
         string stInfo = "";
         stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((long)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
+                + "Capacity : " + UIManager.Instance.ConvertNumber(
+                    (long)(((float)lsWorking[indexType].maxOutputMadeStart 
+                    * GameConfig.Instance.r 
+                    * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         UIManager.Instance.JobUpgrade.SetActive(true);
         UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
@@ -284,6 +287,18 @@ public class Location : MonoBehaviour
         UIManager.Instance.arrXTrunk[0].color = new Color32(255, 255, 255, 255);
         UIManager.Instance.arrXTrunk[1].color = new Color32(255, 255, 255, 128);
         UIManager.Instance.isTrunkX10 = false;
+        if (idType == 0)
+        {
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            {
+                GameConfig.Instance.TruckSpeed = UIManager.Instance.speedTrunkTutorial;
+                if (UIManager.Instance.objTutorial != null)
+                {
+                    Destroy(UIManager.Instance.objTutorial);
+                }
+                UIManager.Instance.ControlHandTutorial(UIManager.Instance.arrXTrunk[1].transform);
+            }
+        }
     }
     public string UpgradeInfoTruck(int idType)
     {
@@ -559,16 +574,29 @@ public class Location : MonoBehaviour
         indexType = idType;
         GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].miniGame.SetActive(true);
         lsWorking[indexType].isXJob = true;
+        if (PlayerPrefs.GetInt("isTutorial") == 0 && UIManager.Instance.isClickHome)
+        {
+            if (UIManager.Instance.objTutorial != null)
+            {
+                Destroy(UIManager.Instance.objTutorial);
+            }
+            UIManager.Instance.ControlHandTutorial(UIManager.Instance.btnUpgradeTutorial);
+            UIManager.Instance.isClickHome = false;
+        }
     }
     public void HomeOnclick(int idType)
     {
         indexType = idType;
         if (countType >= idType)
         {
+            if (PlayerPrefs.GetInt("isTutorial") == 0 && !UIManager.Instance.isClickHome)
+                return;
             WordYourSelf(idType);
         }
         else if (countType + 1 == idType)
         {
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+                return;
             UIManager.Instance.isJobX10 = false;
             string str = lsWorking[idType].name + " \nPrice : " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
             UIManager.Instance.JobSell.transform.GetChild(0).GetComponent<Text>().text = str;

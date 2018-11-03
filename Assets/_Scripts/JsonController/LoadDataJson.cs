@@ -18,7 +18,8 @@ public class LoadDataJson : MonoBehaviour
 
     private string gameConfig = "GameConfig";
 
-    void Start () {
+    void Start()
+    {
         LoadGameConfig();
         Ads.Instance.RequestAd();
         Ads.Instance.RequestBanner();
@@ -60,6 +61,7 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.WYS = objJson["WYS"].AsFloat;
             GameConfig.Instance.AutoPlant = objJson["AutoPlant"].AsFloat;
             GameConfig.Instance.TruckSpeed = objJson["TruckSpeed"].AsFloat;
+            UIManager.Instance.speedTrunkTutorial = objJson["TruckSpeed"].AsFloat;
             GameConfig.Instance.TimeForest = objJson["TimeForest"].AsFloat;
             GameConfig.Instance.MaxSentStartX5 = objJson["MaxSentStartX5"].AsInt;
             GameConfig.Instance.idInter_android = objJson["idInter_android"];
@@ -92,7 +94,7 @@ public class LoadDataJson : MonoBehaviour
                 //PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) - 5);
                 GameManager.Instance.gold -= 5;
                 dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-                GameManager.Instance.dollar += dollarRecive; 
+                GameManager.Instance.dollar += dollarRecive;
                 //gold.text = SetNumberString(PlayerPrefs.GetInt("Gold", 10));
             }
             else
@@ -122,7 +124,7 @@ public class LoadDataJson : MonoBehaviour
         storageService.FindDocumentByKeyValue("Db", "Data", "id", GameConfig.id, new UnityCallBack3());
         UIManager.Instance.panelSetting.SetActive(false);
 
-        UIManager.Instance.PushGiveGold("Waiting ..."); 
+        UIManager.Instance.PushGiveGold("Waiting ...");
     }
 
 }
