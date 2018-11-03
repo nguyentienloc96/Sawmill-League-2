@@ -32,7 +32,7 @@ public class Felling : MonoBehaviour
             if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
             {
                 tutorialHand.SetActive(false);
-                AudioManager.Instance.PlayOneShot("Felling");
+                AudioManager.Instance.PlayOneShot("Saw");
                 anim.SetBool("isFelling", true);
                 isWaiting = true;
             }
@@ -49,6 +49,7 @@ public class Felling : MonoBehaviour
             {
                 notification.SetActive(true);
             }
+            AudioManager.Instance.Stop("Saw");
             anim.SetBool("isFelling", false);
             isWaiting = false;
         }
