@@ -70,6 +70,7 @@ public class Location : MonoBehaviour
     public int countType;
     [HideInInspector]
     public int makerType;
+    public Text txtNameForest;
     public ForestST forest;
     public TypeOfWorkST[] lsWorking;
 
@@ -120,6 +121,7 @@ public class Location : MonoBehaviour
         {
             lsWorking[lsWorking.Length - 1].anim.SetFloat("indexMaker", makerType);
         }
+        txtNameForest.text = UIManager.Instance.lsNameForest[id];
     }
     public IEnumerator IELoadLocationJson()
     {
@@ -139,6 +141,7 @@ public class Location : MonoBehaviour
         {
             lsWorking[lsWorking.Length - 1].anim.SetFloat("indexMaker", makerType);
         }
+        txtNameForest.text = UIManager.Instance.lsNameForest[id];
     }
     public void LoadInfoTypeOfWorkST()
     {
@@ -176,8 +179,8 @@ public class Location : MonoBehaviour
         stInfo = lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].level + 1) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber(
-                    (long)(((float)lsWorking[indexType].maxOutputMadeStart 
-                    * GameConfig.Instance.r 
+                    (long)(((float)lsWorking[indexType].maxOutputMadeStart
+                    * GameConfig.Instance.r
                     * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
                 + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
         UIManager.Instance.JobUpgrade.SetActive(true);
@@ -404,9 +407,10 @@ public class Location : MonoBehaviour
                 GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
                 UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             }
-            if (countType == 0)
+            if (id > 0 && countType == 0)
             {
-                forest.isOnBtnAutoPlant = true;
+                GameManager.Instance.lsLocation[id - 1].forest.btnAutoPlant.gameObject.SetActive(true);
+                GameManager.Instance.lsLocation[id - 1].forest.isOnBtnAutoPlant = true;
             }
         }
     }
@@ -545,7 +549,7 @@ public class Location : MonoBehaviour
         }
         else
         {
-            forest.btnAutoPlant.interactable = false;
+            forest.btnAutoPlant.gameObject.SetActive(false);
         }
     }
 

@@ -75,6 +75,11 @@ public class Forest : MonoBehaviour
         if (!location.forest.isAutoPlant && location.countType >= 0)
         {
             RunCarGrow();
+            if (PlayerPrefs.GetInt("isTutorial") == 0 && !UIManager.Instance.isClickCarGrow)
+            {
+                UIManager.Instance.panelWaitGrow.SetActive(true);
+                UIManager.Instance.isClickCarGrow = true;
+            }
         }
     }
 
@@ -158,6 +163,7 @@ public class Forest : MonoBehaviour
                         location.forest.tree = lsTree.Length;
                         if (PlayerPrefs.GetInt("isTutorial") == 0)
                         {
+                            UIManager.Instance.panelWaitGrow.SetActive(false);
                             UIManager.Instance.isClickHome = true;
                             if (!UIManager.Instance.popupTutorial.activeInHierarchy)
                             {

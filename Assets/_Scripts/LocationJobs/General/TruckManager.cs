@@ -65,23 +65,6 @@ public class TruckManager : MonoBehaviour
                     truck.transform.position = Vector3.MoveTowards(truck.transform.position, way[indexPos + 1].transform.position, GameConfig.Instance.TruckSpeed * Time.deltaTime);
                     if (truck.transform.position == way[indexPos + 1].transform.position)
                     {
-                        if (indexType == 0 && indexPos == 3)
-                        {
-                            if (PlayerPrefs.GetInt("isTutorial") == 0 && UIManager.Instance.isClickTrunk)
-                            {
-                                GameConfig.Instance.TruckSpeed = 0;
-                                if (!UIManager.Instance.popupTutorial.activeInHierarchy)
-                                {
-                                    UIManager.Instance.popupTutorial.SetActive(true);
-                                }
-                                if (UIManager.Instance.objTutorial != null)
-                                {
-                                    Destroy(UIManager.Instance.objTutorial);
-                                }
-                                UIManager.Instance.ControlHandTutorial(location.lsWorking[0].truckManager.truck.transform);
-                                UIManager.Instance.isClickTrunk = false;
-                            }
-                        }
                         indexPos++;
                         if (indexPos + 1 < way.Length)
                         {
@@ -204,6 +187,23 @@ public class TruckManager : MonoBehaviour
                             isRetrograde = false;
                             SentedOutput();
                         }
+                    }
+                }
+                if (indexType == 0 && indexPos == 3)
+                {
+                    if (PlayerPrefs.GetInt("isTutorial") == 0 && UIManager.Instance.isClickTrunk)
+                    {
+                        GameConfig.Instance.TruckSpeed = 0;
+                        if (!UIManager.Instance.popupTutorial.activeInHierarchy)
+                        {
+                            UIManager.Instance.popupTutorial.SetActive(true);
+                        }
+                        if (UIManager.Instance.objTutorial != null)
+                        {
+                            Destroy(UIManager.Instance.objTutorial);
+                        }
+                        UIManager.Instance.ControlHandTutorial(location.lsWorking[0].truckManager.truck.transform);
+                        UIManager.Instance.isClickTrunk = false;
                     }
                 }
             }

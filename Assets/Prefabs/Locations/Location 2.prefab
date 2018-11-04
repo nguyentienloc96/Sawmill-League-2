@@ -4735,7 +4735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1886195130880814
 GameObject:
   m_ObjectHideFlags: 1
@@ -8474,9 +8474,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 651241fcaa9c17b46820678106e9c22a, type: 3}
     m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
-    m_MaxSize: 40
+    m_MaxSize: 25
     m_Alignment: 4
     m_AlignByGeometry: 1
     m_RichText: 1
@@ -12215,6 +12215,7 @@ MonoBehaviour:
   indexTypeWork: 2
   countType: -1
   makerType: 0
+  txtNameForest: {fileID: 114345251996010100}
   forest:
     tree: 0
     forestClass: {fileID: 114286658342744564}

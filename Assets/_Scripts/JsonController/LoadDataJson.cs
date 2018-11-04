@@ -86,7 +86,11 @@ public class LoadDataJson : MonoBehaviour
         if (GameManager.Instance.gold > 0)
         {
             int locationEnd = GameManager.Instance.lsLocation.Count - 1;
-            int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
+            int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            if(jobEnd == -1){
+                locationEnd --;
+                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            }
             long dollarRecive = 0;
             if (GameManager.Instance.gold >= 5)
             {

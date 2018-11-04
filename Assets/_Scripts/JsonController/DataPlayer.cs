@@ -221,6 +221,7 @@ public class DataPlayer : MonoBehaviour
             {
                 if (location.forest.isOnBtnAutoPlant)
                 {
+                    location.forest.btnAutoPlant.gameObject.SetActive(true);
                     if (GameManager.Instance.dollar >= (long)(location.lsWorking[0].price * GameConfig.Instance.AutoPlant))
                     {
                         location.forest.btnAutoPlant.interactable = true;
@@ -230,15 +231,6 @@ public class DataPlayer : MonoBehaviour
                         location.forest.btnAutoPlant.interactable = false;
                     }
                 }
-                else
-                {
-                    location.forest.btnAutoPlant.interactable = false;
-                }
-            }
-            else
-            {
-                location.forest.btnAutoPlant.interactable = false;
-                location.forest.btnAutoPlant.gameObject.SetActive(false);
             }
 
             if (!isFirst)

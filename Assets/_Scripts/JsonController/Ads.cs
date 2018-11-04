@@ -5,7 +5,8 @@ using GoogleMobileAds.Api;
 using UnityEngine.UI;
 //using UnityEngine.Advertisements;
 
-public class Ads : MonoBehaviour {
+public class Ads : MonoBehaviour
+{
     [Header("Admob")]
     InterstitialAd interstitalAd;
     BannerView bannerView;
@@ -69,15 +70,15 @@ public class Ads : MonoBehaviour {
                 Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
             }
 #else
-            GameConfig.Instance.idInter_android = "ca-app-pub-6285794272989840/5632501293"; //test
-            if (!isLoadAds && GameConfig.Instance.idInter_android != null)
-            {
-                interstitalAd = new InterstitialAd(GameConfig.Instance.idInter_android);
-                AdRequest requestInterAd = new AdRequest.Builder().Build();
-                interstitalAd.LoadAd(requestInterAd);
-                isLoadAds = true;
-                Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
-            }
+        GameConfig.Instance.idInter_android = "ca-app-pub-6285794272989840/5632501293"; //test
+        if (!isLoadAds && GameConfig.Instance.idInter_android != null)
+        {
+            interstitalAd = new InterstitialAd(GameConfig.Instance.idInter_android);
+            AdRequest requestInterAd = new AdRequest.Builder().Build();
+            interstitalAd.LoadAd(requestInterAd);
+            isLoadAds = true;
+            Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
+        }
 #endif
 
     }
@@ -151,10 +152,15 @@ public class Ads : MonoBehaviour {
     {
         panelPlane.SetActive(false);
         int locationEnd = GameManager.Instance.lsLocation.Count - 1;
-        int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
-        long dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10 ;
+        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        if (jobEnd == -1)
+        {
+            locationEnd--;
+            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        }
+        long dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
-        UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");     
+        UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
     }
 
     public void SuccessAdsUnity()

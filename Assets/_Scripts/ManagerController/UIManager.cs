@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
     [Header("Location")]
     public List<LocationUI> lsLocationUI;
     public List<Button> lsBtnLocationUI;
+    public List<string> lsNameForest;
 
     [Header("BuildWork")]
     public GameObject JobSell;
@@ -111,8 +112,11 @@ public class UIManager : MonoBehaviour
     public Transform btnUpgradeTutorial;
     public Transform btnFellingTutorial;
     public Transform btnCloseFellingTutorial;
+    public GameObject panelWaitGrow;
+
     public bool isClickHome;
     public bool isClickTrunk;
+    public bool isClickCarGrow;
     public float speedTrunkTutorial;
 
 
@@ -169,6 +173,7 @@ public class UIManager : MonoBehaviour
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
             PlayerPrefs.SetInt("isTutorial", 0);
+            GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = false;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
@@ -424,6 +429,7 @@ public class UIManager : MonoBehaviour
             {
                 UIManager.Instance.popupTutorial.SetActive(false);
             }
+            GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = true;
             PlayerPrefs.SetInt("isTutorial", 1);
         }
     }
