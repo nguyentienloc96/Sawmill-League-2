@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
     public Text txtGold;
     public GameObject panelDollar;
     public GameObject panelGold;
+    public Text txtDollarVideoAds;
+    public Text txtDollarRecive;
 
     [Header("Setting")]
     public GameObject panelSetting;
@@ -173,8 +175,10 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
-            //PlayerPrefs.SetInt("isTutorial", 0);
-            GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = false;
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            {
+                GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = false;
+            }
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
@@ -242,27 +246,76 @@ public class UIManager : MonoBehaviour
     {
         number = System.Math.Floor(number);
         string smoney = string.Format("{0:0}", number);
-
-        if (smoney.Length >= 5 && smoney.Length < 9)
+        if (smoney.Length >= 4 && smoney.Length < 8)
         {
-            smoney = smoney.Substring(0, smoney.Length - 4);
+            smoney = smoney.Substring(0, smoney.Length - 3);
             smoney = smoney + "k";
         }
-        else if (smoney.Length >= 9 && smoney.Length < 13)
+        else if (smoney.Length >= 8 && smoney.Length < 12)
         {
-            smoney = smoney.Substring(0, smoney.Length - 8);
+            smoney = smoney.Substring(0, smoney.Length - 7);
             smoney = smoney + "M";
 
         }
-        else if (smoney.Length >= 13 && smoney.Length < 17)
+        else if (smoney.Length >= 12 && smoney.Length < 16)
         {
-            smoney = smoney.Substring(0, smoney.Length - 12);
+            smoney = smoney.Substring(0, smoney.Length - 11);
             smoney = smoney + "B";
         }
-        else if (smoney.Length >= 17)
+        else if (smoney.Length >= 16 && smoney.Length < 20)
         {
-            smoney = smoney.Substring(0, smoney.Length - 16);
-            smoney = smoney + "kB";
+            smoney = smoney.Substring(0, smoney.Length - 15);
+            smoney = smoney + "T";
+        }
+        else if (smoney.Length >= 20 && smoney.Length < 24)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 19);
+            smoney = smoney + "aa";
+        }
+        else if (smoney.Length >= 24 && smoney.Length < 28)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 23);
+            smoney = smoney + "ab";
+        }
+        else if (smoney.Length >= 28 && smoney.Length < 32)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 27);
+            smoney = smoney + "ab";
+        }
+        else if (smoney.Length >= 32 && smoney.Length < 36)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 31);
+            smoney = smoney + "ac";
+        }
+        else if (smoney.Length >= 36 && smoney.Length < 40)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 35);
+            smoney = smoney + "ad";
+        }
+        else if (smoney.Length >= 40 && smoney.Length < 44)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 39);
+            smoney = smoney + "ae";
+        }
+        else if (smoney.Length >= 44 && smoney.Length < 48)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 43);
+            smoney = smoney + "af";
+        }
+        else if (smoney.Length >= 48 && smoney.Length < 52)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 47);
+            smoney = smoney + "ag";
+        }
+        else if (smoney.Length >= 52 && smoney.Length < 56)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 51);
+            smoney = smoney + "ai";
+        }
+        else if (smoney.Length >= 56)
+        {
+            smoney = smoney.Substring(0, smoney.Length - 55);
+            smoney = smoney + "ak";
         }
         return smoney;
     }
@@ -322,6 +375,7 @@ public class UIManager : MonoBehaviour
 
     public void YesUpgradeJob()
     {
+        AudioManager.Instance.Play("Click");
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isJobX10)
@@ -340,6 +394,7 @@ public class UIManager : MonoBehaviour
     }
     public void NoUpgradeJob()
     {
+        AudioManager.Instance.Play("Click");
         JobUpgrade.SetActive(false);
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
@@ -350,13 +405,14 @@ public class UIManager : MonoBehaviour
             ControlHandTutorial(btnFellingTutorial);
             btnFellingTutorial.gameObject.SetActive(false);
             objTutorial.GetComponent<Image>().raycastTarget = true;
-            txtWait.text = "Tap the tree to felling";
+            txtWait.text = "Tap to work yourself";
         }
     }
 
 
     public void YesUpgradeTruck()
     {
+        AudioManager.Instance.Play("Click");
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isTrunkX10)
@@ -378,6 +434,7 @@ public class UIManager : MonoBehaviour
     }
     public void NoUpgradeTruck()
     {
+        AudioManager.Instance.Play("Click");
         TruckUpgrade.SetActive(false);
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
@@ -421,12 +478,31 @@ public class UIManager : MonoBehaviour
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         GameManager.Instance.lsTypeMiniGame[GameManager.Instance.lsLocation[id].indexTypeWork].lsMiniGame[indexType].miniGame.SetActive(false);
         GameManager.Instance.lsLocation[id].lsWorking[indexType].isXJob = false;
+        AudioManager.Instance.Stop("Felling");
+        AudioManager.Instance.Stop("Drill");
+        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Saw");
+        AudioManager.Instance.Stop("Painting");
+        AudioManager.Instance.Stop("Water");
+        AudioManager.Instance.Stop("Polish");
     }
 
     public void ShowPanelDollar()
     {
         if (!panelDollar.activeSelf)
+        {
             panelDollar.SetActive(true);
+            int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+            int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            if (jobEnd == -1)
+            {
+                locationEnd--;
+                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            }
+            double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+            txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+            txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+        }
         else
             panelDollar.SetActive(false);
     }

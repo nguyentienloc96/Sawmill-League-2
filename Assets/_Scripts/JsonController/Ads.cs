@@ -35,7 +35,7 @@ public class Ads : MonoBehaviour
     {
         //PlayerPrefs.DeleteAll();
         // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize("ca-app-pub-4738062221647171~1956094015");
+        MobileAds.Initialize("ca-app-pub-4738062221647171~1836833926");
         //RequestAd();
         MobileAds.SetiOSAppPauseOnBackground(true);
     }
@@ -156,8 +156,8 @@ public class Ads : MonoBehaviour
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
         double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-        txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
-        txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+        txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+        txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
     }
 
     public void SuccessPlaneReciveDollar()
@@ -173,6 +173,7 @@ public class Ads : MonoBehaviour
         double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
+        panelPlane.SetActive(false);
     }
 
     public void SuccessAdsUnity()
@@ -185,9 +186,10 @@ public class Ads : MonoBehaviour
             locationEnd--;
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        double dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price * 5;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
+        panelPlane.SetActive(false);
     }
     #endregion
 }

@@ -280,7 +280,7 @@ public class Location : MonoBehaviour
             return;
         indexType = idType;
         string stInfo = "";
-        stInfo = "Truck " + lsWorking[indexType].name + "\n"
+        stInfo = "Truck-" + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
@@ -319,7 +319,7 @@ public class Location : MonoBehaviour
             lsWorking[indexType].priceTruckSent = (double)((float)lsWorking[indexType].priceTruckSentStart * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
             lsWorking[indexType].priceUpgradeTruck = (double)((float)lsWorking[indexType].priceUpgradeTruckStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
 
-            stInfo = "Truck " + lsWorking[indexType].name + "\n"
+            stInfo = "Truck-" + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
@@ -343,7 +343,7 @@ public class Location : MonoBehaviour
             priceUpgradeTruckTotal += (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
         }
         string stInfo = "";
-        stInfo = "Truck " + lsWorking[indexType].name + "\n"
+        stInfo = "Truck-" + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
             + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
@@ -378,7 +378,7 @@ public class Location : MonoBehaviour
             {
                 priceUpgradeTruckTotal += (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
             }
-            stInfo = "Truck " + lsWorking[indexType].name + "\n"
+            stInfo = "Truck-" + lsWorking[indexType].name + "\n"
                 + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
                 + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
                 + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
