@@ -123,6 +123,8 @@ public class UIManager : MonoBehaviour
     public bool isOnClickTrunk;
     public float speedTrunkTutorial;
 
+    public string[] arrAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+
 
     public void Update()
     {
@@ -268,55 +270,20 @@ public class UIManager : MonoBehaviour
             smoney = smoney.Substring(0, smoney.Length - 15);
             smoney = smoney + "T";
         }
-        else if (smoney.Length >= 20 && smoney.Length < 24)
+        else if (smoney.Length >= 20)
         {
-            smoney = smoney.Substring(0, smoney.Length - 19);
-            smoney = smoney + "aa";
-        }
-        else if (smoney.Length >= 24 && smoney.Length < 28)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 23);
-            smoney = smoney + "ab";
-        }
-        else if (smoney.Length >= 28 && smoney.Length < 32)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 27);
-            smoney = smoney + "ab";
-        }
-        else if (smoney.Length >= 32 && smoney.Length < 36)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 31);
-            smoney = smoney + "ac";
-        }
-        else if (smoney.Length >= 36 && smoney.Length < 40)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 35);
-            smoney = smoney + "ad";
-        }
-        else if (smoney.Length >= 40 && smoney.Length < 44)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 39);
-            smoney = smoney + "ae";
-        }
-        else if (smoney.Length >= 44 && smoney.Length < 48)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 43);
-            smoney = smoney + "af";
-        }
-        else if (smoney.Length >= 48 && smoney.Length < 52)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 47);
-            smoney = smoney + "ag";
-        }
-        else if (smoney.Length >= 52 && smoney.Length < 56)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 51);
-            smoney = smoney + "ai";
-        }
-        else if (smoney.Length >= 56)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 55);
-            smoney = smoney + "ak";
+            int len = 20;
+            for (int i = 0; i < arrAlphabet.Length / 2; i++)
+            {
+                for (int j = 0; j < arrAlphabet.Length; j++)
+                {
+                    if (smoney.Length >= (len + i * 26 * 4 + j * 4) && smoney.Length < (len + i * 26 * 4 + (j + 1) * 4))
+                    {
+                        smoney = smoney.Substring(0, smoney.Length - (len + i * 26 * 4 + j * 4 - 1));
+                        smoney = smoney + arrAlphabet[i] + arrAlphabet[j];
+                    }
+                }
+            }
         }
         return smoney;
     }
