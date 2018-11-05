@@ -3,6 +3,9 @@ using com.shephertz.app42.paas.sdk.csharp.storage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_ADS
+using UnityEngine.Advertisements; // only compile Ads code on supported platforms
+#endif
 
 public class LoadDataJson : MonoBehaviour
 {
@@ -24,6 +27,9 @@ public class LoadDataJson : MonoBehaviour
         Ads.Instance.RequestAd();
         Ads.Instance.RequestBanner();
         Ads.Instance.ShowBanner();
+#if UNITY_ADS
+        Advertisement.Initialize(GameConfig.Instance.idUnityAds_ios, true);
+#endif
     }
 
     public void LoadGameConfig()
@@ -33,8 +39,8 @@ public class LoadDataJson : MonoBehaviour
         //Debug.Log("<color=yellow>Done: </color>LoadGameConfig !");
         if (objJson != null)
         {
-            GameConfig.Instance.dollarStart = objJson["dollarStart"].AsLong;
-            GameConfig.Instance.goldStart = objJson["goldStart"].AsLong;
+            GameConfig.Instance.dollarStart = objJson["dollarStart"].AsDouble;
+            GameConfig.Instance.goldStart = objJson["goldStart"].AsDouble;
             GameConfig.Instance.goldToDollar = objJson["goldToDollar"].AsInt;
             GameConfig.Instance.dollarVideoAd = objJson["dollarVideoAd"].AsInt;
             GameConfig.Instance.timeInterAd = objJson["timeInterAd"].AsInt;
@@ -64,6 +70,7 @@ public class LoadDataJson : MonoBehaviour
             UIManager.Instance.speedTrunkTutorial = objJson["TruckSpeed"].AsFloat;
             GameConfig.Instance.TimeForest = objJson["TimeForest"].AsFloat;
             GameConfig.Instance.MaxSentStartX5 = objJson["MaxSentStartX5"].AsInt;
+            GameConfig.Instance.idUnityAds_ios = objJson["idUnityAds_ios"];
             GameConfig.Instance.idInter_android = objJson["idInter_android"];
             GameConfig.Instance.idInter_ios = objJson["idInter_ios"];
             GameConfig.Instance.idBanner_ios = objJson["idBanner_ios"];
@@ -87,11 +94,12 @@ public class LoadDataJson : MonoBehaviour
         {
             int locationEnd = GameManager.Instance.lsLocation.Count - 1;
             int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-            if(jobEnd == -1){
-                locationEnd --;
+            if (jobEnd == -1)
+            {
+                locationEnd--;
                 jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
             }
-            long dollarRecive = 0;
+            double dollarRecive = 0;
             if (GameManager.Instance.gold >= 5)
             {
                 //SetNumber(GetNumber2(dola) + 50000, dola);

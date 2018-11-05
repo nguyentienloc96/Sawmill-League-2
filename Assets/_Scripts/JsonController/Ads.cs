@@ -15,6 +15,8 @@ public class Ads : MonoBehaviour
     //bool isShowAds = false;
 
     public GameObject panelPlane;
+    public Text txtPlaneVideoAds;
+    public Text txtPlaneReciveDollar;
 
     [Header("Time")]
     public float timeAds = 1;
@@ -61,14 +63,14 @@ public class Ads : MonoBehaviour
             Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
         }
 #elif UNITY_IOS
-            if (!isLoadAds && GameConfig.Instance.idInter_ios != null && GameConfig.Instance.idInter_ios != "")
-            {
-                interstitalAd = new InterstitialAd(GameConfig.Instance.idInter_ios);
-                AdRequest requestInterAd = new AdRequest.Builder().Build();
-                interstitalAd.LoadAd(requestInterAd);
-                isLoadAds = true;
-                Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
-            }
+        if (!isLoadAds && GameConfig.Instance.idInter_ios != null && GameConfig.Instance.idInter_ios != "")
+        {
+            interstitalAd = new InterstitialAd(GameConfig.Instance.idInter_ios);
+            AdRequest requestInterAd = new AdRequest.Builder().Build();
+            interstitalAd.LoadAd(requestInterAd);
+            isLoadAds = true;
+            Debug.Log("Load Ads - " + interstitalAd.IsLoaded().ToString());
+        }
 #else
         GameConfig.Instance.idInter_android = "ca-app-pub-6285794272989840/5632501293"; //test
         if (!isLoadAds && GameConfig.Instance.idInter_android != null)
@@ -146,6 +148,16 @@ public class Ads : MonoBehaviour
     public void Btn_Plane()
     {
         panelPlane.SetActive(true);
+        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        if (jobEnd == -1)
+        {
+            locationEnd--;
+            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        }
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+        txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
+        txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
     }
 
     public void SuccessPlaneReciveDollar()
@@ -158,7 +170,7 @@ public class Ads : MonoBehaviour
             locationEnd--;
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        long dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
     }
@@ -167,8 +179,13 @@ public class Ads : MonoBehaviour
     {
         //Debug.Log("Cong tien : " + GameConfig.Instance.dollarVideoAd);
         int locationEnd = GameManager.Instance.lsLocation.Count - 1;
-        int jobEnd = GameManager.Instance.lsLocation[GameManager.Instance.lsLocation.Count - 1].countType;
-        long dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        if (jobEnd == -1)
+        {
+            locationEnd--;
+            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        }
+        double dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
     }

@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
 
     #region GamePlay
     [Header("GamePlay")]
-    public long gold;
-    public long dollar;
-    public long dollarGive;
+    public double gold;
+    public double dollar;
+    public double dollarGive;
     public int sumHomeAll;
     public int indexSawmill;
     public int IDLocation;
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
             return;
         Instance = this;
         LoadDate();
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
     }
 
     public void LoadDate()
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void BonusAds(long dollarBonus, long goldBonus)
+    public void BonusAds(double dollarBonus, double goldBonus)
     {
         if (goldBonus > 0)
         {

@@ -22,10 +22,10 @@ public class DataPlayer : MonoBehaviour
     }
 
     [HideInInspector]
-    public long dollar;
+    public double dollar;
 
     [HideInInspector]
-    public long gold;
+    public double gold;
 
     [HideInInspector]
     public int sumHomeAll;
@@ -91,8 +91,8 @@ public class DataPlayer : MonoBehaviour
         Debug.Log(objJson);
         if (objJson != null)
         {
-            GameManager.Instance.gold = objJson["gold"].AsLong;
-            GameManager.Instance.dollar = objJson["dollar"].AsLong;
+            GameManager.Instance.gold = objJson["gold"].AsDouble;
+            GameManager.Instance.dollar = objJson["dollar"].AsDouble;
             GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
             GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
             GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
@@ -179,25 +179,25 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].id = lsWorking[j]["id"].AsInt;
                 location.lsWorking[j].level = lsWorking[j]["level"].AsInt;
 
-                location.lsWorking[j].input = lsWorking[j]["input"].AsLong;
-                location.lsWorking[j].output = lsWorking[j]["output"].AsLong;
-                location.lsWorking[j].priceOutput = lsWorking[j]["priceOutput"].AsLong;
+                location.lsWorking[j].input = lsWorking[j]["input"].AsDouble;
+                location.lsWorking[j].output = lsWorking[j]["output"].AsDouble;
+                location.lsWorking[j].priceOutput = lsWorking[j]["priceOutput"].AsDouble;
 
-                location.lsWorking[j].maxOutputMade = lsWorking[j]["maxOutputMade"].AsLong;
-                location.lsWorking[j].maxOutputMadeStart = lsWorking[j]["maxOutputMadeStart"].AsLong;
+                location.lsWorking[j].maxOutputMade = lsWorking[j]["maxOutputMade"].AsDouble;
+                location.lsWorking[j].maxOutputMadeStart = lsWorking[j]["maxOutputMadeStart"].AsDouble;
 
                 location.lsWorking[j].levelTruck = lsWorking[j]["levelTruck"].AsInt;
-                location.lsWorking[j].priceUpgradeTruck = lsWorking[j]["priceUpgradeTruck"].AsLong;
-                location.lsWorking[j].priceUpgradeTruckStart = lsWorking[j]["priceUpgradeTruckStart"].AsLong;
-                location.lsWorking[j].priceTruckSent = lsWorking[j]["priceTruckSent"].AsLong;
-                location.lsWorking[j].priceTruckSentStart = lsWorking[j]["priceTruckSentStart"].AsLong;
-                location.lsWorking[j].currentSent = lsWorking[j]["currentSent"].AsLong;
-                location.lsWorking[j].maxSent = lsWorking[j]["maxSent"].AsLong;
-                location.lsWorking[j].maxSentStart = lsWorking[j]["maxSentStart"].AsLong;
+                location.lsWorking[j].priceUpgradeTruck = lsWorking[j]["priceUpgradeTruck"].AsDouble;
+                location.lsWorking[j].priceUpgradeTruckStart = lsWorking[j]["priceUpgradeTruckStart"].AsDouble;
+                location.lsWorking[j].priceTruckSent = lsWorking[j]["priceTruckSent"].AsDouble;
+                location.lsWorking[j].priceTruckSentStart = lsWorking[j]["priceTruckSentStart"].AsDouble;
+                location.lsWorking[j].currentSent = lsWorking[j]["currentSent"].AsDouble;
+                location.lsWorking[j].maxSent = lsWorking[j]["maxSent"].AsDouble;
+                location.lsWorking[j].maxSentStart = lsWorking[j]["maxSentStart"].AsDouble;
 
-                location.lsWorking[j].priceUpgrade = lsWorking[j]["priceUpgrade"].AsLong;
-                location.lsWorking[j].priceUpgradeStart = lsWorking[j]["priceUpgradeStart"].AsLong;
-                location.lsWorking[j].price = lsWorking[j]["price"].AsLong;
+                location.lsWorking[j].priceUpgrade = lsWorking[j]["priceUpgrade"].AsDouble;
+                location.lsWorking[j].priceUpgradeStart = lsWorking[j]["priceUpgradeStart"].AsDouble;
+                location.lsWorking[j].price = lsWorking[j]["price"].AsDouble;
                 location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsFloat;
 
                 if (location.lsWorking[j].id <= location.countType)
@@ -222,7 +222,7 @@ public class DataPlayer : MonoBehaviour
                 if (location.forest.isOnBtnAutoPlant)
                 {
                     location.forest.btnAutoPlant.gameObject.SetActive(true);
-                    if (GameManager.Instance.dollar >= (long)(location.lsWorking[0].price * GameConfig.Instance.AutoPlant))
+                    if (GameManager.Instance.dollar >= (double)(location.lsWorking[0].price * GameConfig.Instance.AutoPlant))
                     {
                         location.forest.btnAutoPlant.interactable = true;
                     }
@@ -242,7 +242,7 @@ public class DataPlayer : MonoBehaviour
                     {
                         if (totalTime > 10)
                             totalTime = 10;
-                        long adddollar = (long)((float)totalTime * 0.5f * (float)location.lsWorking[location.countType].priceOutput);
+                        double adddollar = (double)((float)totalTime * 0.5f * (float)location.lsWorking[location.countType].priceOutput);
                         GameManager.Instance.dollar += adddollar;
                         GameManager.Instance.dollarGive += adddollar;
 

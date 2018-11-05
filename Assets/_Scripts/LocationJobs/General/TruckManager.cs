@@ -17,6 +17,7 @@ public class TruckManager : MonoBehaviour
     public Transform[] way;
     private int indexPos = 0;
     private bool isRetrograde;
+    private bool isOnTutorial;
 
     public void LoadTruck()
     {
@@ -191,19 +192,28 @@ public class TruckManager : MonoBehaviour
                 }
                 if (indexType == 0 && indexPos == 3)
                 {
-                    if (PlayerPrefs.GetInt("isTutorial") == 0 && UIManager.Instance.isClickTrunk)
+                    if (PlayerPrefs.GetInt("isTutorial") == 0)
                     {
-                        GameConfig.Instance.TruckSpeed = 0;
-                        if (!UIManager.Instance.popupTutorial.activeInHierarchy)
+                        if (UIManager.Instance.isOnClickTrunk)
                         {
-                            UIManager.Instance.popupTutorial.SetActive(true);
+                            if (!isOnTutorial)
+                            {
+                                GameConfig.Instance.TruckSpeed = 0;
+                                if (!UIManager.Instance.popupTutorial.activeInHierarchy)
+                                {
+                                    UIManager.Instance.popupTutorial.SetActive(true);
+                                }
+                                if (UIManager.Instance.objTutorial != null)
+                                {
+                                    Destroy(UIManager.Instance.objTutorial);
+                                }
+                                UIManager.Instance.ControlHandTutorial(location.lsWorking[0].truckManager.truck.transform);
+                                UIManager.Instance.isClickTrunk = true;
+                                UIManager.Instance.isOnClickTrunk = false;
+                                UIManager.Instance.txtWait.text = "Tap the Truck";
+                                isOnTutorial = true;
+                            }
                         }
-                        if (UIManager.Instance.objTutorial != null)
-                        {
-                            Destroy(UIManager.Instance.objTutorial);
-                        }
-                        UIManager.Instance.ControlHandTutorial(location.lsWorking[0].truckManager.truck.transform);
-                        UIManager.Instance.isClickTrunk = false;
                     }
                 }
             }
@@ -238,7 +248,7 @@ public class TruckManager : MonoBehaviour
             }
             else if (location.lsWorking[indexType].output > 0)
             {
-                long outputSent = location.lsWorking[indexType].output;
+                double outputSent = location.lsWorking[indexType].output;
                 txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
                 location.lsWorking[indexType].currentSent = outputSent;
                 location.lsWorking[indexType].output -= outputSent;

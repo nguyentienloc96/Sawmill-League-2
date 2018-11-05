@@ -113,10 +113,11 @@ public class UIManager : MonoBehaviour
     public Transform btnFellingTutorial;
     public Transform btnCloseFellingTutorial;
     public GameObject panelWaitGrow;
+    public Text txtWait;
 
     public bool isClickHome;
     public bool isClickTrunk;
-    public bool isClickCarGrow;
+    public bool isOnClickTrunk;
     public float speedTrunkTutorial;
 
 
@@ -172,13 +173,18 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             contentWorld.anchoredPosition = Vector3.zero;
-            PlayerPrefs.SetInt("isTutorial", 0);
+            //PlayerPrefs.SetInt("isTutorial", 0);
             GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = false;
             ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
             {
                 isSaveJson = true;
                 scene = TypeScene.WOLRD;
                 isClick = false;
+                if (PlayerPrefs.GetInt("isTutorial") == 0)
+                {
+                    panelWaitGrow.SetActive(true);
+                    txtWait.text = "Tap to Africa";
+                }
             });
         }
     }
@@ -232,69 +238,31 @@ public class UIManager : MonoBehaviour
         PopupGiveGold.SetActive(true);
         PopupGiveGold.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = str;
     }
-    public string ConvertNumber(long number)
+    public string ConvertNumber(double number)
     {
-        string smoney = string.Format("{0:n0}", number);
+        number = System.Math.Floor(number);
+        string smoney = string.Format("{0:0}", number);
 
         if (smoney.Length >= 5 && smoney.Length < 9)
         {
-            if (number % 1000 != 0)
-            {
-                smoney = smoney.Substring(0, smoney.Length - 2);
-                smoney = smoney + "k";
-                smoney = smoney.Remove(smoney.Length - 3, 1);
-                smoney = smoney.Insert(smoney.Length - 2, ".");
-            }
-            else
-            {
-                smoney = smoney.Substring(0, smoney.Length - 4);
-                smoney = smoney + "k";
-            }
+            smoney = smoney.Substring(0, smoney.Length - 4);
+            smoney = smoney + "k";
         }
         else if (smoney.Length >= 9 && smoney.Length < 13)
         {
-            if (number % 1000000 != 0)
-            {
-                smoney = smoney.Substring(0, smoney.Length - 6);
-                smoney = smoney + "M";
-                smoney = smoney.Remove(smoney.Length - 3, 1);
-                smoney = smoney.Insert(smoney.Length - 2, ".");
-            }
-            else
-            {
-                smoney = smoney.Substring(0, smoney.Length - 8);
-                smoney = smoney + "M";
-            }
+            smoney = smoney.Substring(0, smoney.Length - 8);
+            smoney = smoney + "M";
+
         }
         else if (smoney.Length >= 13 && smoney.Length < 17)
         {
-            if (number % 1000000000 != 0)
-            {
-                smoney = smoney.Substring(0, smoney.Length - 10);
-                smoney = smoney + "B";
-                smoney = smoney.Remove(smoney.Length - 3, 1);
-                smoney = smoney.Insert(smoney.Length - 2, ".");
-            }
-            else
-            {
-                smoney = smoney.Substring(0, smoney.Length - 12);
-                smoney = smoney + "B";
-            }
+            smoney = smoney.Substring(0, smoney.Length - 12);
+            smoney = smoney + "B";
         }
         else if (smoney.Length >= 17)
         {
-            if (number % 1000000000000 != 0)
-            {
-                smoney = smoney.Substring(0, smoney.Length - 14);
-                smoney = smoney + "kB";
-                smoney = smoney.Remove(smoney.Length - 4, 1);
-                smoney = smoney.Insert(smoney.Length - 3, ".");
-            }
-            else
-            {
-                smoney = smoney.Substring(0, smoney.Length - 16);
-                smoney = smoney + "kB";
-            }
+            smoney = smoney.Substring(0, smoney.Length - 16);
+            smoney = smoney + "kB";
         }
         return smoney;
     }
@@ -311,6 +279,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnUpgradeJob.transform);
+            txtWait.text = "Tap YES to Upgrade the capacity of the workshop";
         }
     }
 
@@ -348,18 +317,6 @@ public class UIManager : MonoBehaviour
             arrXTrunk[0].color = new Color32(255, 255, 255, 128);
             arrXTrunk[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTruckX10(indexType);
-            if (indexType == 0)
-            {
-                arrXTrunk[1].transform.GetChild(1).gameObject.SetActive(true);
-                if (PlayerPrefs.GetInt("isTutorial") == 0)
-                {
-                    if (objTutorial != null)
-                    {
-                        Destroy(objTutorial);
-                    }
-                    ControlHandTutorial(btnUpgradeTrunk.transform);
-                }
-            }
         }
     }
 
@@ -378,6 +335,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnNoUpgradeJob.transform);
+            txtWait.text = "Tap NO to turn off the panel";
         }
     }
     public void NoUpgradeJob()
@@ -392,6 +350,7 @@ public class UIManager : MonoBehaviour
             ControlHandTutorial(btnFellingTutorial);
             btnFellingTutorial.gameObject.SetActive(false);
             objTutorial.GetComponent<Image>().raycastTarget = true;
+            txtWait.text = "Tap the tree to felling";
         }
     }
 
@@ -413,6 +372,7 @@ public class UIManager : MonoBehaviour
                     Destroy(objTutorial);
                 }
                 ControlHandTutorial(btnNoUpgradeTrunk.transform);
+                txtWait.text = "Tap NO to turn off the panel";
             }
         }
     }
@@ -431,9 +391,16 @@ public class UIManager : MonoBehaviour
             }
             GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = true;
             PlayerPrefs.SetInt("isTutorial", 1);
+            txtWait.text = "It's your show now, good luck";
+            Invoke("HidePanelWait", 3f);
         }
     }
 
+
+    public void HidePanelWait()
+    {
+        panelWaitGrow.SetActive(false);
+    }
 
     public void YesSellJob()
     {

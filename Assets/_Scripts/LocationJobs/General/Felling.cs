@@ -59,9 +59,8 @@ public class Felling : MonoBehaviour
                 {
                     Destroy(UIManager.Instance.objTutorial);
                 }
-                UIManager.Instance.ControlHandTutorial(
-                    UIManager.Instance.btnCloseFellingTutorial
-                );
+                UIManager.Instance.ControlHandTutorial(UIManager.Instance.btnCloseFellingTutorial);
+                UIManager.Instance.txtWait.text = "Tap Close  to turn off the panel";
             }
         }
     }
@@ -89,6 +88,8 @@ public class Felling : MonoBehaviour
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
             FellingTree();
+            UIManager.Instance.isOnClickTrunk = true;
+            UIManager.Instance.txtWait.text = "Wait to Felling tree";
         }
     }
 
@@ -97,7 +98,7 @@ public class Felling : MonoBehaviour
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
             UIManager.Instance.popupTutorial.SetActive(false);
-            UIManager.Instance.isClickTrunk = true;
+            UIManager.Instance.txtWait.text = "Wait to Tap the Truck";
         }
     }
 }

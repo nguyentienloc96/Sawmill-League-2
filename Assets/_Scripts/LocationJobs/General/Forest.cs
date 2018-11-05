@@ -75,10 +75,9 @@ public class Forest : MonoBehaviour
         if (!location.forest.isAutoPlant && location.countType >= 0)
         {
             RunCarGrow();
-            if (PlayerPrefs.GetInt("isTutorial") == 0 && !UIManager.Instance.isClickCarGrow)
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
             {
-                UIManager.Instance.panelWaitGrow.SetActive(true);
-                UIManager.Instance.isClickCarGrow = true;
+                UIManager.Instance.txtWait.text = "Wait to plant trees";
             }
         }
     }
@@ -163,7 +162,6 @@ public class Forest : MonoBehaviour
                         location.forest.tree = lsTree.Length;
                         if (PlayerPrefs.GetInt("isTutorial") == 0)
                         {
-                            UIManager.Instance.panelWaitGrow.SetActive(false);
                             UIManager.Instance.isClickHome = true;
                             if (!UIManager.Instance.popupTutorial.activeInHierarchy)
                             {
@@ -174,6 +172,7 @@ public class Forest : MonoBehaviour
                                 Destroy(UIManager.Instance.objTutorial);
                             }
                             UIManager.Instance.ControlHandTutorial(location.lsWorking[0].icon.transform);
+                            UIManager.Instance.txtWait.text = "Tap the Felling Workshop";
                         }
                     });
             }

@@ -19,7 +19,8 @@ public class Fade : MonoBehaviour {
 
     public void StartFade()
     {
-        transform.DOScale(new Vector3(1f, 1f, 1f), 0.15f).OnComplete(()=>FadeInDone());
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        FadeInDone();
     }
 
     public void EndFade()

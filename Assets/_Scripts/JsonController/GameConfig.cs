@@ -18,8 +18,8 @@ public class GameConfig : MonoBehaviour
         Instance = this;
     }
 
-    public long dollarStart;
-    public long goldStart;
+    public double dollarStart;
+    public double goldStart;
     public int goldToDollar;
     public int dollarVideoAd;
     public int timeInterAd;
@@ -48,6 +48,7 @@ public class GameConfig : MonoBehaviour
     public float TruckSpeed;
     public float TimeForest;
     public int MaxSentStartX5;
+    public string idUnityAds_ios;
     public string idInter_android;
     public string idInter_ios;
     public string idBanner_ios;
