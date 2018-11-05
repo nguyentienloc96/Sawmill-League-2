@@ -545,10 +545,10 @@ public class UIManager : MonoBehaviour
     {
         AudioManager.Instance.Play("Click");
 #if UNITY_ANDROID
-        //if (GameConfig.Instance.link_ios != null)
-        //{
-        //    Application.OpenURL(GameConfig.Instance.link_ios);
-        //}
+        if (GameConfig.Instance.link_ios != null)
+        {
+            Application.OpenURL(GameConfig.Instance.link_ios);
+        }
 #elif UNITY_IOS
         if (GameConfig.Instance.link_ios != null)
         {
