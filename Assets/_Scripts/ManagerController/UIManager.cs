@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
     [Header("InfoPlayer")]
     public Text txtDollar;
     public Text txtGold;
+    public Text txtRevenue;
     public GameObject panelDollar;
     public GameObject panelGold;
     public Text txtDollarVideoAds;
@@ -382,6 +383,21 @@ public class UIManager : MonoBehaviour
             JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
         else
             JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
+
+        if (id == GameManager.Instance.lsLocation.Count - 1)
+        {
+            if (indexType == GameManager.Instance.lsLocation[id].countType)
+            {
+                txtRevenue.text
+                = "Revenue : " + ConvertNumber(
+                    GameManager.Instance.lsLocation[id]
+                    .lsWorking[indexType].maxOutputMade
+                    * GameConfig.Instance.r
+                    * GameConfig.Instance.productCost
+                    ) + "$/day";
+            }
+        }
+
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
             if (objTutorial != null)

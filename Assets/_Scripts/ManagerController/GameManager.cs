@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
             return;
         Instance = this;
         LoadDate();
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
     }
 
     public void LoadDate()
@@ -145,6 +145,12 @@ public class GameManager : MonoBehaviour
             location.lsWorking[location.countType].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].input);
             location.lsWorking[location.countType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].output);
             location.forest.btnAutoPlant.interactable = true;
+            UIManager.Instance.txtRevenue.text
+                       = "Revenue : " + UIManager.Instance.ConvertNumber(
+                           GameConfig.Instance.c0
+                           * GameConfig.Instance.r
+                           * GameConfig.Instance.productCost
+                           ) + "$/day";
         }
     }
 

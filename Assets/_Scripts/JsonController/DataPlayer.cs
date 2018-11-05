@@ -265,7 +265,15 @@ public class DataPlayer : MonoBehaviour
             UIManager.Instance.PushGiveGold(strGive);
             PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
-
+        int id = GameManager.Instance.lsLocation.Count - 1;
+        int indexType = GameManager.Instance.lsLocation[id].countType;
+        UIManager.Instance.txtRevenue.text
+        = "Revenue : " + UIManager.Instance.ConvertNumber(
+            GameManager.Instance.lsLocation[id]
+            .lsWorking[indexType].maxOutputMade
+            * GameConfig.Instance.r
+            * GameConfig.Instance.productCost
+            ) + "$/day";
         ScenesManager.Instance.isNextScene = true;
 
     }

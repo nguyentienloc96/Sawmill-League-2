@@ -410,11 +410,25 @@ public class Location : MonoBehaviour
                 GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
                 UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
             }
+            else
+            {
+
+                if (id == GameManager.Instance.lsLocation.Count - 1)
+                {
+                    UIManager.Instance.txtRevenue.text
+                        = "Revenue : " + UIManager.Instance.ConvertNumber(
+                            lsWorking[countType].maxOutputMade
+                            * GameConfig.Instance.r
+                            * GameConfig.Instance.productCost
+                            ) + "$/day";
+                }
+            }
             if (id > 0 && countType == 0)
             {
                 GameManager.Instance.lsLocation[id - 1].forest.btnAutoPlant.gameObject.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.isOnBtnAutoPlant = true;
             }
+
         }
     }
 
