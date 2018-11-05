@@ -77,6 +77,8 @@ public class LoadDataJson : MonoBehaviour
             GameConfig.Instance.kProductID50 = objJson["kProductID50"];
             GameConfig.Instance.kProductID300 = objJson["kProductID300"];
             GameConfig.Instance.kProductID5000 = objJson["kProductID5000"];
+            GameConfig.Instance.link_ios = objJson["link_ios"];
+            GameConfig.Instance.string_Share = objJson["string_Share"];
         }
     }
 
