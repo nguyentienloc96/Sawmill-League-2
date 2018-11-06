@@ -584,6 +584,10 @@ public class Location : MonoBehaviour
                 forest.btnAutoPlant.interactable = false;
                 UIManager.Instance.PopupAutoPlant.SetActive(false);
                 forest.btnAutoPlant.gameObject.SetActive(false);
+                if (forest.tree <= 0)
+                {
+                    forest.forestClass.RunCarGrow();
+                }
             }
         });
     }
