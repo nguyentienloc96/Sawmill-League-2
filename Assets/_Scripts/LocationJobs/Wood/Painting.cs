@@ -160,7 +160,7 @@ public class Painting : MonoBehaviour
     public void LoadInput()
     {
         random = Random.Range(0, 4);
-        for(int i = 0; i < lsCart.Count; i++)
+        for (int i = 0; i < lsCart.Count; i++)
         {
             lsCart[i].gTree[random].SetActive(true);
         }
@@ -190,7 +190,7 @@ public class Painting : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        for (int i = 0; i < 3; i++) { GameManager.Instance.lsLocation[ID].JobComplete(IndexType); }
         isInput = false;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

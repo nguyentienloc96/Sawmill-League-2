@@ -48,14 +48,17 @@ public class GameManager : MonoBehaviour
     #region MiniGame
     public List<TypeMiniGame> lsTypeMiniGame;
     #endregion
-
+    public bool isReset;
     private void Awake()
     {
         if (Instance != null)
             return;
         Instance = this;
         LoadDate();
-        //PlayerPrefs.DeleteAll();
+        if (isReset)
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 
     public void LoadDate()
@@ -91,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLocation()
     {
+        UIManager.Instance.txtRevenue.enabled = false;
         lsLocation[IDLocation].transform.localPosition = Vector3.zero;
         for (int animL = 0; animL < lsLocation[IDLocation].lsWorking.Length; animL++)
         {

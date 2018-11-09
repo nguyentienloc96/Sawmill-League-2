@@ -24,31 +24,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Start()
-    {
-        scene = TypeScene.HOME;
-        if (!PlayerPrefs.HasKey("isTutorial"))
-        {
-            PlayerPrefs.SetInt("isTutorial", 0);
-        }
-        if (!PlayerPrefs.HasKey("Continue"))
-        {
-            PlayerPrefs.SetInt("Continue", 0);
-            btncontinue.interactable = false;
-        }
-        else
-        {
-            if (PlayerPrefs.GetInt("Continue") == 0)
-            {
-                btncontinue.interactable = false;
-            }
-            else
-            {
-                btncontinue.interactable = true;
-            }
-        }
-    }
-
     [Header("InfoPlayer")]
     public Text txtDollar;
     public Text txtGold;
@@ -122,9 +97,41 @@ public class UIManager : MonoBehaviour
     public bool isClickTrunk;
     public bool isOnClickTrunk;
     public float speedTrunkTutorial;
+    public List<string> arrAlphabetNeed = new List<string>();
 
-    public string[] arrAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+    private string[] arrAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 
+    public void Start()
+    {
+        scene = TypeScene.HOME;
+        if (!PlayerPrefs.HasKey("isTutorial"))
+        {
+            PlayerPrefs.SetInt("isTutorial", 0);
+        }
+        if (!PlayerPrefs.HasKey("Continue"))
+        {
+            PlayerPrefs.SetInt("Continue", 0);
+            btncontinue.interactable = false;
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("Continue") == 0)
+            {
+                btncontinue.interactable = false;
+            }
+            else
+            {
+                btncontinue.interactable = true;
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < arrAlphabet.Length; j++)
+            {
+                arrAlphabetNeed.Add(arrAlphabet[i] + arrAlphabet[j]);
+            }
+        }
+    }
 
     public void Update()
     {
@@ -164,6 +171,7 @@ public class UIManager : MonoBehaviour
     {
         if (!isClick)
         {
+
             isClick = true;
             isContinue = false;
             AudioManager.Instance.Play("Click");
@@ -193,34 +201,43 @@ public class UIManager : MonoBehaviour
                     txtWait.text = "Tap to Africa";
                 }
             });
+
         }
     }
     public void BtnContinueOnclick()
     {
         if (!isClick)
         {
-            isClick = true;
-            isContinue = true;
-
-            AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu", true);
-            AudioManager.Instance.Play("GamePlay", true);
-
-            DataPlayer.Instance.LoadDataPlayer();
-            contentWorld.anchoredPosition = Vector3.zero;
-
-            ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+            if (PlayerPrefs.GetInt("Continue") != 0)
             {
-                isSaveJson = true;
-                scene = TypeScene.WOLRD;
-                isClick = false;
-            });
+                isClick = true;
+                isContinue = true;
+
+                AudioManager.Instance.Play("Click");
+                AudioManager.Instance.Stop("Menu", true);
+                AudioManager.Instance.Play("GamePlay", true);
+
+                DataPlayer.Instance.LoadDataPlayer();
+                contentWorld.anchoredPosition = Vector3.zero;
+
+                ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+                {
+                    isSaveJson = true;
+                    scene = TypeScene.WOLRD;
+                    isClick = false;
+                });
+            }
+            else
+            {
+                BtnYesPlayOnclick();
+            }
         }
     }
     public void BtnBackToWorld()
     {
         if (scene != TypeScene.WOLRD)
         {
+            UIManager.Instance.txtRevenue.enabled = true;
             scene = TypeScene.WOLRD;
             AudioManager.Instance.Play("Click");
             locationManager.transform.SetAsFirstSibling();
@@ -248,41 +265,32 @@ public class UIManager : MonoBehaviour
     public string ConvertNumber(double number)
     {
         number = System.Math.Floor(number);
-        string smoney = string.Format("{0:0}", number);
-        if (smoney.Length >= 4 && smoney.Length < 8)
+        string smoney = string.Format("{0:#,##0}", number);
+        for (int i = 0; i < arrAlphabetNeed.Count; i++)
         {
-            smoney = smoney.Substring(0, smoney.Length - 3);
-            smoney = smoney + "k";
-        }
-        else if (smoney.Length >= 8 && smoney.Length < 12)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 7);
-            smoney = smoney + "M";
-
-        }
-        else if (smoney.Length >= 12 && smoney.Length < 16)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 11);
-            smoney = smoney + "B";
-        }
-        else if (smoney.Length >= 16 && smoney.Length < 20)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 15);
-            smoney = smoney + "T";
-        }
-        else if (smoney.Length >= 20)
-        {
-            int len = 20;
-            for (int i = 0; i < arrAlphabet.Length / 2; i++)
+            if (smoney.Length >= 5 + i * 4 && smoney.Length < 9 + i * 4)
             {
-                for (int j = 0; j < arrAlphabet.Length; j++)
+                if (smoney[smoney.Length - (3 + i * 4)] != '0')
                 {
-                    if (smoney.Length >= (len + i * 26 * 4 + j * 4) && smoney.Length < (len + i * 26 * 4 + (j + 1) * 4))
+                    smoney = smoney.Substring(0, smoney.Length - (5 + i * 4 - 3));
+                    smoney = smoney + arrAlphabetNeed[i];
+                    if (i < 4)
                     {
-                        smoney = smoney.Substring(0, smoney.Length - (len + i * 26 * 4 + j * 4 - 1));
-                        smoney = smoney + arrAlphabet[i] + arrAlphabet[j];
+                        smoney = smoney.Remove(smoney.Length - 3, 1);
+                        smoney = smoney.Insert(smoney.Length - 2, ".");
+                    }
+                    else
+                    {
+                        smoney = smoney.Remove(smoney.Length - 4, 1);
+                        smoney = smoney.Insert(smoney.Length - 3, ".");
                     }
                 }
+                else
+                {
+                    smoney = smoney.Substring(0, smoney.Length - (5 + i * 4 - 1));
+                    smoney = smoney + arrAlphabetNeed[i];
+                }
+                return smoney;
             }
         }
         return smoney;
@@ -388,7 +396,7 @@ public class UIManager : MonoBehaviour
             ControlHandTutorial(btnFellingTutorial);
             btnFellingTutorial.gameObject.SetActive(false);
             objTutorial.GetComponent<Image>().raycastTarget = true;
-            txtWait.text = "Tap to work yourself";
+            txtWait.text = "Tap to work yourself\nIt doubles the workshop capacity";
         }
     }
 
@@ -506,6 +514,7 @@ public class UIManager : MonoBehaviour
 
     public void SaveExit()
     {
+        UIManager.Instance.txtRevenue.enabled = true;
         scene = TypeScene.HOME;
         AudioManager.Instance.Play("Menu", true);
         AudioManager.Instance.Stop("GamePlay", true);

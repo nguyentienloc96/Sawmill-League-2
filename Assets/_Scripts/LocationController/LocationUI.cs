@@ -23,7 +23,7 @@ public class LocationUI : MonoBehaviour
         UIManager.Instance.worldManager.transform.SetAsFirstSibling();
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
-            UIManager.Instance.txtWait.text = "Tap to plant trees";
+            UIManager.Instance.txtWait.text = "Tap to plant trees\nYou will need to reforest periodically";
         }
         if (!UIManager.Instance.locationManager.gameObject.activeInHierarchy)
             UIManager.Instance.locationManager.SetActive(true);

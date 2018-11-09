@@ -235,9 +235,9 @@ public class TruckManager : MonoBehaviour
 
     public void SentedOutput()
     {
-        if (GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
-        {
-            GameManager.Instance.dollar -= location.lsWorking[indexType].priceTruckSent;
+        //if (GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
+        //{
+            //GameManager.Instance.dollar -= location.lsWorking[indexType].priceTruckSent;
 
             if (location.lsWorking[indexType].output >= location.lsWorking[indexType].maxSent)
             {
@@ -258,11 +258,11 @@ public class TruckManager : MonoBehaviour
             {
                 isRun = false;
             }
-        }
-        else
-        {
-            isRun = false;
-        }
+        //}
+        //else
+        //{
+        //    isRun = false;
+        //}
     }
 
     public void ReceivedOutput()
