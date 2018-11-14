@@ -8,18 +8,19 @@ public class Others : MonoBehaviour
 
     public Location location;
 
-    public Sprite[] arrPrefab;
+    public List<Animator> arrAnim;
 
-    public List<Image> lsPoint;
+    public List<Transform> lsPoint;
 
     public void LoadOtherRandom()
     {
         location.lsOther = new List<int>();
         for (int i = 0; i < lsPoint.Count; i++)
         {
-            int random = Random.Range(0, arrPrefab.Length);
-            lsPoint[i].sprite = arrPrefab[random];
+            int random = Random.Range(0, GameManager.Instance.arrPrefabOther.Length);
+            Animator anim = Instantiate(GameManager.Instance.arrPrefabOther[random],lsPoint[i]).GetComponent<Animator>();
             location.lsOther.Add(random);
+            arrAnim.Add(anim);
         }
         location.isLoaded = true;
     }
@@ -28,7 +29,8 @@ public class Others : MonoBehaviour
     {
         for (int i = 0; i < lsPoint.Count; i++)
         {
-            lsPoint[i].sprite = arrPrefab[location.lsOther[i]];
+            Animator anim = Instantiate(GameManager.Instance.arrPrefabOther[location.lsOther[i]],lsPoint[i]).GetComponent<Animator>();
+            arrAnim.Add(anim);
         }
         location.isLoaded = true;
     }

@@ -88,7 +88,6 @@ public class DeLigninPaper : MonoBehaviour
             AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -124,6 +123,7 @@ public class DeLigninPaper : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

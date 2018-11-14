@@ -95,7 +95,6 @@ public class ChipperPaper : MonoBehaviour
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -140,6 +139,7 @@ public class ChipperPaper : MonoBehaviour
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             isInput = false;
             cart.localPosition = new Vector3(-4f, 0f, 0f);
+            tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

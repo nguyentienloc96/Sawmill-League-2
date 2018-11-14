@@ -82,7 +82,6 @@ public class MillPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
@@ -119,6 +118,7 @@ public class MillPellet : MonoBehaviour
             tray.localPosition = Vector3.zero;
             flour.localPosition = Vector3.zero;
             isInput = false;
+            tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

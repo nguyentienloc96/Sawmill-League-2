@@ -142,7 +142,6 @@ public class Painting : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Painting");
             posDown = Input.mousePosition;
@@ -159,7 +158,7 @@ public class Painting : MonoBehaviour
 
     public void LoadInput()
     {
-        random = Random.Range(0, 4);
+        random = Random.Range(0, 2);
         for (int i = 0; i < lsCart.Count; i++)
         {
             lsCart[i].gTree[random].SetActive(true);
@@ -192,6 +191,7 @@ public class Painting : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         for (int i = 0; i < 3; i++) { GameManager.Instance.lsLocation[ID].JobComplete(IndexType); }
         isInput = false;
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

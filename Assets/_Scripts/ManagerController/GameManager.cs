@@ -36,13 +36,16 @@ public class GameManager : MonoBehaviour
     [Header("GamePlay")]
     public double gold;
     public double dollar;
-    public double dollarGive;
     public int sumHomeAll;
     public int indexSawmill;
     public int IDLocation;
     public Transform locationManager;
     public List<Location> lsLocation;
     public GameObject[] lsItemLocation;
+    public GameObject[] arrPrefabOther;
+    public GameObject[] arrPrefabsStreet;
+
+
     #endregion
 
     #region MiniGame
@@ -100,6 +103,14 @@ public class GameManager : MonoBehaviour
         {
             lsLocation[IDLocation].lsWorking[animL].anim.enabled = true;
         }
+        for (int animR = 0; animR < lsLocation[IDLocation].rivers.arrAnim.Count; animR++)
+        {
+            lsLocation[IDLocation].rivers.arrAnim[animR].enabled = true;
+        }
+        for (int animO = 0; animO < lsLocation[IDLocation].others.arrAnim.Count; animO++)
+        {
+            lsLocation[IDLocation].others.arrAnim[animO].enabled = true;
+        }
         for (int i = 0; i < lsLocation.Count; i++)
         {
             if (i != IDLocation)
@@ -108,6 +119,14 @@ public class GameManager : MonoBehaviour
                 for (int animLH = 0; animLH < lsLocation[i].lsWorking.Length; animLH++)
                 {
                     lsLocation[i].lsWorking[animLH].anim.enabled = false;
+                }
+                for (int animRH = 0; animRH < lsLocation[i].rivers.arrAnim.Count; animRH++)
+                {
+                    lsLocation[i].rivers.arrAnim[animRH].enabled = false;
+                }
+                for (int animOH = 0; animOH < lsLocation[i].others.arrAnim.Count; animOH++)
+                {
+                    lsLocation[i].others.arrAnim[animOH].enabled = false;
                 }
             }
         }
@@ -155,6 +174,12 @@ public class GameManager : MonoBehaviour
                            * GameConfig.Instance.r
                            * GameConfig.Instance.productCost
                            ) + "$/day";
+            location.lsWorking[0].animLock.gameObject.SetActive(false);
+            location.lsWorking[1].animLock.enabled = true;
+        }
+        else
+        {
+            location.lsWorking[0].animLock.enabled = true;
         }
     }
 

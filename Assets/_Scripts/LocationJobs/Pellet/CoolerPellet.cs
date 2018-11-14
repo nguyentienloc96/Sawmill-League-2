@@ -93,7 +93,6 @@ public class CoolerPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             needle1.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
@@ -138,7 +137,7 @@ public class CoolerPellet : MonoBehaviour
         lever.localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

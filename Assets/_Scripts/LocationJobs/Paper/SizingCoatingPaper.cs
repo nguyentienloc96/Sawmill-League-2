@@ -110,7 +110,6 @@ public class SizingCoatingPaper : MonoBehaviour
         {
             AudioManager.Instance.Play("Painting");
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -147,6 +146,7 @@ public class SizingCoatingPaper : MonoBehaviour
             paper.localPosition = new Vector3(-2.5f, 0f, -5f);
             ClearPaint();
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
                 LoadInput();

@@ -199,7 +199,6 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].priceUpgradeStart = lsWorking[j]["priceUpgradeStart"].AsDouble;
                 location.lsWorking[j].price = lsWorking[j]["price"].AsDouble;
                 location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsFloat;
-
                 if (location.lsWorking[j].id <= location.countType)
                 {
                     location.lsWorking[j].info.SetActive(true);
@@ -211,6 +210,23 @@ public class DataPlayer : MonoBehaviour
                     if (location.lsWorking[j].output > 0)
                     {
                         location.lsWorking[j].truckManager.LoadTruck();
+                    }
+                    location.lsWorking[j].textLevel.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].level);
+                    location.lsWorking[j].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].levelTruck);
+                }
+                if (i != lsData.Count - 1)
+                {
+                    location.lsWorking[j].animLock.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (location.lsWorking[j].id <= location.countType)
+                    {
+                        location.lsWorking[j].animLock.gameObject.SetActive(false);
+                    }
+                    else if (location.lsWorking[j].id == location.countType + 1)
+                    {
+                        location.lsWorking[j].animLock.enabled = true;
                     }
                 }
             }
@@ -232,48 +248,50 @@ public class DataPlayer : MonoBehaviour
                     }
                 }
             }
-
-            if (!isFirst)
-            {
-                if (UIManager.Instance.isContinue)
-                {
-                    totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
-                    if (totalTime > 0)
-                    {
-                        if (totalTime > 10)
-                            totalTime = 10;
-                        double adddollar = (double)((float)totalTime * 0.5f * (float)location.lsWorking[location.countType].priceOutput);
-                        GameManager.Instance.dollar += adddollar;
-                        GameManager.Instance.dollarGive += adddollar;
-
-                    }
-                }
-                isFirst = true;
-            }
             GameManager.Instance.lsLocation.Add(location);
             UIManager.Instance.lsBtnLocationUI[i].interactable = true;
         }
         yield return new WaitUntil(() => UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].interactable);
+
         UIManager.Instance.handWorld.position = UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f); ;
-        if (totalTime > 0)
+
+        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        if (jobEnd == -1)
         {
-            string strGive = "Offline Reward: \n"
-                + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive)
-                + "$";
-            UIManager.Instance.PushGiveGold(strGive);
-            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+            locationEnd--;
+            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        int id = GameManager.Instance.lsLocation.Count - 1;
-        int indexType = GameManager.Instance.lsLocation[id].countType;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
         UIManager.Instance.txtRevenue.text
         = "Revenue : " + UIManager.Instance.ConvertNumber(
-            GameManager.Instance.lsLocation[id]
-            .lsWorking[indexType].maxOutputMade
+            GameManager.Instance.lsLocation[locationEnd]
+            .lsWorking[jobEnd].maxOutputMade
             * GameConfig.Instance.r
             * GameConfig.Instance.productCost
             ) + "$/day";
         ScenesManager.Instance.isNextScene = true;
-
+        double adddollar = 0;
+        if (!isFirst)
+        {
+            if (UIManager.Instance.isContinue)
+            {
+                totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+                if (totalTime > 0)
+                {
+                    if (totalTime > 10)
+                        totalTime = 10;
+                    adddollar = (double)((float)totalTime * 0.5f * (float)GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price);
+                    GameManager.Instance.dollar += adddollar;
+                    string strGive = "Offline Reward\n"
+                    + UIManager.Instance.ConvertNumber(adddollar)
+                    + "$";
+                    UIManager.Instance.PushGiveGold(strGive);
+                    PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+                }
+            }
+            isFirst = true;
+        }
     }
 
     private void OnDestroy()

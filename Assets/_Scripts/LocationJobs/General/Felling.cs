@@ -31,7 +31,6 @@ public class Felling : MonoBehaviour
         {
             if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
             {
-                tutorialHand.SetActive(false);
                 AudioManager.Instance.PlayOneShot("Saw");
                 anim.SetBool("isFelling", true);
                 isWaiting = true;
@@ -45,6 +44,7 @@ public class Felling : MonoBehaviour
         {
             int ID = GameManager.Instance.IDLocation;
             GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].FellingComplete();
+            tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].forest.tree <= 0)
             {
                 notification.SetActive(true);

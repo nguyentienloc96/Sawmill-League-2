@@ -85,7 +85,6 @@ public class ReelingPaper : MonoBehaviour
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -122,6 +121,7 @@ public class ReelingPaper : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(0f, -1.25f, 0f);
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

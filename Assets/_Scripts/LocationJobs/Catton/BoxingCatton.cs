@@ -85,7 +85,6 @@ public class BoxingCatton : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -124,9 +123,9 @@ public class BoxingCatton : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        cart.localPosition = new Vector3(-2f, 0f, 0f);
+        cart.localPosition = new Vector3(-1f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

@@ -87,7 +87,6 @@ public class Debarking : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleDebarking.Play();
             particleEmissions.Play();
@@ -132,6 +131,7 @@ public class Debarking : MonoBehaviour
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         ResetTree();
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             random = Random.Range(0, tree.Length);

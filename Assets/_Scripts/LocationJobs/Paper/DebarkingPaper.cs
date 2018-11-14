@@ -88,7 +88,6 @@ public class DebarkingPaper : MonoBehaviour
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -126,7 +125,7 @@ public class DebarkingPaper : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

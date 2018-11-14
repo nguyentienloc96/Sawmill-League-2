@@ -92,7 +92,6 @@ public class LigninDissolvesCellulose : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             timeNeedle = 0;
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
@@ -139,6 +138,7 @@ public class LigninDissolvesCellulose : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         needle.localEulerAngles = new Vector3(0f, 0f, 90f);
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

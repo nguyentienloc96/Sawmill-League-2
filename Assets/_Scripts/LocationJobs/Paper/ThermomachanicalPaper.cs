@@ -93,7 +93,6 @@ public class ThermomachanicalPaper : MonoBehaviour
             AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -137,6 +136,7 @@ public class ThermomachanicalPaper : MonoBehaviour
             animFlour.enabled = false;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             isInput = false;
+            tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

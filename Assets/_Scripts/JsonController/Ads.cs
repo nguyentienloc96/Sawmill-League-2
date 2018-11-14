@@ -4,6 +4,7 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.UI;
 //using UnityEngine.Advertisements;
+using DG.Tweening;
 
 public class Ads : MonoBehaviour
 {
@@ -145,19 +146,23 @@ public class Ads : MonoBehaviour
     #endregion
 
     #region ===UNITY ADS===
-    public void Btn_Plane()
+    public void Btn_Plane(Transform tf)
     {
-        panelPlane.SetActive(true);
-        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
-        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        if (jobEnd == -1)
+        tf.DOLocalMoveY(-600f, 1f).OnComplete(() =>
         {
-            locationEnd--;
-            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-        txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
-        txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
+            tf.localPosition = Vector3.zero;
+            panelPlane.SetActive(true);
+            int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+            int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            if (jobEnd == -1)
+            {
+                locationEnd--;
+                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            }
+            double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+            txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+            txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
+        });
     }
 
     public void SuccessPlaneReciveDollar()

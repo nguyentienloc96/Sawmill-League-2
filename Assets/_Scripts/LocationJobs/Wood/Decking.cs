@@ -85,7 +85,6 @@ public class Decking : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
@@ -124,6 +123,7 @@ public class Decking : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         tree[random].position = posCheck;
+        tutorialHand.SetActive(false);
         if (random == 0)
         {
             tree[random].DOLocalMove(new Vector3(0f, 2.5f, 0f), 0.5f).OnComplete(() =>

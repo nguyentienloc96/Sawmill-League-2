@@ -83,7 +83,6 @@ public class DrumDryerPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Water");
@@ -127,7 +126,7 @@ public class DrumDryerPellet : MonoBehaviour
         lever.localEulerAngles = new Vector3(0f, 0f, 180f);
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

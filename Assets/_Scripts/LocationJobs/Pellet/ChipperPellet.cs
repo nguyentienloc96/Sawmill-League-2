@@ -60,9 +60,9 @@ public class ChipperPellet : MonoBehaviour
         {
             if (isRun)
             {
-                if (Input.mousePosition.y > posDown.y)
+                if (Input.mousePosition.y < posDown.y)
                 {
-                    float dis = -Input.mousePosition.y + posDown.y;
+                    float dis = Input.mousePosition.y - posDown.y;
                     cart.position -= new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
                     gear.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
                     gear1.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
@@ -91,7 +91,6 @@ public class ChipperPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
@@ -141,6 +140,7 @@ public class ChipperPellet : MonoBehaviour
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
             cart.localPosition = new Vector3(-4f, 0f, 0f);
             isInput = false;
+            tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

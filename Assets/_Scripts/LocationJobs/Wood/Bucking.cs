@@ -84,7 +84,6 @@ public class Bucking : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Drill");
@@ -133,6 +132,7 @@ public class Bucking : MonoBehaviour
                 cart.localPosition = new Vector3(-2f, 0f, 0f);
                 tree.localPosition = Vector3.zero;
                 isInput = false;
+                tutorialHand.SetActive(false);
 
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
                 {

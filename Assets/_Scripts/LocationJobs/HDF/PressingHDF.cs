@@ -4,15 +4,15 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PressingHDF : MonoBehaviour {
+public class PressingHDF : MonoBehaviour
+{
 
-	public bool isInput;
+    public bool isInput;
     public Transform cart;
     public Transform tree;
     public GameObject notification;
     public Animator anim;
-    public ParticleSystem particleEmissions;
-    public Transform propeller;
+    public Transform[] gear;
     public GameObject tutorialHand;
     public Image imgBG;
     private bool isRun;
@@ -34,7 +34,7 @@ public class PressingHDF : MonoBehaviour {
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-			cart.localPosition = new Vector3(-4f, 0f, 0f);
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
             notification.SetActive(false);
             tree.gameObject.SetActive(true);
             LoadInput();
@@ -53,13 +53,16 @@ public class PressingHDF : MonoBehaviour {
         {
             if (isRun)
             {
-                if (Input.mousePosition.y > posDown.y)
+                if (Input.mousePosition.x > posDown.x)
                 {
-                    float dis = Input.mousePosition.y - posDown.y;
-                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
-                    propeller.localEulerAngles += new Vector3(0f, 0f, -dis * 5f * Time.deltaTime);
+                    float dis = Input.mousePosition.x - posDown.x;
+                    cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f, 0f);
+                    foreach (Transform tf in gear)
+                    {
+                        tf.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    }
                 }
-                if (cart.position.y > posCheck.y)
+                if (cart.position.x > posCheck.x)
                 {
                     StartCoroutine(CompleteJob());
                 }
@@ -82,18 +85,15 @@ public class PressingHDF : MonoBehaviour {
         if (isInput)
         {
             anim.enabled = true;
-            particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
     public void TapUp()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -114,15 +114,14 @@ public class PressingHDF : MonoBehaviour {
     public IEnumerator CompleteJob()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
         isRun = false;
         isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-
+        cart.localPosition = new Vector3(-1f, 0f, 0f);
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

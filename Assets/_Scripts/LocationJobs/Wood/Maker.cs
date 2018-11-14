@@ -87,7 +87,6 @@ public class Maker : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             particleEmissions.Play();
             AudioManager.Instance.Play("Drill");
             posDown = Input.mousePosition;
@@ -130,7 +129,7 @@ public class Maker : MonoBehaviour
         tree.localPosition = Vector3.zero;
         treeMask.localPosition = Vector3.zero;
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

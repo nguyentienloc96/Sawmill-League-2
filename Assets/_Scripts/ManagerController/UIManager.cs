@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     public GameObject panelGold;
     public Text txtDollarVideoAds;
     public Text txtDollarRecive;
+    public Button btnGoldToDollar;
+
 
     [Header("Setting")]
     public GameObject panelSetting;
@@ -73,6 +75,7 @@ public class UIManager : MonoBehaviour
     [Header("UIHome")]
     public Button btncontinue;
     public GameObject popupStart;
+    public GameObject popupHome;
     public bool isClick;
 
     [Header("SellJob")]
@@ -81,6 +84,27 @@ public class UIManager : MonoBehaviour
     public Button btnUpgradeTrunk;
     public Button btnNoUpgradeJob;
     public Button btnNoUpgradeTrunk;
+
+    [Header("UIInfoUpgradeJob")]
+    public Text nameUpgradeJob;
+    public Text levelCurrentJob;
+    public Text levelNextJob;
+    public Text CapacityCurrentJob;
+    public Text CapacityNextJob;
+    public Text CostUpgradeJob;
+
+    [Header("UIInfoUpgradeTruck")]
+    public Text nameUpgradeTrunkJob;
+    public Text levelCurrentTruck;
+    public Text levelNextTruck;
+    public Text CapacityCurrentTruck;
+    public Text CapacityNextTruck;
+    public Text CostUpgradeTruck;
+
+    [Header("UIInfoSellJob")]
+    public Text nameJob;
+    public Image iconJob;
+    public Text CostJob;
 
 
     [Header("Tutorial")]
@@ -165,6 +189,7 @@ public class UIManager : MonoBehaviour
         else
         {
             popupStart.SetActive(true);
+            popupHome.SetActive(false);
         }
     }
     public void BtnYesPlayOnclick()
@@ -178,10 +203,10 @@ public class UIManager : MonoBehaviour
             AudioManager.Instance.Stop("Menu", true);
             AudioManager.Instance.Play("GamePlay", true);
             popupStart.SetActive(false);
+            popupHome.SetActive(true);
             ScenesManager.Instance.isNextScene = false;
             GameManager.Instance.sumHomeAll = 0;
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
-            GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.ClearLocation();
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
@@ -355,9 +380,9 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isJobX10)
-            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
         else
-            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
 
         if (id == GameManager.Instance.lsLocation.Count - 1)
         {
@@ -407,9 +432,9 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isTrunkX10)
-            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
         else
-            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
         if (indexType == 0)
         {
             if (PlayerPrefs.GetInt("isTutorial") == 0)
@@ -493,6 +518,14 @@ public class UIManager : MonoBehaviour
             double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
             txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
             txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+            if (GameManager.Instance.gold > 0)
+            {
+                btnGoldToDollar.interactable = true;
+            }
+            else
+            {
+                btnGoldToDollar.interactable = false;
+            }
         }
         else
             panelDollar.SetActive(false);
@@ -501,7 +534,9 @@ public class UIManager : MonoBehaviour
     public void ShowPanelGold()
     {
         if (!panelGold.activeSelf)
+        {
             panelGold.SetActive(true);
+        }
         else
             panelGold.SetActive(false);
     }
@@ -564,5 +599,36 @@ public class UIManager : MonoBehaviour
             Application.OpenURL(GameConfig.Instance.link_ios);
         }
 #endif
+    }
+
+    public void UpdateInfoUpgradeJob(string name, int levelCurrent,
+    int levelNext, double capacityCurrent,
+    double capacityNext, double cost)
+    {
+        nameUpgradeJob.text = name;
+        levelCurrentJob.text = levelCurrent.ToString();
+        levelNextJob.text = levelNext.ToString();
+        CapacityCurrentJob.text = ConvertNumber(capacityCurrent);
+        CapacityNextJob.text = ConvertNumber(capacityNext);
+        CostUpgradeJob.text = ConvertNumber(cost);
+    }
+
+    public void UpdateInfoUpgradeTruck(string name, int levelCurrent,
+    int levelNext, double capacityCurrent,
+    double capacityNext, double cost)
+    {
+        nameUpgradeTrunkJob.text = name;
+        levelCurrentTruck.text = levelCurrent.ToString();
+        levelNextTruck.text = levelNext.ToString();
+        CapacityCurrentTruck.text = ConvertNumber(capacityCurrent);
+        CapacityNextTruck.text = ConvertNumber(capacityNext);
+        CostUpgradeTruck.text = ConvertNumber(cost);
+    }
+
+    public void UpdateInfoSellJob(string name, Sprite spIcon, double cost)
+    {
+        nameJob.text = name;
+        iconJob.sprite = spIcon;
+        CostJob.text = ConvertNumber(cost);
     }
 }
