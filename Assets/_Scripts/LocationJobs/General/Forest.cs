@@ -77,7 +77,14 @@ public class Forest : MonoBehaviour
             RunCarGrow();
             if (PlayerPrefs.GetInt("isTutorial") == 0)
             {
-                UIManager.Instance.txtWait.text = "Wait to plant trees\nIt may take time";
+                UIManager.Instance.txtWait.text = "Wait to plant trees";
+            }
+            if (location.id == GameManager.Instance.IDLocation)
+            {
+                if (UIManager.Instance.WarningForest.activeInHierarchy)
+                {
+                    UIManager.Instance.WarningForest.SetActive(false);
+                }
             }
         }
     }

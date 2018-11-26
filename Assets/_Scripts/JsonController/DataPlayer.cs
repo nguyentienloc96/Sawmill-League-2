@@ -80,6 +80,9 @@ public class DataPlayer : MonoBehaviour
         File.WriteAllText(_path, JsonUtility.ToJson(data, true));
         File.ReadAllText(_path);
         PlayerPrefs.SetInt("Continue", 1);
+
+        Debug.Log(SimpleJSON_DatDz.JSON.Parse(File.ReadAllText(_path)));
+
     }
 
     public void LoadDataPlayer()
@@ -91,23 +94,28 @@ public class DataPlayer : MonoBehaviour
         Debug.Log(objJson);
         if (objJson != null)
         {
-            GameManager.Instance.gold = objJson["gold"].AsDouble;
-            GameManager.Instance.dollar = objJson["dollar"].AsDouble;
-            GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
-            GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
-            GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
-            GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
-
-            var lsData = objJson["lsLocation"].AsArray;
-            lsLocation = new List<LocationJSON>();
-            GameManager.Instance.ClearLocation();
-            GameManager.Instance.lsLocation = new List<Location>();
-            StartCoroutine(IELoadLocationJson(lsData));
-            GameManager.Instance.locationManager.gameObject.SetActive(true);
-            GameManager.Instance.locationManager.SetAsFirstSibling();
-
+            StartCoroutine(IEClearLocation(objJson));
         }
 
+    }
+
+    public IEnumerator IEClearLocation(SimpleJSON_DatDz.JSONNode objJson)
+    {
+        GameManager.Instance.ClearLocation();
+        yield return new WaitUntil(() => GameManager.Instance.lsLocation.Count == 0);
+        GameManager.Instance.gold = objJson["gold"].AsDouble;
+        GameManager.Instance.dollar = objJson["dollar"].AsDouble;
+        GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
+        GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
+        GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
+        GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
+
+        var lsData = objJson["lsLocation"].AsArray;
+        lsLocation = new List<LocationJSON>();
+        GameManager.Instance.lsLocation = new List<Location>();
+        StartCoroutine(IELoadLocationJson(lsData));
+        GameManager.Instance.locationManager.gameObject.SetActive(true);
+        GameManager.Instance.locationManager.SetAsFirstSibling();
     }
 
     public IEnumerator IELoadLocationJson(SimpleJSON_DatDz.JSONArray lsData)
@@ -296,23 +304,72 @@ public class DataPlayer : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (UIManager.Instance.isSaveJson)
+        if (UIManager.Instance.isSaveJson && UIManager.Instance.scene != TypeScene.HOME)
         {
             SaveDataPlayer();
-            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
+        PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
     }
 
     private void OnApplicationPause(bool pause)
     {
         if (pause == true)
         {
-            if (UIManager.Instance.isSaveJson)
+            if (UIManager.Instance.isSaveJson && UIManager.Instance.scene != TypeScene.HOME)
             {
                 SaveDataPlayer();
-                PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
             }
+            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
+    }
+
+    public void SaveExit()
+    {
+        StartCoroutine(IESaveDataPlayer());
+    }
+
+    public IEnumerator IESaveDataPlayer()
+    {
+        int sumLocaton = 0;
+        DataPlayer data = new DataPlayer();
+        data.gold = GameManager.Instance.gold;
+        data.dollar = GameManager.Instance.dollar;
+        data.sumHomeAll = GameManager.Instance.sumHomeAll;
+        data.indexSawmill = GameManager.Instance.indexSawmill;
+        data.dateStartPlay = GameManager.Instance.dateStartPlay.ToString();
+        data.dateGame = GameManager.Instance.dateGame.ToString();
+        data.lsLocation = new List<LocationJSON>();
+        for (int i = 0; i < GameManager.Instance.lsLocation.Count; i++)
+        {
+            LocationJSON locationJson = new LocationJSON();
+            locationJson.id = GameManager.Instance.lsLocation[i].id;
+            locationJson.nameLocation = GameManager.Instance.lsLocation[i].nameLocation;
+            locationJson.indexTypeWork = GameManager.Instance.lsLocation[i].indexTypeWork;
+            locationJson.countType = GameManager.Instance.lsLocation[i].countType;
+            locationJson.indexType = GameManager.Instance.lsLocation[i].indexType;
+            locationJson.makerType = GameManager.Instance.lsLocation[i].makerType;
+
+            locationJson.forest = GameManager.Instance.lsLocation[i].forest;
+            locationJson.lsWorking = GameManager.Instance.lsLocation[i].lsWorking;
+
+            locationJson.lsOther = GameManager.Instance.lsLocation[i].lsOther;
+            locationJson.lsRiverLeft = GameManager.Instance.lsLocation[i].lsRiverLeft;
+            locationJson.lsRiverRight = GameManager.Instance.lsLocation[i].lsRiverRight;
+            locationJson.lsStreet = GameManager.Instance.lsLocation[i].lsStreet;
+
+            data.lsLocation.Add(locationJson);
+            sumLocaton++;
+        }
+
+        string _path = Path.Combine(Application.persistentDataPath, "DataPlayer.json");
+        File.WriteAllText(_path, JsonUtility.ToJson(data, true));
+        File.ReadAllText(_path);
+
+        yield return new WaitUntil(() => sumLocaton == GameManager.Instance.lsLocation.Count);
+
+        PlayerPrefs.SetInt("Continue", 1);
+
+        GameManager.Instance.ClearLocation();
     }
 
 }

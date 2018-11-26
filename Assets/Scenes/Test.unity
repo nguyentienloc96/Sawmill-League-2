@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f2ba5cec165ef4eaf916aa09046dcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberTest: 0
+  numberTest: 7.00649232162408e+33
   txtTest: {fileID: 1568804609}
   arrAlphabetNeed:
   - k

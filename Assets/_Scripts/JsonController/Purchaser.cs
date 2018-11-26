@@ -34,11 +34,11 @@ public class Purchaser : MonoBehaviour, IStoreListener
             return;
         }
 
-        //var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-        //builder.AddProduct(GameConfig.Instance.kProductID50, ProductType.Consumable);
-        //builder.AddProduct(GameConfig.Instance.kProductID300, ProductType.Consumable);
-        //builder.AddProduct(GameConfig.Instance.kProductID5000, ProductType.Consumable);
-        //UnityPurchasing.Initialize(this, builder);
+        var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+        builder.AddProduct(GameConfig.Instance.kProductID50, ProductType.Consumable);
+        builder.AddProduct(GameConfig.Instance.kProductID300, ProductType.Consumable);
+        builder.AddProduct(GameConfig.Instance.kProductID5000, ProductType.Consumable);
+        UnityPurchasing.Initialize(this, builder);
     }
 
 

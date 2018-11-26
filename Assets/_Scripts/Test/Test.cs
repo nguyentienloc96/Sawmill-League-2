@@ -23,7 +23,7 @@ public class Test : MonoBehaviour
 
     void Update()
     {
-        txtTest.text = ConvertNumber(numberTest);
+        txtTest.text = ConvertNumber((double)(Mathf.Pow(4f, 102f)));
     }
 
     public string ConvertNumber(double number)

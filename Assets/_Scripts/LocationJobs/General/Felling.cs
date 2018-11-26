@@ -12,6 +12,11 @@ public class Felling : MonoBehaviour
 
     public void OnEnable()
     {
+        if (isWaiting)
+        {
+            isWaiting = false;
+            GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].FellingComplete();
+        }
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
@@ -26,9 +31,9 @@ public class Felling : MonoBehaviour
 
     public void FellingTree()
     {
-        int ID = GameManager.Instance.IDLocation;
         if (!isWaiting)
         {
+            int ID = GameManager.Instance.IDLocation;
             if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
             {
                 AudioManager.Instance.PlayOneShot("Saw");

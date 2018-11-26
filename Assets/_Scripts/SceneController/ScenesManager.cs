@@ -27,7 +27,6 @@ public class ScenesManager : MonoBehaviour
     }
 
     public Scenes[] secenes;
-    public int currentScenes;
     public bool isNextScene;
 
     public void GoToScene(TypeScene typeScene, UnityAction actionLoadScenesDone = null)
@@ -40,8 +39,7 @@ public class ScenesManager : MonoBehaviour
         Fade.Instance.StartFade();
         yield return new WaitUntil(() => Fade.Instance.state == Fade.FadeState.FadeInDone);
 
-        secenes[currentScenes].objects.SetActive(false);
-
+        secenes[0].objects.SetActive(false);
         if (actionLoadScenesDone != null)
             actionLoadScenesDone();
         yield return new WaitForSeconds(1.5f);

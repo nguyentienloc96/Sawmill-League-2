@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public enum TypeScene
 {
-    LOADING,
     HOME,
     WOLRD,
     LOCATION,
@@ -77,6 +76,7 @@ public class UIManager : MonoBehaviour
     public GameObject popupStart;
     public GameObject popupHome;
     public bool isClick;
+    public GameObject WarningForest;
 
     [Header("SellJob")]
     public Button btnSell;
@@ -161,6 +161,7 @@ public class UIManager : MonoBehaviour
     {
         txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
         txtGold.text = ConvertNumber(GameManager.Instance.gold);
+       
         if (scene == TypeScene.MINIGAME)
         {
             int id = GameManager.Instance.IDLocation;
@@ -169,6 +170,64 @@ public class UIManager : MonoBehaviour
             if (indexType != 0) GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].inputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
             GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].outputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
 
+        }
+
+        if (JobUpgrade.activeInHierarchy && !btnUpgradeJob.interactable)
+        {
+            int id = GameManager.Instance.IDLocation;
+            int indexType = GameManager.Instance.lsLocation[id].indexType;
+            if (!isJobX10)
+            {
+                if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade)
+                {
+                    btnUpgradeJob.interactable = true;
+                }
+            }
+            else
+            {
+                int level = GameManager.Instance.lsLocation[id].lsWorking[indexType].level;
+                double priceUpgradeTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade;
+
+                for (int i = level + 1; i < (level + 10); i++)
+                {
+                    priceUpgradeTotal +=
+                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                        * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
+                }
+                if (GameManager.Instance.dollar >= priceUpgradeTotal)
+                {
+                    btnUpgradeJob.interactable = true;
+                }
+            }
+        }
+
+        if (TruckUpgrade.activeInHierarchy && !btnUpgradeTrunk.interactable)
+        {
+            int id = GameManager.Instance.IDLocation;
+            int indexType = GameManager.Instance.lsLocation[id].indexType;
+            if (!isTrunkX10)
+            {
+                if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck)
+                {
+                    btnUpgradeTrunk.interactable = true;
+                }
+            }
+            else
+            {
+                int levelTruck = GameManager.Instance.lsLocation[id].lsWorking[indexType].levelTruck;
+                double priceUpgradeTruckTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck;
+
+                for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
+                {
+                    priceUpgradeTruckTotal += 
+                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart 
+                        * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+                }
+                if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
+                {
+                    btnUpgradeTrunk.interactable = true;
+                }
+            }
         }
     }
 
@@ -206,6 +265,7 @@ public class UIManager : MonoBehaviour
             popupHome.SetActive(true);
             ScenesManager.Instance.isNextScene = false;
             GameManager.Instance.sumHomeAll = 0;
+            GameManager.Instance.LoadDate();
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
             GameManager.Instance.ClearLocation();
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
@@ -233,7 +293,7 @@ public class UIManager : MonoBehaviour
     {
         if (!isClick)
         {
-            if (PlayerPrefs.GetInt("Continue") != 0)
+            if (PlayerPrefs.GetInt("Continue") != 0 && PlayerPrefs.GetInt("isTutorial") != 0)
             {
                 isClick = true;
                 isContinue = true;
@@ -262,7 +322,7 @@ public class UIManager : MonoBehaviour
     {
         if (scene != TypeScene.WOLRD)
         {
-            UIManager.Instance.txtRevenue.enabled = true;
+            txtRevenue.enabled = true;
             scene = TypeScene.WOLRD;
             AudioManager.Instance.Play("Click");
             locationManager.transform.SetAsFirstSibling();
@@ -270,15 +330,14 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            ClosePupopFull();
             scene = TypeScene.HOME;
             AudioManager.Instance.Play("Menu", true);
             AudioManager.Instance.Stop("GamePlay", true);
             AudioManager.Instance.Play("Click");
-            DataPlayer.Instance.SaveDataPlayer();
+            DataPlayer.Instance.SaveExit();
             panelSetting.SetActive(false);
-            GameManager.Instance.ClearLocation();
             ScenesManager.Instance.secenes[0].objects.SetActive(true);
-            ScenesManager.Instance.currentScenes = 0;
         }
     }
 
@@ -289,7 +348,6 @@ public class UIManager : MonoBehaviour
     }
     public string ConvertNumber(double number)
     {
-        number = System.Math.Floor(number);
         string smoney = string.Format("{0:#,##0}", number);
         for (int i = 0; i < arrAlphabetNeed.Count; i++)
         {
@@ -333,7 +391,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnUpgradeJob.transform);
-            txtWait.text = "Tap YES to Upgrade the capacity of the workshop";
+            txtWait.text = "Upgrade the capacity of the workshop";
         }
     }
 
@@ -347,12 +405,37 @@ public class UIManager : MonoBehaviour
             arrXJob[0].color = new Color32(255, 255, 255, 255);
             arrXJob[1].color = new Color32(255, 255, 255, 128);
             GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkST(indexType);
+            if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade)
+            {
+                btnUpgradeJob.interactable = true;
+            }
+            else
+            {
+                btnUpgradeJob.interactable = false;
+            }
         }
         else
         {
             arrXJob[0].color = new Color32(255, 255, 255, 128);
             arrXJob[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkSTX10(indexType);
+            int level = GameManager.Instance.lsLocation[id].lsWorking[indexType].level;
+            double priceUpgradeTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade;
+
+            for (int i = level + 1; i < (level + 10); i++)
+            {
+                priceUpgradeTotal +=
+                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                    * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
+            }
+            if (GameManager.Instance.dollar >= priceUpgradeTotal)
+            {
+                btnUpgradeJob.interactable = true;
+            }
+            else
+            {
+                btnUpgradeJob.interactable = false;
+            }
         }
     }
     public void UpgradeTrunkX10(bool x10)
@@ -365,12 +448,37 @@ public class UIManager : MonoBehaviour
             arrXTrunk[0].color = new Color32(255, 255, 255, 255);
             arrXTrunk[1].color = new Color32(255, 255, 255, 128);
             GameManager.Instance.lsLocation[id].CheckInfoTruck(indexType);
+            if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck)
+            {
+                btnUpgradeTrunk.interactable = true;
+            }
+            else
+            {
+                btnUpgradeTrunk.interactable = false;
+            }
         }
         else
         {
             arrXTrunk[0].color = new Color32(255, 255, 255, 128);
             arrXTrunk[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTruckX10(indexType);
+            int levelTruck = GameManager.Instance.lsLocation[id].lsWorking[indexType].levelTruck;
+            double priceUpgradeTruckTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck;
+
+            for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
+            {
+                priceUpgradeTruckTotal +=
+                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart
+                    * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+            }
+            if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
+            {
+                btnUpgradeTrunk.interactable = true;
+            }
+            else
+            {
+                btnUpgradeTrunk.interactable = false;
+            }
         }
     }
 
@@ -405,7 +513,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnNoUpgradeJob.transform);
-            txtWait.text = "Tap NO to turn off the panel";
+            txtWait.text = "Turn off the panel";
         }
     }
     public void NoUpgradeJob()
@@ -421,7 +529,7 @@ public class UIManager : MonoBehaviour
             ControlHandTutorial(btnFellingTutorial);
             btnFellingTutorial.gameObject.SetActive(false);
             objTutorial.GetComponent<Image>().raycastTarget = true;
-            txtWait.text = "Tap to work yourself\nIt doubles the workshop capacity";
+            txtWait.text = "Tap to work yourself";
         }
     }
 
@@ -444,7 +552,7 @@ public class UIManager : MonoBehaviour
                     Destroy(objTutorial);
                 }
                 ControlHandTutorial(btnNoUpgradeTrunk.transform);
-                txtWait.text = "Tap NO to turn off the panel";
+                txtWait.text = "Turn off the panel";
             }
         }
     }
@@ -464,7 +572,7 @@ public class UIManager : MonoBehaviour
             }
             GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = true;
             PlayerPrefs.SetInt("isTutorial", 1);
-            txtWait.text = "It's your show now, good luck";
+            txtWait.text = "It's your show now. Good luck!";
             Invoke("HidePanelWait", 3f);
         }
     }
@@ -480,6 +588,15 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         GameManager.Instance.lsLocation[id].SellJob();
         JobSell.SetActive(false);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            popupTutorial.SetActive(false);
+            txtWait.text = "Tap to plant trees";
+        }
     }
     public void NoSellJob()
     {
@@ -549,16 +666,15 @@ public class UIManager : MonoBehaviour
 
     public void SaveExit()
     {
-        UIManager.Instance.txtRevenue.enabled = true;
+        ClosePupopFull();
         scene = TypeScene.HOME;
+        txtRevenue.enabled = true;
         AudioManager.Instance.Play("Menu", true);
         AudioManager.Instance.Stop("GamePlay", true);
         AudioManager.Instance.Play("Click");
-        DataPlayer.Instance.SaveDataPlayer();
+        DataPlayer.Instance.SaveExit();
         panelSetting.SetActive(false);
-        GameManager.Instance.ClearLocation();
         ScenesManager.Instance.secenes[0].objects.SetActive(true);
-        ScenesManager.Instance.currentScenes = 0;
         if (PlayerPrefs.GetInt("Continue") == 0)
         {
             btncontinue.interactable = false;
@@ -630,5 +746,24 @@ public class UIManager : MonoBehaviour
         nameJob.text = name;
         iconJob.sprite = spIcon;
         CostJob.text = ConvertNumber(cost);
+    }
+
+    public void WarningForestOnClick()
+    {
+        WarningForest.SetActive(false);
+        int id = GameManager.Instance.IDLocation;
+        GameManager.Instance.lsLocation[id].transform.GetChild(0).GetChild(0).localPosition = Vector3.zero;
+    }
+
+    public void ClosePupopFull()
+    {
+        CloseJob();
+        JobSell.SetActive(false);
+        JobUpgrade.SetActive(false);
+        TruckUpgrade.SetActive(false);
+        PopupAutoPlant.SetActive(false);
+        PopupGiveGold.SetActive(false);
+        panelDollar.SetActive(false);
+        panelGold.SetActive(false);
     }
 }

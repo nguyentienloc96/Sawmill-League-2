@@ -157,29 +157,12 @@ public class GameManager : MonoBehaviour
         }
         location.nameLocation = locationUI.nameLocationUI;
         UIManager.Instance.lsBtnLocationUI[location.id].interactable = true;
-        location.LoadLocation();
         lsLocation.Add(location);
+        location.LoadLocation();
+        location.lsWorking[0].animLock.enabled = true;
         if (isStart)
         {
-            location.countType++;
-            location.indexType = location.countType;
-            location.lsWorking[location.countType].icon.color = Color.white;
-            location.lsWorking[location.countType].info.SetActive(true);
-            location.lsWorking[location.countType].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].input);
-            location.lsWorking[location.countType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].output);
-            location.forest.btnAutoPlant.interactable = true;
-            UIManager.Instance.txtRevenue.text
-                       = "Revenue : " + UIManager.Instance.ConvertNumber(
-                           GameConfig.Instance.c0
-                           * GameConfig.Instance.r
-                           * GameConfig.Instance.productCost
-                           ) + "$/day";
-            location.lsWorking[0].animLock.gameObject.SetActive(false);
-            location.lsWorking[1].animLock.enabled = true;
-        }
-        else
-        {
-            location.lsWorking[0].animLock.enabled = true;
+            UIManager.Instance.txtRevenue.text = "Revenue : 0$/day";
         }
     }
 
