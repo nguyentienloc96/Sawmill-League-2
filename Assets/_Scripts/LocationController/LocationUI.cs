@@ -37,13 +37,21 @@ public class LocationUI : MonoBehaviour
         if (!UIManager.Instance.locationManager.gameObject.activeInHierarchy)
             UIManager.Instance.locationManager.SetActive(true);
 
-        if (!GameManager.Instance.lsLocation[id].forest.isAutoPlant)
+        if (!GameManager.Instance.lsLocation[id].forest.isAutoPlant && GameManager.Instance.lsLocation[id].countType >= 0)
         {
             if (GameManager.Instance.lsLocation[id].forest.tree == 0 
                 && !UIManager.Instance.WarningForest.activeInHierarchy)
             {
                 UIManager.Instance.WarningForest.SetActive(true);
             }
+            else
+            {
+                UIManager.Instance.WarningForest.SetActive(false);
+            }
+        }
+        else
+        {
+            UIManager.Instance.WarningForest.SetActive(false);
         }
     }
 }

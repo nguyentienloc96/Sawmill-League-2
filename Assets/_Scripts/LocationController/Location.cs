@@ -534,6 +534,7 @@ public class Location : MonoBehaviour
             }
             if (id > 0 && countType == 0)
             {
+                UIManager.Instance.WarningForest.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.btnAutoPlant.gameObject.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.isOnBtnAutoPlant = true;
             }
@@ -662,8 +663,11 @@ public class Location : MonoBehaviour
 
     public void Update()
     {
-        FellingForest();
-        Felling();
+        if (countType >= 0)
+        {
+            FellingForest();
+            Felling();
+        }
         for (int i = 1; i <= countType; i++)
         {
             Job(i);
@@ -703,6 +707,7 @@ public class Location : MonoBehaviour
                 if (forest.tree <= 0)
                 {
                     forest.forestClass.RunCarGrow();
+                    UIManager.Instance.WarningForest.SetActive(false);
                 }
             }
         });

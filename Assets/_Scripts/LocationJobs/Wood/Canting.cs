@@ -128,13 +128,10 @@ public class Canting : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        tree.DOLocalMove(new Vector3(0f, 3.2f, 0f), 0.5f).OnComplete(() =>
-        {
-            tree.GetChild(0).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f);
-            tree.GetChild(1).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
-                CallBackDG(ID, IndexType)
-            );
-        });
+        tree.GetChild(0).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f);
+        tree.GetChild(1).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
+            CallBackDG(ID, IndexType)
+        );
 
     }
 
