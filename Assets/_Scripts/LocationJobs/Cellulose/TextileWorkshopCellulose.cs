@@ -91,7 +91,6 @@ public class TextileWorkshopCellulose : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Debarking");
@@ -130,6 +129,7 @@ public class TextileWorkshopCellulose : MonoBehaviour
         isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
+        tutorialHand.SetActive(false);
         paper.DOLocalMoveY(3f, 0.5f).OnComplete(() =>
         {
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);

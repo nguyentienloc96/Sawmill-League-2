@@ -4,6 +4,8 @@ using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.UI;
 //using UnityEngine.Advertisements;
+using DG.Tweening;
+using System;
 
 public class Ads : MonoBehaviour
 {
@@ -145,20 +147,6 @@ public class Ads : MonoBehaviour
     #endregion
 
     #region ===UNITY ADS===
-    public void Btn_Plane()
-    {
-        panelPlane.SetActive(true);
-        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
-        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        if (jobEnd == -1)
-        {
-            locationEnd--;
-            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-        txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
-        txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
-    }
 
     public void SuccessPlaneReciveDollar()
     {
@@ -187,7 +175,7 @@ public class Ads : MonoBehaviour
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
         double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price * 5;
-        GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
+        GameManager.Instance.dollar += Math.Floor(dollarRecive); // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
         panelPlane.SetActive(false);
     }

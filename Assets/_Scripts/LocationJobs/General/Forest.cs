@@ -79,6 +79,13 @@ public class Forest : MonoBehaviour
             {
                 UIManager.Instance.txtWait.text = "Wait to plant trees";
             }
+            if (location.id == GameManager.Instance.IDLocation)
+            {
+                if (UIManager.Instance.WarningForest.activeInHierarchy)
+                {
+                    UIManager.Instance.WarningForest.SetActive(false);
+                }
+            }
         }
     }
 

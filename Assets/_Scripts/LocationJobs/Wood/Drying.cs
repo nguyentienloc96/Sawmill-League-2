@@ -90,7 +90,6 @@ public class Drying : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             timeNeedle = 0;
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
             anim.enabled = true;
@@ -143,7 +142,7 @@ public class Drying : MonoBehaviour
                 treeMask.localPosition = Vector3.zero;
                 needle.localEulerAngles = new Vector3(0f, 0f, 90f);
                 isInput = false;
-
+                tutorialHand.SetActive(false);  
                 if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
                 {
                     LoadInput();

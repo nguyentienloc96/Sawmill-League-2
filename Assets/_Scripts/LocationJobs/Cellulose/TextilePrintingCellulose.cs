@@ -14,7 +14,9 @@ public class TextilePrintingCellulose : MonoBehaviour
     public Animator anim;
     public GameObject tutorialHand;
     public Image imgBG;
+    public SpriteRenderer inputSpPaper;
     public SpriteRenderer spPaper;
+    public Sprite[] inputarrspPaper;
     public Sprite[] arrspPaper;
     private bool isRun;
     private Vector3 posDown;
@@ -87,7 +89,6 @@ public class TextilePrintingCellulose : MonoBehaviour
             AudioManager.Instance.Play("Polish");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -101,6 +102,7 @@ public class TextilePrintingCellulose : MonoBehaviour
     public void LoadInput()
     {
         randomPaper = Random.Range(0, arrspPaper.Length);
+        inputSpPaper.sprite = inputarrspPaper[randomPaper];
         spPaper.sprite = arrspPaper[randomPaper];
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
@@ -123,7 +125,7 @@ public class TextilePrintingCellulose : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

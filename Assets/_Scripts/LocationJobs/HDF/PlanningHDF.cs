@@ -32,7 +32,7 @@ public class PlanningHDF : MonoBehaviour {
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
-			cart.localPosition = new Vector3(-4f, 0f, 0f);
+			cart.localPosition = new Vector3(-1f, 0f, 0f);
             notification.SetActive(false);
             tree.gameObject.SetActive(true);
             LoadInput();
@@ -51,12 +51,12 @@ public class PlanningHDF : MonoBehaviour {
         {
             if (isRun)
             {
-                if (Input.mousePosition.y > posDown.y)
+                if (Input.mousePosition.x > posDown.x)
                 {
-                    float dis = Input.mousePosition.y - posDown.y;
-                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    float dis = Input.mousePosition.x - posDown.x;
+                    cart.position += new Vector3(dis * 0.01f * Time.deltaTime, 0f,0f);
                 }
-                if (cart.position.y > posCheck.y)
+                if (cart.position.x > posCheck.x)
                 {
                     StartCoroutine(CompleteJob());
                 }
@@ -82,7 +82,6 @@ public class PlanningHDF : MonoBehaviour {
             AudioManager.Instance.Play("Polish");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -115,8 +114,8 @@ public class PlanningHDF : MonoBehaviour {
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-
+        cart.localPosition = new Vector3(-1f, 0f, 0f);
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

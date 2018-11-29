@@ -11,6 +11,9 @@ public class Planing : MonoBehaviour
     public GameObject notification;
     public Animator anim;
     public ParticleSystem particleEmissions;
+    public Transform level1;
+    public Transform level2;
+    public Transform level3;
 
     public GameObject tutorialHand;
     public Image imgBG;
@@ -57,6 +60,10 @@ public class Planing : MonoBehaviour
                 {
                     float dis = Input.mousePosition.y - posDown.y;
                     cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    level1.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    level2.localEulerAngles -= new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+                    level3.localEulerAngles += new Vector3(0f, 0f, dis * 5f * Time.deltaTime);
+
                 }
                 if (cart.position.y > posCheck.y)
                 {
@@ -80,7 +87,6 @@ public class Planing : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             AudioManager.Instance.Play("Polish");
@@ -123,7 +129,7 @@ public class Planing : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             tree[random].SetActive(false);

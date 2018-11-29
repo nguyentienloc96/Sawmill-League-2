@@ -83,7 +83,6 @@ public class SizeCuttingHDF : MonoBehaviour {
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleCanting1.Play();
             particleCanting2.Play();
@@ -144,7 +143,7 @@ public class SizeCuttingHDF : MonoBehaviour {
         tree.GetChild(1).localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         isInput = false;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

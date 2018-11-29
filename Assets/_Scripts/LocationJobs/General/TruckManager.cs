@@ -7,6 +7,7 @@ public class TruckManager : MonoBehaviour
     public Location location;
     public GameObject truck;
     public Text txtSent;
+    public Text txtLevel;
 
     public Animator animCar;
 
@@ -29,6 +30,7 @@ public class TruckManager : MonoBehaviour
             truck.transform.position = way[0].transform.position;
             float height = way[indexPos + 1].transform.position.y - truck.transform.position.y;
             float weight = way[indexPos + 1].transform.position.x - truck.transform.position.x;
+            txtLevel.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].levelTruck);
             if (Mathf.Abs(height) > Mathf.Abs(weight))
             {
                 if (height > 0)
@@ -235,34 +237,34 @@ public class TruckManager : MonoBehaviour
 
     public void SentedOutput()
     {
-        if (GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
-        {
-            GameManager.Instance.dollar -= location.lsWorking[indexType].priceTruckSent;
+        //if (GameManager.Instance.dollar >= location.lsWorking[indexType].priceTruckSent)
+        //{
+        //GameManager.Instance.dollar -= location.lsWorking[indexType].priceTruckSent;
 
-            if (location.lsWorking[indexType].output >= location.lsWorking[indexType].maxSent)
-            {
-                txtSent.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].maxSent);
-                location.lsWorking[indexType].output -= location.lsWorking[indexType].maxSent;
-                location.lsWorking[indexType].currentSent = location.lsWorking[indexType].maxSent;
-                location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
-            }
-            else if (location.lsWorking[indexType].output > 0)
-            {
-                double outputSent = location.lsWorking[indexType].output;
-                txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
-                location.lsWorking[indexType].currentSent = outputSent;
-                location.lsWorking[indexType].output -= outputSent;
-                location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
-            }
-            else
-            {
-                isRun = false;
-            }
+        if (location.lsWorking[indexType].output >= location.lsWorking[indexType].maxSent)
+        {
+            txtSent.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].maxSent);
+            location.lsWorking[indexType].output -= location.lsWorking[indexType].maxSent;
+            location.lsWorking[indexType].currentSent = location.lsWorking[indexType].maxSent;
+            location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
+        }
+        else if (location.lsWorking[indexType].output > 0)
+        {
+            double outputSent = location.lsWorking[indexType].output;
+            txtSent.text = UIManager.Instance.ConvertNumber(outputSent);
+            location.lsWorking[indexType].currentSent = outputSent;
+            location.lsWorking[indexType].output -= outputSent;
+            location.lsWorking[indexType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[indexType].output);
         }
         else
         {
             isRun = false;
         }
+        //}
+        //else
+        //{
+        //    isRun = false;
+        //}
     }
 
     public void ReceivedOutput()

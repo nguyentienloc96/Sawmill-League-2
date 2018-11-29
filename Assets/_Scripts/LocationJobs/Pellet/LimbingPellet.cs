@@ -84,7 +84,6 @@ public class LimbingPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
@@ -128,7 +127,7 @@ public class LimbingPellet : MonoBehaviour
         lever.localEulerAngles = Vector3.zero;
         knife.localPosition = Vector3.up;
         isInput = false;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

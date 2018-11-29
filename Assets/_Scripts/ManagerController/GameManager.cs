@@ -36,26 +36,32 @@ public class GameManager : MonoBehaviour
     [Header("GamePlay")]
     public double gold;
     public double dollar;
-    public double dollarGive;
     public int sumHomeAll;
     public int indexSawmill;
     public int IDLocation;
     public Transform locationManager;
     public List<Location> lsLocation;
     public GameObject[] lsItemLocation;
+    public GameObject[] arrPrefabOther;
+    public GameObject[] arrPrefabsStreet;
+
+
     #endregion
 
     #region MiniGame
     public List<TypeMiniGame> lsTypeMiniGame;
     #endregion
-
+    public bool isReset;
     private void Awake()
     {
         if (Instance != null)
             return;
         Instance = this;
         LoadDate();
-        //PlayerPrefs.DeleteAll();
+        if (isReset)
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 
     public void LoadDate()
@@ -91,10 +97,19 @@ public class GameManager : MonoBehaviour
 
     public void LoadLocation()
     {
+        UIManager.Instance.txtRevenue.enabled = false;
         lsLocation[IDLocation].transform.localPosition = Vector3.zero;
         for (int animL = 0; animL < lsLocation[IDLocation].lsWorking.Length; animL++)
         {
             lsLocation[IDLocation].lsWorking[animL].anim.enabled = true;
+        }
+        for (int animR = 0; animR < lsLocation[IDLocation].rivers.arrAnim.Count; animR++)
+        {
+            lsLocation[IDLocation].rivers.arrAnim[animR].enabled = true;
+        }
+        for (int animO = 0; animO < lsLocation[IDLocation].others.arrAnim.Count; animO++)
+        {
+            lsLocation[IDLocation].others.arrAnim[animO].enabled = true;
         }
         for (int i = 0; i < lsLocation.Count; i++)
         {
@@ -104,6 +119,14 @@ public class GameManager : MonoBehaviour
                 for (int animLH = 0; animLH < lsLocation[i].lsWorking.Length; animLH++)
                 {
                     lsLocation[i].lsWorking[animLH].anim.enabled = false;
+                }
+                for (int animRH = 0; animRH < lsLocation[i].rivers.arrAnim.Count; animRH++)
+                {
+                    lsLocation[i].rivers.arrAnim[animRH].enabled = false;
+                }
+                for (int animOH = 0; animOH < lsLocation[i].others.arrAnim.Count; animOH++)
+                {
+                    lsLocation[i].others.arrAnim[animOH].enabled = false;
                 }
             }
         }
@@ -134,23 +157,12 @@ public class GameManager : MonoBehaviour
         }
         location.nameLocation = locationUI.nameLocationUI;
         UIManager.Instance.lsBtnLocationUI[location.id].interactable = true;
-        location.LoadLocation();
         lsLocation.Add(location);
+        location.LoadLocation();
+        location.lsWorking[0].animLock.enabled = true;
         if (isStart)
         {
-            location.countType++;
-            location.indexType = location.countType;
-            location.lsWorking[location.countType].icon.color = Color.white;
-            location.lsWorking[location.countType].info.SetActive(true);
-            location.lsWorking[location.countType].textInput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].input);
-            location.lsWorking[location.countType].textOutput.text = UIManager.Instance.ConvertNumber(location.lsWorking[location.countType].output);
-            location.forest.btnAutoPlant.interactable = true;
-            UIManager.Instance.txtRevenue.text
-                       = "Revenue : " + UIManager.Instance.ConvertNumber(
-                           GameConfig.Instance.c0
-                           * GameConfig.Instance.r
-                           * GameConfig.Instance.productCost
-                           ) + "$/day";
+            UIManager.Instance.txtRevenue.text = "Revenue : 0$/day";
         }
     }
 

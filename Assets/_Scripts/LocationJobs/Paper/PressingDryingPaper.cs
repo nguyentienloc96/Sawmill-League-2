@@ -98,7 +98,6 @@ public class PressingDryingPaper : MonoBehaviour
             AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
@@ -159,6 +158,7 @@ public class PressingDryingPaper : MonoBehaviour
             paper.localPosition = new Vector3(-2f, 0f, 0f);
             gasPusher.localScale = Vector3.one;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {
                 StartCoroutine(LoadInput());

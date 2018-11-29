@@ -80,6 +80,9 @@ public class DataPlayer : MonoBehaviour
         File.WriteAllText(_path, JsonUtility.ToJson(data, true));
         File.ReadAllText(_path);
         PlayerPrefs.SetInt("Continue", 1);
+
+        Debug.Log(SimpleJSON_DatDz.JSON.Parse(File.ReadAllText(_path)));
+
     }
 
     public void LoadDataPlayer()
@@ -91,23 +94,28 @@ public class DataPlayer : MonoBehaviour
         Debug.Log(objJson);
         if (objJson != null)
         {
-            GameManager.Instance.gold = objJson["gold"].AsDouble;
-            GameManager.Instance.dollar = objJson["dollar"].AsDouble;
-            GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
-            GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
-            GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
-            GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
-
-            var lsData = objJson["lsLocation"].AsArray;
-            lsLocation = new List<LocationJSON>();
-            GameManager.Instance.ClearLocation();
-            GameManager.Instance.lsLocation = new List<Location>();
-            StartCoroutine(IELoadLocationJson(lsData));
-            GameManager.Instance.locationManager.gameObject.SetActive(true);
-            GameManager.Instance.locationManager.SetAsFirstSibling();
-
+            StartCoroutine(IEClearLocation(objJson));
         }
 
+    }
+
+    public IEnumerator IEClearLocation(SimpleJSON_DatDz.JSONNode objJson)
+    {
+        GameManager.Instance.ClearLocation();
+        yield return new WaitUntil(() => GameManager.Instance.lsLocation.Count == 0);
+        GameManager.Instance.gold = objJson["gold"].AsDouble;
+        GameManager.Instance.dollar = objJson["dollar"].AsDouble;
+        GameManager.Instance.sumHomeAll = objJson["sumHomeAll"].AsInt;
+        GameManager.Instance.indexSawmill = objJson["indexSawmill"].AsInt;
+        GameManager.Instance.dateStartPlay = DateTime.Parse(objJson["dateStartPlay"]);
+        GameManager.Instance.dateGame = DateTime.Parse(objJson["dateGame"]);
+
+        var lsData = objJson["lsLocation"].AsArray;
+        lsLocation = new List<LocationJSON>();
+        GameManager.Instance.lsLocation = new List<Location>();
+        StartCoroutine(IELoadLocationJson(lsData));
+        GameManager.Instance.locationManager.gameObject.SetActive(true);
+        GameManager.Instance.locationManager.SetAsFirstSibling();
     }
 
     public IEnumerator IELoadLocationJson(SimpleJSON_DatDz.JSONArray lsData)
@@ -199,7 +207,6 @@ public class DataPlayer : MonoBehaviour
                 location.lsWorking[j].priceUpgradeStart = lsWorking[j]["priceUpgradeStart"].AsDouble;
                 location.lsWorking[j].price = lsWorking[j]["price"].AsDouble;
                 location.lsWorking[j].UN2 = lsWorking[j]["UN2"].AsFloat;
-
                 if (location.lsWorking[j].id <= location.countType)
                 {
                     location.lsWorking[j].info.SetActive(true);
@@ -211,6 +218,23 @@ public class DataPlayer : MonoBehaviour
                     if (location.lsWorking[j].output > 0)
                     {
                         location.lsWorking[j].truckManager.LoadTruck();
+                    }
+                    location.lsWorking[j].textLevel.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].level);
+                    location.lsWorking[j].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(location.lsWorking[j].levelTruck);
+                }
+                if (i != lsData.Count - 1)
+                {
+                    location.lsWorking[j].animLock.gameObject.SetActive(false);
+                }
+                else
+                {
+                    if (location.lsWorking[j].id <= location.countType)
+                    {
+                        location.lsWorking[j].animLock.gameObject.SetActive(false);
+                    }
+                    else if (location.lsWorking[j].id == location.countType + 1)
+                    {
+                        location.lsWorking[j].animLock.enabled = true;
                     }
                 }
             }
@@ -232,71 +256,120 @@ public class DataPlayer : MonoBehaviour
                     }
                 }
             }
-
-            if (!isFirst)
-            {
-                if (UIManager.Instance.isContinue)
-                {
-                    totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
-                    if (totalTime > 0)
-                    {
-                        if (totalTime > 10)
-                            totalTime = 10;
-                        double adddollar = (double)((float)totalTime * 0.5f * (float)location.lsWorking[location.countType].priceOutput);
-                        GameManager.Instance.dollar += adddollar;
-                        GameManager.Instance.dollarGive += adddollar;
-
-                    }
-                }
-                isFirst = true;
-            }
             GameManager.Instance.lsLocation.Add(location);
             UIManager.Instance.lsBtnLocationUI[i].interactable = true;
         }
         yield return new WaitUntil(() => UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].interactable);
+
         UIManager.Instance.handWorld.position = UIManager.Instance.lsBtnLocationUI[lsData.Count - 1].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f); ;
-        if (totalTime > 0)
+
+        int locationEnd = GameManager.Instance.lsLocation.Count - 1;
+        int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+        if (jobEnd == -1)
         {
-            string strGive = "You were offline for "
-                + UIManager.Instance.ConvertNumber(totalTime)
-                + " hours \n You have just recived "
-                + UIManager.Instance.ConvertNumber(GameManager.Instance.dollarGive)
-                + "$";
-            UIManager.Instance.PushGiveGold(strGive);
-            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+            locationEnd--;
+            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        int id = GameManager.Instance.lsLocation.Count - 1;
-        int indexType = GameManager.Instance.lsLocation[id].countType;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
         UIManager.Instance.txtRevenue.text
         = "Revenue : " + UIManager.Instance.ConvertNumber(
-            GameManager.Instance.lsLocation[id]
-            .lsWorking[indexType].maxOutputMade
+            GameManager.Instance.lsLocation[locationEnd]
+            .lsWorking[jobEnd].maxOutputMade
             * GameConfig.Instance.r
             * GameConfig.Instance.productCost
             ) + "$/day";
         ScenesManager.Instance.isNextScene = true;
-
+        double adddollar = 0;
+        if (!isFirst)
+        {
+            if (UIManager.Instance.isContinue)
+            {
+                totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
+                if (totalTime > 0)
+                {
+                    if (totalTime > 10)
+                        totalTime = 10;
+                    adddollar = (double)((float)totalTime * 0.5f * (float)GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price);
+                    GameManager.Instance.dollar += adddollar;
+                    string strGive = "Offline Reward\n"
+                    + UIManager.Instance.ConvertNumber(adddollar)
+                    + "$";
+                    UIManager.Instance.PushGiveGold(strGive);
+                    PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
+                }
+            }
+            isFirst = true;
+        }
     }
 
     private void OnDestroy()
     {
-        if (UIManager.Instance.isSaveJson)
+        if (UIManager.Instance.isSaveJson && UIManager.Instance.scene != TypeScene.HOME)
         {
             SaveDataPlayer();
-            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
+        PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
     }
 
     private void OnApplicationPause(bool pause)
     {
         if (pause == true)
         {
-            if (UIManager.Instance.isSaveJson)
+            if (UIManager.Instance.isSaveJson && UIManager.Instance.scene != TypeScene.HOME)
             {
                 SaveDataPlayer();
-                PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
             }
+            PlayerPrefs.SetString("DateTimeOutGame", DateTime.Now.ToString());
         }
+    }
+
+    public void SaveExit()
+    {
+        StartCoroutine(IESaveDataPlayer());
+    }
+
+    public IEnumerator IESaveDataPlayer()
+    {
+        int sumLocaton = 0;
+        DataPlayer data = new DataPlayer();
+        data.gold = GameManager.Instance.gold;
+        data.dollar = GameManager.Instance.dollar;
+        data.sumHomeAll = GameManager.Instance.sumHomeAll;
+        data.indexSawmill = GameManager.Instance.indexSawmill;
+        data.dateStartPlay = GameManager.Instance.dateStartPlay.ToString();
+        data.dateGame = GameManager.Instance.dateGame.ToString();
+        data.lsLocation = new List<LocationJSON>();
+        for (int i = 0; i < GameManager.Instance.lsLocation.Count; i++)
+        {
+            LocationJSON locationJson = new LocationJSON();
+            locationJson.id = GameManager.Instance.lsLocation[i].id;
+            locationJson.nameLocation = GameManager.Instance.lsLocation[i].nameLocation;
+            locationJson.indexTypeWork = GameManager.Instance.lsLocation[i].indexTypeWork;
+            locationJson.countType = GameManager.Instance.lsLocation[i].countType;
+            locationJson.indexType = GameManager.Instance.lsLocation[i].indexType;
+            locationJson.makerType = GameManager.Instance.lsLocation[i].makerType;
+
+            locationJson.forest = GameManager.Instance.lsLocation[i].forest;
+            locationJson.lsWorking = GameManager.Instance.lsLocation[i].lsWorking;
+
+            locationJson.lsOther = GameManager.Instance.lsLocation[i].lsOther;
+            locationJson.lsRiverLeft = GameManager.Instance.lsLocation[i].lsRiverLeft;
+            locationJson.lsRiverRight = GameManager.Instance.lsLocation[i].lsRiverRight;
+            locationJson.lsStreet = GameManager.Instance.lsLocation[i].lsStreet;
+
+            data.lsLocation.Add(locationJson);
+            sumLocaton++;
+        }
+
+        string _path = Path.Combine(Application.persistentDataPath, "DataPlayer.json");
+        File.WriteAllText(_path, JsonUtility.ToJson(data, true));
+        File.ReadAllText(_path);
+
+        yield return new WaitUntil(() => sumLocaton == GameManager.Instance.lsLocation.Count);
+
+        PlayerPrefs.SetInt("Continue", 1);
+
+        GameManager.Instance.ClearLocation();
     }
 
 }

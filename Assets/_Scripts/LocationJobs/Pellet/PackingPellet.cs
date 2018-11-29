@@ -83,7 +83,6 @@ public class PackingPellet : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             particleEmissions.Play();
             anim.enabled = true;
             AudioManager.Instance.Play("Debarking");
@@ -127,7 +126,7 @@ public class PackingPellet : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-1f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

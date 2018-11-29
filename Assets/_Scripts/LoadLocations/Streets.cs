@@ -6,8 +6,6 @@ public class Streets : MonoBehaviour
 {
     public Location location;
 
-    public GameObject[] arrPrefabsStreet;
-
     public List<Transform> lsPoint;
 
     public void LoadStreetRandom()
@@ -18,13 +16,13 @@ public class Streets : MonoBehaviour
             int random;
             if (i % 2 == 0)
             {
-                random = Random.Range(0, arrPrefabsStreet.Length / 2);
+                random = Random.Range(0, GameManager.Instance.arrPrefabsStreet.Length / 2);
             }
             else
             {
-                random = Random.Range(arrPrefabsStreet.Length / 2, arrPrefabsStreet.Length);
+                random = Random.Range(GameManager.Instance.arrPrefabsStreet.Length / 2, GameManager.Instance.arrPrefabsStreet.Length);
             }
-            Transform tf = Instantiate(arrPrefabsStreet[random], lsPoint[i]).transform;
+            Transform tf = Instantiate(GameManager.Instance.arrPrefabsStreet[random], lsPoint[i]).transform;
             tf.SetAsFirstSibling();
             location.lsWorking[i].truckManager.way = tf.GetComponent<WayPoint>().way;
             location.lsWorking[i].truckManager.truck.transform.position = location.lsWorking[i].truckManager.way[0].position;
@@ -37,7 +35,7 @@ public class Streets : MonoBehaviour
     {
         for (int i = 0; i < lsPoint.Count; i++)
         {
-            Transform tf = Instantiate(arrPrefabsStreet[location.lsStreet[i]], lsPoint[i]).transform;
+            Transform tf = Instantiate(GameManager.Instance.arrPrefabsStreet[location.lsStreet[i]], lsPoint[i]).transform;
             tf.SetAsFirstSibling();
             location.lsWorking[i].truckManager.way = tf.GetComponent<WayPoint>().way;
             location.lsWorking[i].truckManager.truck.transform.position = location.lsWorking[i].truckManager.way[0].position;

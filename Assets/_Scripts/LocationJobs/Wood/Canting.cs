@@ -82,7 +82,6 @@ public class Canting : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleEmissions.Play();
             particleCanting1.Play();
@@ -107,7 +106,7 @@ public class Canting : MonoBehaviour
 
     public void LoadInput()
     {
-        
+
         cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
@@ -129,13 +128,10 @@ public class Canting : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        tree.DOLocalMove(new Vector3(0f, 3.2f, 0f), 0.5f).OnComplete(() =>
-        {
-            tree.GetChild(0).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f);
-            tree.GetChild(1).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
-                CallBackDG(ID, IndexType)
-            );
-        });
+        tree.GetChild(0).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f);
+        tree.GetChild(1).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f).OnComplete(() =>
+            CallBackDG(ID, IndexType)
+        );
 
     }
 
@@ -146,6 +142,7 @@ public class Canting : MonoBehaviour
         tree.GetChild(1).localEulerAngles = Vector3.zero;
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         isInput = false;
+        tutorialHand.SetActive(false);
 
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {

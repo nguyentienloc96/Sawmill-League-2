@@ -83,7 +83,6 @@ public class Limbing : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             particleLimbing.Play();
             particleEmissions.Play();
@@ -129,7 +128,7 @@ public class Limbing : MonoBehaviour
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         tree.localPosition = Vector3.zero;
         isInput = false;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

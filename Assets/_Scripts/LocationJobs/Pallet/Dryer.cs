@@ -87,7 +87,6 @@ public class Dryer : MonoBehaviour
         {
             timeNeedle = 0;
             needle.DOLocalRotate(new Vector3(0f, 0f, Random.Range(-90f, 45f)), 1f);
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
@@ -128,7 +127,7 @@ public class Dryer : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-4f, 0f, 0f);
         needle.DOLocalRotate(new Vector3(0f, 0f, 90f), 0.5f);
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             tree.SetActive(false);

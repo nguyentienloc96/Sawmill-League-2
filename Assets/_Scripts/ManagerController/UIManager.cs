@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public enum TypeScene
 {
-    LOADING,
     HOME,
     WOLRD,
     LOCATION,
@@ -24,31 +23,6 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
-    public void Start()
-    {
-        scene = TypeScene.HOME;
-        if (!PlayerPrefs.HasKey("isTutorial"))
-        {
-            PlayerPrefs.SetInt("isTutorial", 0);
-        }
-        if (!PlayerPrefs.HasKey("Continue"))
-        {
-            PlayerPrefs.SetInt("Continue", 0);
-            btncontinue.interactable = false;
-        }
-        else
-        {
-            if (PlayerPrefs.GetInt("Continue") == 0)
-            {
-                btncontinue.interactable = false;
-            }
-            else
-            {
-                btncontinue.interactable = true;
-            }
-        }
-    }
-
     [Header("InfoPlayer")]
     public Text txtDollar;
     public Text txtGold;
@@ -57,6 +31,8 @@ public class UIManager : MonoBehaviour
     public GameObject panelGold;
     public Text txtDollarVideoAds;
     public Text txtDollarRecive;
+    public Button btnGoldToDollar;
+
 
     [Header("Setting")]
     public GameObject panelSetting;
@@ -98,7 +74,9 @@ public class UIManager : MonoBehaviour
     [Header("UIHome")]
     public Button btncontinue;
     public GameObject popupStart;
+    public GameObject popupHome;
     public bool isClick;
+    public GameObject WarningForest;
 
     [Header("SellJob")]
     public Button btnSell;
@@ -106,6 +84,27 @@ public class UIManager : MonoBehaviour
     public Button btnUpgradeTrunk;
     public Button btnNoUpgradeJob;
     public Button btnNoUpgradeTrunk;
+
+    [Header("UIInfoUpgradeJob")]
+    public Text nameUpgradeJob;
+    public Text levelCurrentJob;
+    public Text levelNextJob;
+    public Text CapacityCurrentJob;
+    public Text CapacityNextJob;
+    public Text CostUpgradeJob;
+
+    [Header("UIInfoUpgradeTruck")]
+    public Text nameUpgradeTrunkJob;
+    public Text levelCurrentTruck;
+    public Text levelNextTruck;
+    public Text CapacityCurrentTruck;
+    public Text CapacityNextTruck;
+    public Text CostUpgradeTruck;
+
+    [Header("UIInfoSellJob")]
+    public Text nameJob;
+    public Image iconJob;
+    public Text CostJob;
 
 
     [Header("Tutorial")]
@@ -122,12 +121,47 @@ public class UIManager : MonoBehaviour
     public bool isClickTrunk;
     public bool isOnClickTrunk;
     public float speedTrunkTutorial;
+    public List<string> arrAlphabetNeed = new List<string>();
 
+    private string[] arrAlphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+
+    public void Start()
+    {
+        scene = TypeScene.HOME;
+        if (!PlayerPrefs.HasKey("isTutorial"))
+        {
+            PlayerPrefs.SetInt("isTutorial", 0);
+        }
+        if (!PlayerPrefs.HasKey("Continue"))
+        {
+            PlayerPrefs.SetInt("Continue", 0);
+            btncontinue.interactable = false;
+        }
+        else
+        {
+            if (PlayerPrefs.GetInt("Continue") == 0)
+            {
+                btncontinue.interactable = false;
+            }
+            else
+            {
+                btncontinue.interactable = true;
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < arrAlphabet.Length; j++)
+            {
+                arrAlphabetNeed.Add(arrAlphabet[i] + arrAlphabet[j]);
+            }
+        }
+    }
 
     public void Update()
     {
         txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
         txtGold.text = ConvertNumber(GameManager.Instance.gold);
+       
         if (scene == TypeScene.MINIGAME)
         {
             int id = GameManager.Instance.IDLocation;
@@ -136,6 +170,64 @@ public class UIManager : MonoBehaviour
             if (indexType != 0) GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].inputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].input);
             GameManager.Instance.lsTypeMiniGame[indexTypeWork].lsMiniGame[indexType].outputMiniGame.text = ConvertNumber(GameManager.Instance.lsLocation[id].lsWorking[indexType].output);
 
+        }
+
+        if (JobUpgrade.activeInHierarchy && !btnUpgradeJob.interactable)
+        {
+            int id = GameManager.Instance.IDLocation;
+            int indexType = GameManager.Instance.lsLocation[id].indexType;
+            if (!isJobX10)
+            {
+                if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade)
+                {
+                    btnUpgradeJob.interactable = true;
+                }
+            }
+            else
+            {
+                int level = GameManager.Instance.lsLocation[id].lsWorking[indexType].level;
+                double priceUpgradeTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade;
+
+                for (int i = level + 1; i < (level + 10); i++)
+                {
+                    priceUpgradeTotal +=
+                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                        * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
+                }
+                if (GameManager.Instance.dollar >= priceUpgradeTotal)
+                {
+                    btnUpgradeJob.interactable = true;
+                }
+            }
+        }
+
+        if (TruckUpgrade.activeInHierarchy && !btnUpgradeTrunk.interactable)
+        {
+            int id = GameManager.Instance.IDLocation;
+            int indexType = GameManager.Instance.lsLocation[id].indexType;
+            if (!isTrunkX10)
+            {
+                if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck)
+                {
+                    btnUpgradeTrunk.interactable = true;
+                }
+            }
+            else
+            {
+                int levelTruck = GameManager.Instance.lsLocation[id].lsWorking[indexType].levelTruck;
+                double priceUpgradeTruckTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck;
+
+                for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
+                {
+                    priceUpgradeTruckTotal += 
+                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart 
+                        * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+                }
+                if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
+                {
+                    btnUpgradeTrunk.interactable = true;
+                }
+            }
         }
     }
 
@@ -156,22 +248,25 @@ public class UIManager : MonoBehaviour
         else
         {
             popupStart.SetActive(true);
+            popupHome.SetActive(false);
         }
     }
     public void BtnYesPlayOnclick()
     {
         if (!isClick)
         {
+
             isClick = true;
             isContinue = false;
             AudioManager.Instance.Play("Click");
             AudioManager.Instance.Stop("Menu", true);
             AudioManager.Instance.Play("GamePlay", true);
             popupStart.SetActive(false);
+            popupHome.SetActive(true);
             ScenesManager.Instance.isNextScene = false;
             GameManager.Instance.sumHomeAll = 0;
+            GameManager.Instance.LoadDate();
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
-            GameManager.Instance.gold = GameConfig.Instance.goldStart;
             GameManager.Instance.ClearLocation();
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
@@ -191,34 +286,43 @@ public class UIManager : MonoBehaviour
                     txtWait.text = "Tap to Africa";
                 }
             });
+
         }
     }
     public void BtnContinueOnclick()
     {
         if (!isClick)
         {
-            isClick = true;
-            isContinue = true;
-
-            AudioManager.Instance.Play("Click");
-            AudioManager.Instance.Stop("Menu", true);
-            AudioManager.Instance.Play("GamePlay", true);
-
-            DataPlayer.Instance.LoadDataPlayer();
-            contentWorld.anchoredPosition = Vector3.zero;
-
-            ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+            if (PlayerPrefs.GetInt("Continue") != 0 && PlayerPrefs.GetInt("isTutorial") != 0)
             {
-                isSaveJson = true;
-                scene = TypeScene.WOLRD;
-                isClick = false;
-            });
+                isClick = true;
+                isContinue = true;
+
+                AudioManager.Instance.Play("Click");
+                AudioManager.Instance.Stop("Menu", true);
+                AudioManager.Instance.Play("GamePlay", true);
+
+                DataPlayer.Instance.LoadDataPlayer();
+                contentWorld.anchoredPosition = Vector3.zero;
+
+                ScenesManager.Instance.GoToScene(ScenesManager.TypeScene.Main, () =>
+                {
+                    isSaveJson = true;
+                    scene = TypeScene.WOLRD;
+                    isClick = false;
+                });
+            }
+            else
+            {
+                BtnYesPlayOnclick();
+            }
         }
     }
     public void BtnBackToWorld()
     {
         if (scene != TypeScene.WOLRD)
         {
+            txtRevenue.enabled = true;
             scene = TypeScene.WOLRD;
             AudioManager.Instance.Play("Click");
             locationManager.transform.SetAsFirstSibling();
@@ -226,15 +330,14 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            ClosePupopFull();
             scene = TypeScene.HOME;
             AudioManager.Instance.Play("Menu", true);
             AudioManager.Instance.Stop("GamePlay", true);
             AudioManager.Instance.Play("Click");
-            DataPlayer.Instance.SaveDataPlayer();
+            DataPlayer.Instance.SaveExit();
             panelSetting.SetActive(false);
-            GameManager.Instance.ClearLocation();
             ScenesManager.Instance.secenes[0].objects.SetActive(true);
-            ScenesManager.Instance.currentScenes = 0;
         }
     }
 
@@ -245,78 +348,33 @@ public class UIManager : MonoBehaviour
     }
     public string ConvertNumber(double number)
     {
-        number = System.Math.Floor(number);
-        string smoney = string.Format("{0:0}", number);
-        if (smoney.Length >= 4 && smoney.Length < 8)
+        string smoney = string.Format("{0:#,##0}", number);
+        for (int i = 0; i < arrAlphabetNeed.Count; i++)
         {
-            smoney = smoney.Substring(0, smoney.Length - 3);
-            smoney = smoney + "k";
-        }
-        else if (smoney.Length >= 8 && smoney.Length < 12)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 7);
-            smoney = smoney + "M";
-
-        }
-        else if (smoney.Length >= 12 && smoney.Length < 16)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 11);
-            smoney = smoney + "B";
-        }
-        else if (smoney.Length >= 16 && smoney.Length < 20)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 15);
-            smoney = smoney + "T";
-        }
-        else if (smoney.Length >= 20 && smoney.Length < 24)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 19);
-            smoney = smoney + "aa";
-        }
-        else if (smoney.Length >= 24 && smoney.Length < 28)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 23);
-            smoney = smoney + "ab";
-        }
-        else if (smoney.Length >= 28 && smoney.Length < 32)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 27);
-            smoney = smoney + "ab";
-        }
-        else if (smoney.Length >= 32 && smoney.Length < 36)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 31);
-            smoney = smoney + "ac";
-        }
-        else if (smoney.Length >= 36 && smoney.Length < 40)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 35);
-            smoney = smoney + "ad";
-        }
-        else if (smoney.Length >= 40 && smoney.Length < 44)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 39);
-            smoney = smoney + "ae";
-        }
-        else if (smoney.Length >= 44 && smoney.Length < 48)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 43);
-            smoney = smoney + "af";
-        }
-        else if (smoney.Length >= 48 && smoney.Length < 52)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 47);
-            smoney = smoney + "ag";
-        }
-        else if (smoney.Length >= 52 && smoney.Length < 56)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 51);
-            smoney = smoney + "ai";
-        }
-        else if (smoney.Length >= 56)
-        {
-            smoney = smoney.Substring(0, smoney.Length - 55);
-            smoney = smoney + "ak";
+            if (smoney.Length >= 5 + i * 4 && smoney.Length < 9 + i * 4)
+            {
+                if (smoney[smoney.Length - (3 + i * 4)] != '0')
+                {
+                    smoney = smoney.Substring(0, smoney.Length - (5 + i * 4 - 3));
+                    smoney = smoney + arrAlphabetNeed[i];
+                    if (i < 4)
+                    {
+                        smoney = smoney.Remove(smoney.Length - 3, 1);
+                        smoney = smoney.Insert(smoney.Length - 2, ".");
+                    }
+                    else
+                    {
+                        smoney = smoney.Remove(smoney.Length - 4, 1);
+                        smoney = smoney.Insert(smoney.Length - 3, ".");
+                    }
+                }
+                else
+                {
+                    smoney = smoney.Substring(0, smoney.Length - (5 + i * 4 - 1));
+                    smoney = smoney + arrAlphabetNeed[i];
+                }
+                return smoney;
+            }
         }
         return smoney;
     }
@@ -333,7 +391,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnUpgradeJob.transform);
-            txtWait.text = "Tap YES to Upgrade the capacity of the workshop";
+            txtWait.text = "Upgrade the capacity of the workshop";
         }
     }
 
@@ -347,12 +405,37 @@ public class UIManager : MonoBehaviour
             arrXJob[0].color = new Color32(255, 255, 255, 255);
             arrXJob[1].color = new Color32(255, 255, 255, 128);
             GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkST(indexType);
+            if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade)
+            {
+                btnUpgradeJob.interactable = true;
+            }
+            else
+            {
+                btnUpgradeJob.interactable = false;
+            }
         }
         else
         {
             arrXJob[0].color = new Color32(255, 255, 255, 128);
             arrXJob[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTypeOfWorkSTX10(indexType);
+            int level = GameManager.Instance.lsLocation[id].lsWorking[indexType].level;
+            double priceUpgradeTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgrade;
+
+            for (int i = level + 1; i < (level + 10); i++)
+            {
+                priceUpgradeTotal +=
+                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                    * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
+            }
+            if (GameManager.Instance.dollar >= priceUpgradeTotal)
+            {
+                btnUpgradeJob.interactable = true;
+            }
+            else
+            {
+                btnUpgradeJob.interactable = false;
+            }
         }
     }
     public void UpgradeTrunkX10(bool x10)
@@ -365,12 +448,37 @@ public class UIManager : MonoBehaviour
             arrXTrunk[0].color = new Color32(255, 255, 255, 255);
             arrXTrunk[1].color = new Color32(255, 255, 255, 128);
             GameManager.Instance.lsLocation[id].CheckInfoTruck(indexType);
+            if (GameManager.Instance.dollar >= GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck)
+            {
+                btnUpgradeTrunk.interactable = true;
+            }
+            else
+            {
+                btnUpgradeTrunk.interactable = false;
+            }
         }
         else
         {
             arrXTrunk[0].color = new Color32(255, 255, 255, 128);
             arrXTrunk[1].color = new Color32(255, 255, 255, 255);
             GameManager.Instance.lsLocation[id].CheckInfoTruckX10(indexType);
+            int levelTruck = GameManager.Instance.lsLocation[id].lsWorking[indexType].levelTruck;
+            double priceUpgradeTruckTotal = GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruck;
+
+            for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
+            {
+                priceUpgradeTruckTotal +=
+                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart
+                    * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+            }
+            if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
+            {
+                btnUpgradeTrunk.interactable = true;
+            }
+            else
+            {
+                btnUpgradeTrunk.interactable = false;
+            }
         }
     }
 
@@ -380,9 +488,9 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isJobX10)
-            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkST(indexType);
         else
-            JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTypeOfWorkSTX10(indexType);
 
         if (id == GameManager.Instance.lsLocation.Count - 1)
         {
@@ -405,7 +513,7 @@ public class UIManager : MonoBehaviour
                 Destroy(objTutorial);
             }
             ControlHandTutorial(btnNoUpgradeJob.transform);
-            txtWait.text = "Tap NO to turn off the panel";
+            txtWait.text = "Turn off the panel";
         }
     }
     public void NoUpgradeJob()
@@ -432,9 +540,9 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         int indexType = GameManager.Instance.lsLocation[id].indexType;
         if (!isTrunkX10)
-            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTruck(indexType);
         else
-            TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
+            GameManager.Instance.lsLocation[id].UpgradeInfoTruckX10(indexType);
         if (indexType == 0)
         {
             if (PlayerPrefs.GetInt("isTutorial") == 0)
@@ -444,7 +552,7 @@ public class UIManager : MonoBehaviour
                     Destroy(objTutorial);
                 }
                 ControlHandTutorial(btnNoUpgradeTrunk.transform);
-                txtWait.text = "Tap NO to turn off the panel";
+                txtWait.text = "Turn off the panel";
             }
         }
     }
@@ -464,7 +572,7 @@ public class UIManager : MonoBehaviour
             }
             GameManager.Instance.lsLocation[0].GetComponent<ScrollRect>().vertical = true;
             PlayerPrefs.SetInt("isTutorial", 1);
-            txtWait.text = "It's your show now, good luck";
+            txtWait.text = "It's your show now. Good luck!";
             Invoke("HidePanelWait", 3f);
         }
     }
@@ -480,6 +588,15 @@ public class UIManager : MonoBehaviour
         int id = GameManager.Instance.IDLocation;
         GameManager.Instance.lsLocation[id].SellJob();
         JobSell.SetActive(false);
+        if (PlayerPrefs.GetInt("isTutorial") == 0)
+        {
+            if (objTutorial != null)
+            {
+                Destroy(objTutorial);
+            }
+            popupTutorial.SetActive(false);
+            txtWait.text = "Tap to plant trees";
+        }
     }
     public void NoSellJob()
     {
@@ -518,6 +635,14 @@ public class UIManager : MonoBehaviour
             double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
             txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
             txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+            if (GameManager.Instance.gold > 0)
+            {
+                btnGoldToDollar.interactable = true;
+            }
+            else
+            {
+                btnGoldToDollar.interactable = false;
+            }
         }
         else
             panelDollar.SetActive(false);
@@ -526,7 +651,9 @@ public class UIManager : MonoBehaviour
     public void ShowPanelGold()
     {
         if (!panelGold.activeSelf)
+        {
             panelGold.SetActive(true);
+        }
         else
             panelGold.SetActive(false);
     }
@@ -539,15 +666,15 @@ public class UIManager : MonoBehaviour
 
     public void SaveExit()
     {
+        ClosePupopFull();
         scene = TypeScene.HOME;
+        txtRevenue.enabled = true;
         AudioManager.Instance.Play("Menu", true);
         AudioManager.Instance.Stop("GamePlay", true);
         AudioManager.Instance.Play("Click");
-        DataPlayer.Instance.SaveDataPlayer();
+        DataPlayer.Instance.SaveExit();
         panelSetting.SetActive(false);
-        GameManager.Instance.ClearLocation();
         ScenesManager.Instance.secenes[0].objects.SetActive(true);
-        ScenesManager.Instance.currentScenes = 0;
         if (PlayerPrefs.GetInt("Continue") == 0)
         {
             btncontinue.interactable = false;
@@ -578,15 +705,65 @@ public class UIManager : MonoBehaviour
     {
         AudioManager.Instance.Play("Click");
 #if UNITY_ANDROID
-        //if (GameConfig.Instance.link_ios != null)
-        //{
-        //    Application.OpenURL(GameConfig.Instance.link_ios);
-        //}
+        if (GameConfig.Instance.link_ios != null)
+        {
+            Application.OpenURL(GameConfig.Instance.link_ios);
+        }
 #elif UNITY_IOS
         if (GameConfig.Instance.link_ios != null)
         {
             Application.OpenURL(GameConfig.Instance.link_ios);
         }
 #endif
+    }
+
+    public void UpdateInfoUpgradeJob(string name, int levelCurrent,
+    int levelNext, double capacityCurrent,
+    double capacityNext, double cost)
+    {
+        nameUpgradeJob.text = name;
+        levelCurrentJob.text = levelCurrent.ToString();
+        levelNextJob.text = levelNext.ToString();
+        CapacityCurrentJob.text = ConvertNumber(capacityCurrent);
+        CapacityNextJob.text = ConvertNumber(capacityNext);
+        CostUpgradeJob.text = ConvertNumber(cost);
+    }
+
+    public void UpdateInfoUpgradeTruck(string name, int levelCurrent,
+    int levelNext, double capacityCurrent,
+    double capacityNext, double cost)
+    {
+        nameUpgradeTrunkJob.text = name;
+        levelCurrentTruck.text = levelCurrent.ToString();
+        levelNextTruck.text = levelNext.ToString();
+        CapacityCurrentTruck.text = ConvertNumber(capacityCurrent);
+        CapacityNextTruck.text = ConvertNumber(capacityNext);
+        CostUpgradeTruck.text = ConvertNumber(cost);
+    }
+
+    public void UpdateInfoSellJob(string name, Sprite spIcon, double cost)
+    {
+        nameJob.text = name;
+        iconJob.sprite = spIcon;
+        CostJob.text = ConvertNumber(cost);
+    }
+
+    public void WarningForestOnClick()
+    {
+        WarningForest.SetActive(false);
+        int id = GameManager.Instance.IDLocation;
+        GameManager.Instance.lsLocation[id].transform.GetChild(0).GetChild(0).localPosition = Vector3.zero;
+    }
+
+    public void ClosePupopFull()
+    {
+        CloseJob();
+        JobSell.SetActive(false);
+        JobUpgrade.SetActive(false);
+        TruckUpgrade.SetActive(false);
+        PopupAutoPlant.SetActive(false);
+        PopupGiveGold.SetActive(false);
+        panelDollar.SetActive(false);
+        panelGold.SetActive(false);
     }
 }

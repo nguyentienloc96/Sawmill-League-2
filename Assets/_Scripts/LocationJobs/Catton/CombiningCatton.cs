@@ -87,7 +87,6 @@ public class CombiningCatton : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Debarking");
             posDown = Input.mousePosition;
@@ -98,7 +97,6 @@ public class CombiningCatton : MonoBehaviour
     public void TapUp()
     {
         anim.enabled = false;
-
         AudioManager.Instance.Stop("Debarking");
         isRun = false;
     }
@@ -128,7 +126,7 @@ public class CombiningCatton : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-0.75f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,8 +25,10 @@ public struct TypeOfWorkST
     public int level;
 
     [Header("UI")]
+    public Text textLevel;
     public Image icon;
     public Animator anim;
+    public Animator animLock;
     public Text textInput;
     public Text textOutput;
     public GameObject info;
@@ -94,7 +97,6 @@ public class Location : MonoBehaviour
     [HideInInspector]
     public List<int> lsStreet;
     #endregion
-
     public void LoadLocation()
     {
         StartCoroutine(IELoadLocation());
@@ -107,9 +109,6 @@ public class Location : MonoBehaviour
     {
         isLoaded = false;
         others.LoadOtherRandom();
-        yield return new WaitUntil(() => isLoaded);
-        isLoaded = false;
-        rivers.LoadRiverRandom();
         yield return new WaitUntil(() => isLoaded);
         isLoaded = false;
         streets.LoadStreetRandom();
@@ -129,13 +128,11 @@ public class Location : MonoBehaviour
         others.LoadOtherJson();
         yield return new WaitUntil(() => isLoaded);
         isLoaded = false;
-        rivers.LoadRiverJson();
-        yield return new WaitUntil(() => isLoaded);
-        isLoaded = false;
         streets.LoadStreetJson();
         yield return new WaitUntil(() => isLoaded);
         isLoaded = false;
-        LoadInfoTypeOfWorkST();
+        isLoadFull = true;
+        isLoaded = true;
         yield return new WaitUntil(() => isLoaded);
         if (indexTypeWork == 0)
         {
@@ -145,22 +142,83 @@ public class Location : MonoBehaviour
     }
     public void LoadInfoTypeOfWorkST()
     {
-        for (int i = 0; i < lsWorking.Length; i++)
+        if (GameManager.Instance.lsLocation.Count > 1)
         {
-            int LevelHome = GameManager.Instance.sumHomeAll + i;
-            lsWorking[i].UN2 = GameConfig.Instance.UN2;
-            lsWorking[i].price = (double)(GameConfig.Instance.p0 * Mathf.Pow(GameConfig.Instance.p0i, LevelHome));
-            lsWorking[i].maxOutputMade = (double)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, LevelHome));
-            lsWorking[i].maxOutputMadeStart = (double)(GameConfig.Instance.c0 * Mathf.Pow(GameConfig.Instance.c0i, LevelHome));
-            lsWorking[i].priceUpgrade = (double)(lsWorking[i].price * GameConfig.Instance.UN1i);
-            lsWorking[i].priceUpgradeStart = (double)(lsWorking[i].price * GameConfig.Instance.UN1i);
-            lsWorking[i].priceTruckSent = (double)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, LevelHome));
-            lsWorking[i].priceTruckSentStart = (double)(GameConfig.Instance.x0 * Mathf.Pow(GameConfig.Instance.x0i, LevelHome));
-            lsWorking[i].priceOutput = (double)GameConfig.Instance.productCost;
-            lsWorking[i].maxSent = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
-            lsWorking[i].maxSentStart = lsWorking[i].maxOutputMade * GameConfig.Instance.MaxSentStartX5;
-            lsWorking[i].priceUpgradeTruck = (double)(lsWorking[i].price * GameConfig.Instance.XN1i);
-            lsWorking[i].priceUpgradeTruckStart = (double)(lsWorking[i].price * GameConfig.Instance.XN1i);
+            for (int i = 0; i < lsWorking.Length; i++)
+            {
+                int LevelHome = GameManager.Instance.sumHomeAll + i;
+                if (i == 0)
+                {
+                    Location l = GameManager.Instance.lsLocation[id - 1];
+                    lsWorking[i].UN2 = GameConfig.Instance.UN2;
+                    lsWorking[i].price = Math.Floor((double)(GameConfig.Instance.p0i * l.lsWorking[l.countType].price));
+                    lsWorking[i].maxOutputMade = Math.Floor((double)(GameConfig.Instance.c0i * l.lsWorking[l.countType].maxOutputMade));
+                    lsWorking[i].maxOutputMadeStart = lsWorking[i].maxOutputMade;
+                    lsWorking[i].priceUpgrade = Math.Floor((double)(GameConfig.Instance.UN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeStart = lsWorking[i].priceUpgrade;
+                    lsWorking[i].priceTruckSent = 0;
+                    lsWorking[i].priceTruckSentStart = lsWorking[i].priceTruckSent;
+                    lsWorking[i].priceOutput = (double)GameConfig.Instance.productCost;
+                    lsWorking[i].maxSent = Math.Floor(GameConfig.Instance.MaxSentStartX5 * lsWorking[i].maxOutputMade * (1 + LevelHome / GameConfig.Instance.captruckIndex));
+                    lsWorking[i].maxSentStart = lsWorking[i].maxSent;
+                    lsWorking[i].priceUpgradeTruck = Math.Floor((double)(GameConfig.Instance.XN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeTruckStart = lsWorking[i].priceUpgradeTruck;
+                }
+                else
+                {
+                    lsWorking[i].UN2 = GameConfig.Instance.UN2;
+                    lsWorking[i].price = Math.Floor((double)(GameConfig.Instance.p0i * lsWorking[i - 1].price));
+                    lsWorking[i].maxOutputMade = Math.Floor((double)(GameConfig.Instance.c0i * lsWorking[i - 1].maxOutputMade));
+                    lsWorking[i].maxOutputMadeStart = lsWorking[i].maxOutputMade;
+                    lsWorking[i].priceUpgrade = Math.Floor((double)(GameConfig.Instance.UN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeStart = lsWorking[i].priceUpgrade;
+                    lsWorking[i].priceTruckSent = 0;
+                    lsWorking[i].priceTruckSentStart = lsWorking[i].priceTruckSent;
+                    lsWorking[i].priceOutput = (double)GameConfig.Instance.productCost;
+                    lsWorking[i].maxSent = Math.Floor(GameConfig.Instance.MaxSentStartX5 * lsWorking[i].maxOutputMade * (1 + LevelHome / GameConfig.Instance.captruckIndex));
+                    lsWorking[i].maxSentStart = lsWorking[i].maxSent;
+                    lsWorking[i].priceUpgradeTruck = Math.Floor((double)(GameConfig.Instance.XN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeTruckStart = lsWorking[i].priceUpgradeTruck;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < lsWorking.Length; i++)
+            {
+                if (i == 0)
+                {
+                    lsWorking[i].UN2 = GameConfig.Instance.UN2;
+                    lsWorking[i].price = (double)(GameConfig.Instance.p0);
+                    lsWorking[i].maxOutputMade = (double)(GameConfig.Instance.c0);
+                    lsWorking[i].maxOutputMadeStart = lsWorking[i].maxOutputMade;
+                    lsWorking[i].priceUpgrade = Math.Floor((double)(GameConfig.Instance.UN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeStart = lsWorking[i].priceUpgrade;
+                    lsWorking[i].priceTruckSent = 0;
+                    lsWorking[i].priceTruckSentStart = lsWorking[i].priceTruckSent;
+                    lsWorking[i].priceOutput = (double)GameConfig.Instance.productCost;
+                    lsWorking[i].maxSent = Math.Floor(GameConfig.Instance.MaxSentStartX5 * lsWorking[i].maxOutputMade * (1 + i / GameConfig.Instance.captruckIndex));
+                    lsWorking[i].maxSentStart = lsWorking[i].maxSent;
+                    lsWorking[i].priceUpgradeTruck = Math.Floor((double)(GameConfig.Instance.XN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeTruckStart = lsWorking[i].priceUpgradeTruck;
+                }
+                else
+                {
+                    lsWorking[i].UN2 = GameConfig.Instance.UN2;
+                    lsWorking[i].price = Math.Floor((double)(GameConfig.Instance.p0i * lsWorking[i - 1].price));
+                    lsWorking[i].maxOutputMade = Math.Floor((double)(GameConfig.Instance.c0i * lsWorking[i - 1].maxOutputMade));
+                    lsWorking[i].maxOutputMadeStart = lsWorking[i].maxOutputMade;
+                    lsWorking[i].priceUpgrade = Math.Floor((double)(GameConfig.Instance.UN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeStart = lsWorking[i].priceUpgrade;
+                    lsWorking[i].priceTruckSent = 0;
+                    lsWorking[i].priceTruckSentStart = lsWorking[i].priceTruckSent;
+                    lsWorking[i].priceOutput = (double)GameConfig.Instance.productCost;
+                    lsWorking[i].maxSent = Math.Floor(GameConfig.Instance.MaxSentStartX5 * lsWorking[i].maxOutputMade * (1 + i / GameConfig.Instance.captruckIndex));
+                    lsWorking[i].maxSentStart = lsWorking[i].maxSent;
+                    lsWorking[i].priceUpgradeTruck = Math.Floor((double)(GameConfig.Instance.XN1i * lsWorking[i].price));
+                    lsWorking[i].priceUpgradeTruckStart = lsWorking[i].priceUpgradeTruck;
+                }
+            }
         }
         isLoaded = true;
         isLoadFull = true;
@@ -175,102 +233,129 @@ public class Location : MonoBehaviour
     public void CheckInfoTypeOfWorkST(int idType)
     {
         indexType = idType;
-        string stInfo = "";
-        stInfo = lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber(
-                    (double)(((float)lsWorking[indexType].maxOutputMadeStart
-                    * GameConfig.Instance.r
-                    * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
+        UIManager.Instance.UpdateInfoUpgradeJob(
+            lsWorking[indexType].name,
+            lsWorking[indexType].level,
+            lsWorking[indexType].level + 1,
+            (Math.Floor(lsWorking[indexType].maxOutputMade * GameConfig.Instance.r)),
+            (Math.Floor(lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r
+                    * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex))),
+            lsWorking[indexType].priceUpgrade
+        );
         UIManager.Instance.JobUpgrade.SetActive(true);
-        UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
-        UIManager.Instance.JobUpgrade.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
-        UIManager.Instance.JobUpgrade.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        UIManager.Instance.arrXJob[0].transform.GetChild(1).gameObject.SetActive(true);
+        UIManager.Instance.arrXJob[1].transform.GetChild(1).gameObject.SetActive(false);
         UIManager.Instance.arrXJob[0].color = new Color32(255, 255, 255, 255);
         UIManager.Instance.arrXJob[1].color = new Color32(255, 255, 255, 128);
         UIManager.Instance.isJobX10 = false;
     }
-    public string UpgradeInfoTypeOfWorkST(int idType)
+    public void UpgradeInfoTypeOfWorkST(int idType)
     {
         indexType = idType;
-        string stInfo = "";
         if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgrade)
         {
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
             // Update thông số
             lsWorking[indexType].level++;
-            lsWorking[indexType].maxOutputMade = (double)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex)));
-            lsWorking[indexType].priceUpgrade = (double)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level - 1)));
+            lsWorking[indexType].maxOutputMade = Math.Floor((double)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)lsWorking[indexType].level / GameConfig.Instance.capIndex))));
+            lsWorking[indexType].priceUpgrade = Math.Floor((double)((float)lsWorking[indexType].priceUpgrade * (1 + GameConfig.Instance.UN2)));
+            lsWorking[indexType].textLevel.text = UIManager.Instance.ConvertNumber(lsWorking[indexType].level);
 
-            stInfo = lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].level + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgrade);
+            UIManager.Instance.UpdateInfoUpgradeJob(
+                lsWorking[indexType].name,
+                lsWorking[indexType].level,
+                lsWorking[indexType].level + 1,
+                (Math.Floor(lsWorking[indexType].maxOutputMade * GameConfig.Instance.r)),
+                (Math.Floor(lsWorking[indexType].maxOutputMadeStart
+                        * GameConfig.Instance.r
+                        * (1 + (float)(lsWorking[indexType].level + 1) / GameConfig.Instance.capIndex))),
+                lsWorking[indexType].priceUpgrade
+            );
+            if (GameManager.Instance.dollar < lsWorking[indexType].priceUpgrade)
+            {
+                UIManager.Instance.btnUpgradeJob.interactable = false;
+            }
         }
         else
         {
-            stInfo = "Not Enough Money !!!";
+            UIManager.Instance.btnUpgradeJob.interactable = false;
         }
-
-        return stInfo;
     }
     public void CheckInfoTypeOfWorkSTX10(int idType)
     {
         indexType = idType;
         int level = lsWorking[indexType].level;
         double priceUpgradeTotal = lsWorking[indexType].priceUpgrade;
-
+        double priceUpgradeCurrent = lsWorking[indexType].priceUpgrade;
         for (int i = level + 1; i < (level + 10); i++)
         {
-            priceUpgradeTotal += (double)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (level - 1)));
+            priceUpgradeCurrent = Math.Floor((double)(priceUpgradeCurrent * (1 + GameConfig.Instance.UN2)));
+            priceUpgradeTotal += priceUpgradeCurrent;
         }
-        string stInfo = "";
-        stInfo = lsWorking[indexType].name + "\n"
-                + "Level : " + (level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
+
+        UIManager.Instance.UpdateInfoUpgradeJob(
+            lsWorking[indexType].name,
+            lsWorking[indexType].level,
+            lsWorking[indexType].level + 10,
+            (Math.Floor(lsWorking[indexType].maxOutputMade * GameConfig.Instance.r)),
+            (Math.Floor((double)(((float)lsWorking[indexType].maxOutputMadeStart
+            * GameConfig.Instance.r
+            * (1 + (float)(level + 10) / GameConfig.Instance.capIndex))))),
+            priceUpgradeTotal
+        );
         UIManager.Instance.JobUpgrade.SetActive(true);
-        UIManager.Instance.JobUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
     }
-    public string UpgradeInfoTypeOfWorkSTX10(int idType)
+    public void UpgradeInfoTypeOfWorkSTX10(int idType)
     {
         indexType = idType;
         int level = lsWorking[indexType].level;
         double priceUpgradeTotal = lsWorking[indexType].priceUpgrade;
-
+        double priceUpgradeCurrent = lsWorking[indexType].priceUpgrade;
         for (int i = level + 1; i < (level + 10); i++)
         {
-            priceUpgradeTotal += (double)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (level - 1)));
+            priceUpgradeCurrent = Math.Floor((double)(priceUpgradeCurrent * (1 + GameConfig.Instance.UN2)));
+            priceUpgradeTotal += priceUpgradeCurrent;
         }
-        string stInfo = "";
+
         if (GameManager.Instance.dollar >= priceUpgradeTotal)
         {
             GameManager.Instance.dollar -= priceUpgradeTotal;
             // Update thông số
             lsWorking[indexType].level += 10;
-            lsWorking[indexType].maxOutputMade = (double)(((float)lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level + 10) / GameConfig.Instance.capIndex)));
-            lsWorking[indexType].priceUpgrade = (double)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (lsWorking[indexType].level + 10 - 1)));
+            lsWorking[indexType].maxOutputMade = Math.Floor((double)((lsWorking[indexType].maxOutputMadeStart * (1 + (float)(lsWorking[indexType].level) / GameConfig.Instance.capIndex))));
+            lsWorking[indexType].priceUpgrade = priceUpgradeCurrent;
+            lsWorking[indexType].textLevel.text = UIManager.Instance.ConvertNumber(lsWorking[indexType].level);
 
             level = lsWorking[indexType].level;
             priceUpgradeTotal = lsWorking[indexType].priceUpgrade;
+            priceUpgradeCurrent = lsWorking[indexType].priceUpgrade;
 
             for (int i = level + 1; i < (level + 10); i++)
             {
-                priceUpgradeTotal += (double)((float)lsWorking[indexType].priceUpgradeStart * Mathf.Pow((1 + lsWorking[indexType].UN2), (level - 1)));
+                priceUpgradeCurrent = Math.Floor((double)(priceUpgradeCurrent * (1 + GameConfig.Instance.UN2)));
+                priceUpgradeTotal += priceUpgradeCurrent;
             }
 
-            stInfo = lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].level + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)(((float)lsWorking[indexType].maxOutputMadeStart * GameConfig.Instance.r * (1 + (float)(level + 10) / GameConfig.Instance.capIndex)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTotal);
+            UIManager.Instance.UpdateInfoUpgradeJob(
+                lsWorking[indexType].name,
+                lsWorking[indexType].level,
+                lsWorking[indexType].level + 10,
+                (Math.Floor(lsWorking[indexType].maxOutputMade * GameConfig.Instance.r)),
+                (Math.Floor((double)(((float)lsWorking[indexType].maxOutputMadeStart
+                * GameConfig.Instance.r
+                * (1 + (float)(level + 10) / GameConfig.Instance.capIndex))))),
+                priceUpgradeTotal
+            );
+
+            if (GameManager.Instance.dollar < priceUpgradeTotal)
+            {
+                UIManager.Instance.btnUpgradeJob.interactable = false;
+            }
         }
         else
         {
-            stInfo = "Not Enough Money !!!";
+            UIManager.Instance.btnUpgradeJob.interactable = false;
         }
-
-        return stInfo;
     }
 
 
@@ -279,16 +364,17 @@ public class Location : MonoBehaviour
         if (PlayerPrefs.GetInt("isTutorial") == 0 && !UIManager.Instance.isClickTrunk)
             return;
         indexType = idType;
-        string stInfo = "";
-        stInfo = "Truck-" + lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
-                + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgradeTruck);
+        UIManager.Instance.UpdateInfoUpgradeTruck(
+            lsWorking[indexType].name,
+            lsWorking[indexType].levelTruck,
+            lsWorking[indexType].levelTruck + 1,
+            lsWorking[indexType].maxSent,
+            (Math.Floor((double)(lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex)))),
+            lsWorking[indexType].priceUpgradeTruck
+        );
         UIManager.Instance.TruckUpgrade.SetActive(true);
-        UIManager.Instance.TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
-        UIManager.Instance.TruckUpgrade.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
-        UIManager.Instance.TruckUpgrade.transform.GetChild(2).GetChild(1).gameObject.SetActive(false);
+        UIManager.Instance.arrXTrunk[0].transform.GetChild(1).gameObject.SetActive(true);
+        UIManager.Instance.arrXTrunk[1].transform.GetChild(1).gameObject.SetActive(false);
         UIManager.Instance.arrXTrunk[0].color = new Color32(255, 255, 255, 255);
         UIManager.Instance.arrXTrunk[1].color = new Color32(255, 255, 255, 128);
         UIManager.Instance.isTrunkX10 = false;
@@ -302,94 +388,110 @@ public class Location : MonoBehaviour
                     Destroy(UIManager.Instance.objTutorial);
                 }
                 UIManager.Instance.ControlHandTutorial(UIManager.Instance.btnUpgradeTrunk.transform);
-                UIManager.Instance.txtWait.text = "Tap YES to Upgrade the Trunk";
+                UIManager.Instance.txtWait.text = "Upgrade the capacity of the truck";
             }
         }
     }
-    public string UpgradeInfoTruck(int idType)
+    public void UpgradeInfoTruck(int idType)
     {
         indexType = idType;
-        string stInfo = "";
         if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgradeTruck)
         {
             GameManager.Instance.dollar -= lsWorking[indexType].priceUpgradeTruck;
             // Update thông số
             lsWorking[indexType].levelTruck++;
-            lsWorking[indexType].maxSent = (double)((float)lsWorking[indexType].maxSentStart * (1f + (float)lsWorking[indexType].levelTruck / (float)GameConfig.Instance.captruckIndex));
-            lsWorking[indexType].priceTruckSent = (double)((float)lsWorking[indexType].priceTruckSentStart * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck - 1)));
-            lsWorking[indexType].priceUpgradeTruck = (double)((float)lsWorking[indexType].priceUpgradeTruckStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck - 1)));
-
-            stInfo = "Truck-" + lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].levelTruck + 1) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex))) + "\n"
-                + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(lsWorking[indexType].priceUpgradeTruck);
+            lsWorking[indexType].maxSent = Math.Floor((double)(lsWorking[indexType].maxSentStart * (1f + (float)lsWorking[indexType].levelTruck / (float)GameConfig.Instance.captruckIndex)));
+            lsWorking[indexType].priceUpgradeTruck = Math.Floor((double)(lsWorking[indexType].priceUpgradeTruck * (1 + GameConfig.Instance.UN2)));
+            lsWorking[indexType].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(lsWorking[indexType].levelTruck);
+            UIManager.Instance.UpdateInfoUpgradeTruck(
+                lsWorking[indexType].name,
+                lsWorking[indexType].levelTruck,
+                lsWorking[indexType].levelTruck + 1,
+                lsWorking[indexType].maxSent,
+                (Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 1) / (float)GameConfig.Instance.captruckIndex)))),
+                lsWorking[indexType].priceUpgradeTruck
+            );
+            if (GameManager.Instance.dollar < lsWorking[indexType].priceUpgradeTruck)
+            {
+                UIManager.Instance.btnUpgradeTrunk.interactable = false;
+            }
         }
         else
         {
-            stInfo = "Not Enough Money !!!";
+            UIManager.Instance.btnUpgradeTrunk.interactable = false;
         }
-
-        return stInfo;
     }
     public void CheckInfoTruckX10(int idType)
     {
         indexType = idType;
         int levelTruck = lsWorking[indexType].levelTruck;
         double priceUpgradeTruckTotal = lsWorking[indexType].priceUpgradeTruck;
+        double priceUpgradeTruckCurrent = lsWorking[indexType].priceUpgradeTruck;
 
         for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
         {
-            priceUpgradeTruckTotal += (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+            priceUpgradeTruckCurrent = Math.Floor((double)(priceUpgradeTruckCurrent * (1 + GameConfig.Instance.UN2)));
+            priceUpgradeTruckTotal += priceUpgradeTruckCurrent;
         }
-        string stInfo = "";
-        stInfo = "Truck-" + lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
-            + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTruckTotal);
+
+        UIManager.Instance.UpdateInfoUpgradeTruck(
+                lsWorking[indexType].name,
+                lsWorking[indexType].levelTruck,
+                lsWorking[indexType].levelTruck + 10,
+                lsWorking[indexType].maxSent,
+                (Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex)))),
+                priceUpgradeTruckTotal
+            );
         UIManager.Instance.TruckUpgrade.SetActive(true);
-        UIManager.Instance.TruckUpgrade.transform.GetChild(0).GetComponent<Text>().text = stInfo;
     }
-    public string UpgradeInfoTruckX10(int idType)
+    public void UpgradeInfoTruckX10(int idType)
     {
         indexType = idType;
         int levelTruck = lsWorking[indexType].levelTruck;
         double priceUpgradeTruckTotal = lsWorking[indexType].priceUpgradeTruck;
+        double priceUpgradeTruckCurrent = lsWorking[indexType].priceUpgradeTruck;
 
         for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
         {
-            priceUpgradeTruckTotal += (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+            priceUpgradeTruckCurrent = Math.Floor((double)(priceUpgradeTruckCurrent * (1 + GameConfig.Instance.UN2)));
+            priceUpgradeTruckTotal += priceUpgradeTruckCurrent;
         }
-        string stInfo = "";
         if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
         {
             GameManager.Instance.dollar -= priceUpgradeTruckTotal;
             // Update thông số
             lsWorking[indexType].levelTruck += 10;
-            lsWorking[indexType].maxSent = (double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex));
-            lsWorking[indexType].priceTruckSent = (double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)));
-            lsWorking[indexType].priceUpgradeTruck = (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (lsWorking[indexType].levelTruck + 10 - 1)));
+            lsWorking[indexType].maxSent = Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck) / (float)GameConfig.Instance.captruckIndex)));
+            lsWorking[indexType].priceUpgradeTruck = priceUpgradeTruckCurrent;
+            lsWorking[indexType].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(lsWorking[indexType].levelTruck);
 
             levelTruck = lsWorking[indexType].levelTruck;
             priceUpgradeTruckTotal = lsWorking[indexType].priceUpgradeTruck;
+            priceUpgradeTruckCurrent = lsWorking[indexType].priceUpgradeTruck;
 
             for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
             {
-                priceUpgradeTruckTotal += (double)((float)lsWorking[indexType].priceUpgradeTruckStart * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
+                priceUpgradeTruckCurrent = Math.Floor((double)(priceUpgradeTruckCurrent * (1 + GameConfig.Instance.UN2)));
+                priceUpgradeTruckTotal += priceUpgradeTruckCurrent;
             }
-            stInfo = "Truck-" + lsWorking[indexType].name + "\n"
-                + "Level : " + (lsWorking[indexType].levelTruck + 10) + "\n"
-                + "Capacity : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex))) + "\n"
-                + "Transportation Fee : " + UIManager.Instance.ConvertNumber((double)((float)lsWorking[indexType].priceTruckSentStart * GameConfig.Instance.XT1i * Mathf.Pow((1 + GameConfig.Instance.XT2), (lsWorking[indexType].levelTruck + 10 - 1)))) + "\n"
-                + "Price Upgrade : " + UIManager.Instance.ConvertNumber(priceUpgradeTruckTotal);
+
+            UIManager.Instance.UpdateInfoUpgradeTruck(
+               lsWorking[indexType].name,
+               lsWorking[indexType].levelTruck,
+               lsWorking[indexType].levelTruck + 10,
+               lsWorking[indexType].maxSent,
+               (Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex)))),
+               priceUpgradeTruckTotal
+           );
+            if (GameManager.Instance.dollar < priceUpgradeTruckTotal)
+            {
+                UIManager.Instance.btnUpgradeTrunk.interactable = false;
+            }
         }
         else
         {
-            stInfo = "Not Enough Money !!!";
+            UIManager.Instance.btnUpgradeTrunk.interactable = false;
         }
-
-        return stInfo;
     }
 
 
@@ -401,18 +503,25 @@ public class Location : MonoBehaviour
             countType++;
             indexType = countType;
             lsWorking[countType].icon.color = Color.white;
+            lsWorking[countType].animLock.gameObject.SetActive(false);
             lsWorking[countType].info.SetActive(true);
             lsWorking[countType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].input);
             lsWorking[countType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[countType].output);
+            lsWorking[countType].textLevel.text = UIManager.Instance.ConvertNumber(lsWorking[countType].level);
+            lsWorking[countType].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(lsWorking[countType].levelTruck);
             if (countType + 1 == lsWorking.Length)
             {
-                int indexLsLocation = GameManager.Instance.lsLocation.Count;
-                GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
-                UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
+                if (id + 1 < UIManager.Instance.lsLocationUI.Count)
+                {
+                    int indexLsLocation = GameManager.Instance.lsLocation.Count;
+                    GameManager.Instance.CreatLocation(UIManager.Instance.lsLocationUI[indexLsLocation]);
+                    UIManager.Instance.handWorld.position = UIManager.Instance.lsLocationUI[indexLsLocation].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
+                    GameManager.Instance.sumHomeAll += lsWorking.Length;
+                }
             }
             else
             {
-
+                lsWorking[countType + 1].animLock.enabled = true;
                 if (id == GameManager.Instance.lsLocation.Count - 1)
                 {
                     UIManager.Instance.txtRevenue.text
@@ -425,6 +534,7 @@ public class Location : MonoBehaviour
             }
             if (id > 0 && countType == 0)
             {
+                UIManager.Instance.WarningForest.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.btnAutoPlant.gameObject.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.isOnBtnAutoPlant = true;
             }
@@ -452,6 +562,13 @@ public class Location : MonoBehaviour
                 {
                     forest.forestClass.lsTree[forest.forestClass.lsTree.Length - forest.tree].transform.GetChild(0).gameObject.SetActive(false);
                     forest.tree--;
+                    if (id == GameManager.Instance.IDLocation && !forest.isAutoPlant)
+                    {
+                        if (forest.tree == 0 && !UIManager.Instance.WarningForest.activeInHierarchy)
+                        {
+                            UIManager.Instance.WarningForest.SetActive(true);
+                        }
+                    }
                 }
                 if (forest.tree <= 0)
                 {
@@ -484,7 +601,7 @@ public class Location : MonoBehaviour
     public void FellingComplete()
     {
 
-        lsWorking[0].output += (double)(GameConfig.Instance.r * lsWorking[0].maxOutputMade);
+        lsWorking[0].output += Math.Floor((double)(GameConfig.Instance.r * lsWorking[0].maxOutputMade));
         lsWorking[0].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[0].output);
 
         if (lsWorking[0].id < lsWorking.Length)
@@ -529,9 +646,9 @@ public class Location : MonoBehaviour
         {
             materialCurrent = lsWorking[idType].input;
         }
-        lsWorking[idType].input -= materialCurrent;
+        lsWorking[idType].input -= Math.Floor(materialCurrent);
         lsWorking[idType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].input);
-        lsWorking[idType].output += (double)(GameConfig.Instance.r * materialCurrent);
+        lsWorking[idType].output += Math.Floor((double)(GameConfig.Instance.r * materialCurrent));
         lsWorking[idType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].output);
         if (lsWorking[idType].id < lsWorking.Length)
         {
@@ -546,8 +663,11 @@ public class Location : MonoBehaviour
 
     public void Update()
     {
-        FellingForest();
-        Felling();
+        if (countType >= 0)
+        {
+            FellingForest();
+            Felling();
+        }
         for (int i = 1; i <= countType; i++)
         {
             Job(i);
@@ -555,7 +675,7 @@ public class Location : MonoBehaviour
 
         if (!forest.isAutoPlant && forest.isOnBtnAutoPlant)
         {
-            if (GameManager.Instance.dollar >= (double)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
+            if (GameManager.Instance.dollar >= Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant)))
             {
                 forest.btnAutoPlant.interactable = true;
             }
@@ -573,17 +693,22 @@ public class Location : MonoBehaviour
 
     public void AutoPlant()
     {
-        string str = "Do you want to spend " + UIManager.Instance.ConvertNumber((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant)) + "$ On Auto Reforestation in " + nameLocation;
+        string str = "Do you want to spend " + UIManager.Instance.ConvertNumber(Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant))) + "$ On Auto Reforestation in " + nameLocation;
         UIManager.Instance.PopupAutoPlant.SetActive(true);
         UIManager.Instance.PopupAutoPlant.GetComponent<AutoPlant>().AutoPlant_Onclick(str, () =>
         {
-            if (GameManager.Instance.dollar >= (double)(lsWorking[0].price * GameConfig.Instance.AutoPlant))
+            if (GameManager.Instance.dollar >= Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant)))
             {
-                GameManager.Instance.dollar -= (double)(lsWorking[0].price * GameConfig.Instance.AutoPlant);
+                GameManager.Instance.dollar -= Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant));
                 forest.isAutoPlant = true;
                 forest.btnAutoPlant.interactable = false;
                 UIManager.Instance.PopupAutoPlant.SetActive(false);
                 forest.btnAutoPlant.gameObject.SetActive(false);
+                if (forest.tree <= 0)
+                {
+                    forest.forestClass.RunCarGrow();
+                    UIManager.Instance.WarningForest.SetActive(false);
+                }
             }
         });
     }
@@ -617,11 +742,25 @@ public class Location : MonoBehaviour
         }
         else if (countType + 1 == idType)
         {
-            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            if (PlayerPrefs.GetInt("isTutorial") == 0 && idType != 0)
                 return;
+            if (PlayerPrefs.GetInt("isTutorial") == 0)
+            {
+                if (!UIManager.Instance.popupTutorial.activeInHierarchy)
+                {
+                    UIManager.Instance.popupTutorial.SetActive(true);
+                }
+                if (UIManager.Instance.objTutorial != null)
+                {
+                    Destroy(UIManager.Instance.objTutorial);
+                }
+                UIManager.Instance.ControlHandTutorial(UIManager.Instance.btnSell.transform);
+                UIManager.Instance.txtWait.text = "Buy Felling workshop";
+            }
             UIManager.Instance.isJobX10 = false;
-            string str = lsWorking[idType].name + " \nPrice : " + UIManager.Instance.ConvertNumber(lsWorking[idType].price) + "$ ?";
-            UIManager.Instance.JobSell.transform.GetChild(0).GetComponent<Text>().text = str;
+            UIManager.Instance.UpdateInfoSellJob(lsWorking[idType].name,
+            lsWorking[idType].icon.sprite,
+            lsWorking[idType].price);
             UIManager.Instance.JobSell.SetActive(true);
             if (GameManager.Instance.dollar >= lsWorking[idType].price)
             {

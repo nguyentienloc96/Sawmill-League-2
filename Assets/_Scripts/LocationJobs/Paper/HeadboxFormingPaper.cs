@@ -14,9 +14,7 @@ public class HeadboxFormingPaper : MonoBehaviour
     public GameObject notification;
     public Animator anim;
 
-    public ParticleSystem particleEmissions;
     public ParticleSystem[] particleLimbing;
-    public Transform[] gear;
     public GameObject tutorialHand;
     public Image imgBG;
 
@@ -38,7 +36,8 @@ public class HeadboxFormingPaper : MonoBehaviour
         isTutorial = true;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
+        tree.localPosition = new Vector3(-1f, 0f, 0f);
+        cart.localPosition = new Vector3(0f, 0f, 0f);
         paperRoll.localPosition = Vector3.zero;
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
@@ -64,10 +63,6 @@ public class HeadboxFormingPaper : MonoBehaviour
                 {
                     float dis = Input.mousePosition.x - posDown.x;
                     cart.position += new Vector3(dis * 0.005f * Time.deltaTime, 0f, 0f);
-                    foreach (Transform tf in gear)
-                    {
-                        tf.localEulerAngles -= new Vector3(0f, 0f, dis * 2.5f * Time.deltaTime);
-                    }
                 }
                 if (cart.position.x > posCheck.x)
                 {
@@ -92,7 +87,6 @@ public class HeadboxFormingPaper : MonoBehaviour
         if (isInput)
         {
             anim.enabled = true;
-            particleEmissions.Play();
             foreach (ParticleSystem ps in particleLimbing)
             {
                 ps.Play();
@@ -100,14 +94,12 @@ public class HeadboxFormingPaper : MonoBehaviour
             AudioManager.Instance.Play("Water");
             posDown = Input.mousePosition;
             isRun = true;
-            tutorialHand.SetActive(false);
         }
     }
 
     public void TapUp()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
         foreach (ParticleSystem ps in particleLimbing)
         {
             ps.Stop();
@@ -118,7 +110,7 @@ public class HeadboxFormingPaper : MonoBehaviour
 
     public void LoadInput()
     {
-        cart.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
+        tree.DOLocalMove(Vector3.zero, 1f).OnComplete(() =>
         {
             if (isTutorial)
             {
@@ -132,7 +124,6 @@ public class HeadboxFormingPaper : MonoBehaviour
     public void CompleteJob()
     {
         anim.enabled = false;
-        particleEmissions.Stop();
         foreach (ParticleSystem ps in particleLimbing)
         {
             ps.Stop();
@@ -141,11 +132,13 @@ public class HeadboxFormingPaper : MonoBehaviour
         isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        paperRoll.DOLocalMove(new Vector3(150, 0f, 0f), 1.5f).OnComplete(() =>
+        paperRoll.DOLocalMove(new Vector3(200, 0f, 0f), 1.5f).OnComplete(() =>
         {
-            cart.localPosition = new Vector3(-4f, 0f, 0f);
+            tree.localPosition = new Vector3(-1f, 0f, 0f);
+            cart.localPosition = new Vector3(0f, 0f, 0f);
             paperRoll.localPosition = Vector3.zero;
             GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

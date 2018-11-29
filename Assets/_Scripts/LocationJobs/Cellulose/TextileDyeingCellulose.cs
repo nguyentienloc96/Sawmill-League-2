@@ -88,7 +88,6 @@ public class TextileDyeingCellulose : MonoBehaviour
     {
         if (isInput)
         {
-            tutorialHand.SetActive(false);
             anim.enabled = true;
             AudioManager.Instance.Play("Polish");
             posDown = Input.mousePosition;
@@ -130,7 +129,7 @@ public class TextileDyeingCellulose : MonoBehaviour
         GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
-
+        tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
         {
             LoadInput();
