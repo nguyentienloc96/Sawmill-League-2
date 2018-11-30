@@ -66,7 +66,6 @@ public class Purchaser : MonoBehaviour, IStoreListener
     {
         if (IsInitialized())
         {
-            //Mng.mng.ui.loading.SetActive(true);
 
             // ... look up the Product reference with the general product identifier and the Purchasing 
             // system's products collection.

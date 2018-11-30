@@ -26,7 +26,10 @@ public class LoadDataJson : MonoBehaviour
         LoadGameConfig();
         Ads.Instance.RequestAd();
         Ads.Instance.RequestBanner();
-        Ads.Instance.ShowBanner();
+        if (PlayerPrefs.GetInt("isTutorial") == 1)
+        {
+            Ads.Instance.ShowBanner();
+        }   
 #if UNITY_ADS
         Advertisement.Initialize(GameConfig.Instance.idUnityAds_ios, true);
 #endif
@@ -107,7 +110,7 @@ public class LoadDataJson : MonoBehaviour
                 //SetNumber(GetNumber2(dola) + 50000, dola);
                 //PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) - 5);
                 GameManager.Instance.gold -= 5;
-                dollarRecive = 5 * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+                dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 5;
                 GameManager.Instance.dollar += dollarRecive;
                 //gold.text = SetNumberString(PlayerPrefs.GetInt("Gold", 10));
             }
@@ -115,7 +118,7 @@ public class LoadDataJson : MonoBehaviour
             {
                 //SetNumber(GetNumber2(dola) + PlayerPrefs.GetInt("Gold", 10) * 10000, dola);
                 //PlayerPrefs.SetInt("Gold", 0);
-                dollarRecive = GameManager.Instance.gold * GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+                dollarRecive = (GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 5) * GameManager.Instance.gold;
                 GameManager.Instance.dollar += dollarRecive;
                 GameManager.Instance.gold = 0;
                 //gold.text = "0";

@@ -158,7 +158,7 @@ public class Ads : MonoBehaviour
             locationEnd--;
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 10;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 20;
         GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
         panelPlane.SetActive(false);
@@ -174,7 +174,7 @@ public class Ads : MonoBehaviour
             locationEnd--;
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price * 5;
+        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price/5;
         GameManager.Instance.dollar += Math.Floor(dollarRecive); // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
         panelPlane.SetActive(false);
