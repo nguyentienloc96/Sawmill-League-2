@@ -581,6 +581,7 @@ public class UIManager : MonoBehaviour
     public void HidePanelWait()
     {
         panelWaitGrow.SetActive(false);
+        Ads.Instance.ShowBanner();
     }
 
     public void YesSellJob()
