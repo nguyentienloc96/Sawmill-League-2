@@ -83,6 +83,7 @@ public class PressingDryingPaper : MonoBehaviour
                .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
                 notification.SetActive(false);
+                paper.gameObject.SetActive(true);
                 LoadInput();
                 isStop = false;
             }
@@ -114,7 +115,7 @@ public class PressingDryingPaper : MonoBehaviour
         for (int i = 0; i < posMoveTree.Length; i++)
         {
             endNextPos = false;
-            paper.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
+            paper.DOLocalMove(Vector3.zero, 0.25f).OnComplete(() =>
             {
                 indexPos++;
                 if (indexPos < posMoveTree.Length)

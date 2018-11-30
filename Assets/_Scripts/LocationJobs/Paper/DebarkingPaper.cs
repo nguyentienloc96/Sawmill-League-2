@@ -72,6 +72,7 @@ public class DebarkingPaper : MonoBehaviour
                .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
                 notification.SetActive(false);
+                tree.gameObject.SetActive(true);
                 LoadInput();
                 isStop = false;
             }

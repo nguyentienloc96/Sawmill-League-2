@@ -87,7 +87,7 @@ public class SizeCuttingHDF : MonoBehaviour {
             particleCanting1.Play();
             particleCanting2.Play();
 
-            AudioManager.Instance.Play("Debarking");
+            AudioManager.Instance.Play("Saw");
             posDown = Input.mousePosition;
             isRun = true;
         }
@@ -99,7 +99,7 @@ public class SizeCuttingHDF : MonoBehaviour {
         particleCanting1.Stop();
         particleCanting2.Stop();
 
-        AudioManager.Instance.Stop("Debarking");
+        AudioManager.Instance.Stop("Saw");
         isRun = false;
     }
 
