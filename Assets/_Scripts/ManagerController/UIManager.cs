@@ -191,7 +191,7 @@ public class UIManager : MonoBehaviour
                 for (int i = level + 1; i < (level + 10); i++)
                 {
                     priceUpgradeTotal +=
-                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                        (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
                         * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
                 }
                 if (GameManager.Instance.dollar >= priceUpgradeTotal)
@@ -220,7 +220,7 @@ public class UIManager : MonoBehaviour
                 for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
                 {
                     priceUpgradeTruckTotal += 
-                        (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart 
+                        (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart 
                         * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
                 }
                 if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
@@ -425,7 +425,7 @@ public class UIManager : MonoBehaviour
             for (int i = level + 1; i < (level + 10); i++)
             {
                 priceUpgradeTotal +=
-                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
+                    (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeStart
                     * Mathf.Pow((1 + GameManager.Instance.lsLocation[id].lsWorking[indexType].UN2), (level - 1)));
             }
             if (GameManager.Instance.dollar >= priceUpgradeTotal)
@@ -468,7 +468,7 @@ public class UIManager : MonoBehaviour
             for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
             {
                 priceUpgradeTruckTotal +=
-                    (double)((float)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart
+                    (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart
                     * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
             }
             if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)

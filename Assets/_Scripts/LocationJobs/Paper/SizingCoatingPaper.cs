@@ -98,6 +98,7 @@ public class SizingCoatingPaper : MonoBehaviour
                .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
                 notification.SetActive(false);
+                paper.gameObject.SetActive(true);
                 LoadInput();
                 isStop = false;
             }
