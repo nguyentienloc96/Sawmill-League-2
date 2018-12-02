@@ -82,10 +82,11 @@ public class PressingDryingPaper : MonoBehaviour
             if (GameManager.Instance.lsLocation[GameManager.Instance.IDLocation]
                .lsWorking[GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].indexType].input > 0)
             {
+                isStop = false;
                 notification.SetActive(false);
                 paper.gameObject.SetActive(true);
-                LoadInput();
-                isStop = false;
+                StartCoroutine(LoadInput());
+                Debug.Log("1");
             }
         }
 
@@ -110,12 +111,14 @@ public class PressingDryingPaper : MonoBehaviour
 
     public IEnumerator LoadInput()
     {
+        Debug.Log("2");
         int indexPos = 0;
         bool endNextPos = false;
         for (int i = 0; i < posMoveTree.Length; i++)
         {
+            Debug.Log("2."+i);
             endNextPos = false;
-            paper.DOLocalMove(Vector3.zero, 0.25f).OnComplete(() =>
+            paper.DOLocalMove(Vector3.zero, 0.15f).OnComplete(() =>
             {
                 indexPos++;
                 if (indexPos < posMoveTree.Length)
@@ -128,7 +131,8 @@ public class PressingDryingPaper : MonoBehaviour
             yield return new WaitUntil(() => endNextPos == true);
         }
         yield return new WaitUntil(() => indexPos == posMoveTree.Length);
-        paperInput.DOScaleX(1f, 0.5f).OnComplete(() =>
+        Debug.Log("3");
+        paperInput.DOScaleX(1f, 0.25f).OnComplete(() =>
         {
             if (isTutorial)
             {
