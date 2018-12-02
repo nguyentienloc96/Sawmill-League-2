@@ -15,7 +15,21 @@ public class Purchaser : MonoBehaviour, IStoreListener
     // Google Play Store-specific product identifier subscription product.
     private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
 
+    public static Purchaser Instance = new Purchaser();
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            return;
+        }
+        Instance = this;
+    }
     void Start()
+    {
+        
+    }
+
+    public void Init()
     {
         // If we haven't set up the Unity Purchasing reference
         if (m_StoreController == null)

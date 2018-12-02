@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     public Text txtDollarVideoAds;
     public Text txtDollarRecive;
     public Button btnGoldToDollar;
+    public Image txtUIDollarRecive;
 
 
     [Header("Setting")]
@@ -284,6 +285,7 @@ public class UIManager : MonoBehaviour
                 {
                     panelWaitGrow.SetActive(true);
                     txtWait.text = "Tap to Africa";
+                    Ads.Instance.HideBanner();
                 }
             });
 
@@ -634,15 +636,17 @@ public class UIManager : MonoBehaviour
                 jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
             }
             double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-            txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
-            txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
+            txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive / 5) + "$";
+            txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive / 5) + "$";
             if (GameManager.Instance.gold > 0)
             {
                 btnGoldToDollar.interactable = true;
+                txtUIDollarRecive.color = new Color(255, 255, 255);
             }
             else
             {
                 btnGoldToDollar.interactable = false;
+                txtUIDollarRecive.color = new Color(150, 150, 150);
             }
         }
         else

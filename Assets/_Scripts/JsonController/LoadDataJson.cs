@@ -33,6 +33,7 @@ public class LoadDataJson : MonoBehaviour
 #if UNITY_ADS
         Advertisement.Initialize(GameConfig.Instance.idUnityAds_ios, true);
 #endif
+        Purchaser.Instance.Init();
     }
 
     public void LoadGameConfig()

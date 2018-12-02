@@ -37,8 +37,8 @@ public class PlaneOnclick : MonoBehaviour
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
         double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-        Ads.Instance.txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive * 5) + "$";
-        Ads.Instance.txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 10) + "$";
+        Ads.Instance.txtPlaneVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive / 5) + "$";
+        Ads.Instance.txtPlaneReciveDollar.text = UIManager.Instance.ConvertNumber(dollarRecive / 20) + "$";
     }
 
     void ActiveGive()

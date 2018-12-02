@@ -142,6 +142,7 @@ public class Ads : MonoBehaviour
         if (bannerView != null)
         {
             bannerView.Hide();
+            Debug.Log("Hide Banner");
         }
     }
     #endregion
