@@ -531,7 +531,7 @@ public class UIManager : MonoBehaviour
             ControlHandTutorial(btnFellingTutorial);
             btnFellingTutorial.gameObject.SetActive(false);
             objTutorial.GetComponent<Image>().raycastTarget = true;
-            txtWait.text = "Tap to work yourself";
+            txtWait.text = "Tap to Work yourself to increase the capacity";
         }
     }
 
