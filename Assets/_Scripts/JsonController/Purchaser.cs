@@ -26,7 +26,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
     }
     void Start()
     {
-        
+
     }
 
     public void Init()
@@ -66,14 +66,23 @@ public class Purchaser : MonoBehaviour, IStoreListener
     public void Buy50()
     {
         BuyProductID(GameConfig.Instance.kProductID50);
+
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(true);
     }
     public void Buy300()
     {
         BuyProductID(GameConfig.Instance.kProductID300);
+
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(true);
     }
     public void Buy5000()
     {
         BuyProductID(GameConfig.Instance.kProductID5000);
+
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(true);
     }
 
     void BuyProductID(string productId)
@@ -135,6 +144,8 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
+        
+        Debug.Log("a");
         // A consumable product has been purchased by this user.
         if (String.Equals(args.purchasedProduct.definition.id, GameConfig.Instance.kProductID50, StringComparison.Ordinal))
         {
@@ -174,9 +185,12 @@ public class Purchaser : MonoBehaviour, IStoreListener
         else
         {
             //Mng.mng.ui.loading.SetActive(false);
+            UIManager.Instance.PushGiveGold("ProcessPurchase: FAIL ");
             Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
         }
 
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(false);
         // Return a flag indicating whether this product has completely been received, or if the application needs 
         // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
         // saving purchased products to the cloud, and when that save is delayed. 
@@ -188,7 +202,8 @@ public class Purchaser : MonoBehaviour, IStoreListener
     {
         // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
         // this reason with the user to guide their troubleshooting actions.
-        //Mng.mng.ui.loading.SetActive(false);
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(false);
         Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
     }
 }

@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     public Text txtDollarRecive;
     public Button btnGoldToDollar;
     public Image txtUIDollarRecive;
+    public GameObject panelLoadingIAP;
 
 
     [Header("Setting")]
