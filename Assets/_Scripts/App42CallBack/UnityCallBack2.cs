@@ -13,6 +13,8 @@ public class UnityCallBack2 : App42CallBack
     }
     public void OnException(Exception e)
     {
-      
+        Debug.Log(e);
+        if (UIManager.Instance.panelLoadingIAP != null)
+            UIManager.Instance.panelLoadingIAP.SetActive(false);
     }
 }

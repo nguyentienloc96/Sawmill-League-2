@@ -105,6 +105,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
             // Otherwise ...
             else
             {
+                UIManager.Instance.PushGiveGold("Something is fail");
+                if (UIManager.Instance.panelLoadingIAP != null)
+                    UIManager.Instance.panelLoadingIAP.SetActive(false);
                 // ... report the product look-up failure situation  
                 Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
             }
@@ -112,8 +115,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // Otherwise ...
         else
         {
-            //Mng.mng.ui.loading.SetActive(false);
-
+            UIManager.Instance.PushGiveGold("Something is fail");
+            if (UIManager.Instance.panelLoadingIAP != null)
+                UIManager.Instance.panelLoadingIAP.SetActive(false);
             // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
             // retrying initiailization.
             Debug.Log("BuyProductID FAIL. Not initialized.");
@@ -185,7 +189,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
         else
         {
             //Mng.mng.ui.loading.SetActive(false);
-            UIManager.Instance.PushGiveGold("ProcessPurchase: FAIL ");
+            UIManager.Instance.PushGiveGold("Something is fail");
             Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
         }
 
@@ -204,6 +208,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // this reason with the user to guide their troubleshooting actions.
         if (UIManager.Instance.panelLoadingIAP != null)
             UIManager.Instance.panelLoadingIAP.SetActive(false);
+        UIManager.Instance.PushGiveGold("Something is fail");
         Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
     }
 }
