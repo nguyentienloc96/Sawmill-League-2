@@ -21,6 +21,11 @@ public class SizingCoatingPaper : MonoBehaviour
     private bool isStop;
     private Texture2D texture;
     public Renderer renderPaper;
+
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -146,7 +151,8 @@ public class SizingCoatingPaper : MonoBehaviour
             pen.localPosition = new Vector3(0f, 0f, -10f);
             paper.localPosition = new Vector3(-2.5f, 0f, -5f);
             ClearPaint();
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

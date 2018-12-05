@@ -23,6 +23,10 @@ public class Drying : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -131,7 +135,8 @@ public class Drying : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
         treeMask.DOLocalMove(new Vector3(0f, 1.8f, 0f), 1f).OnComplete(() =>
         {
             treeMask.DOLocalRotate(new Vector3(0f, 0f, -45f), 0.25f).OnComplete(() =>

@@ -28,6 +28,10 @@ public class ChipperPellet : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -137,7 +141,8 @@ public class ChipperPellet : MonoBehaviour
             animFlour.Rebind();
             animFlour.enabled = false;
             gear2.localEulerAngles = Vector3.zero;
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             cart.localPosition = new Vector3(-4f, 0f, 0f);
             isInput = false;
             tutorialHand.SetActive(false);

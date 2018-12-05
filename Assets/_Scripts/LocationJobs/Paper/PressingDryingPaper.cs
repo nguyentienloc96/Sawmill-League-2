@@ -28,6 +28,11 @@ public class PressingDryingPaper : MonoBehaviour
     private bool time;
     private bool isTutorial;
     private bool isStop;
+
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -162,7 +167,8 @@ public class PressingDryingPaper : MonoBehaviour
             paper.SetParent(posMoveTree[0]);
             paper.localPosition = new Vector3(-2f, 0f, 0f);
             gasPusher.localScale = Vector3.one;
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
             {

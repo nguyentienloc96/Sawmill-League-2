@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 44783a26480c0e348a6ba7682cd21ad0
+guid: 2e972d3780eb2b54786bc70e91c591c4
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 200
+  spritePixelsToUnits: 150
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -78,7 +78,7 @@ TextureImporter:
   - buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 58
+    textureFormat: 54
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0

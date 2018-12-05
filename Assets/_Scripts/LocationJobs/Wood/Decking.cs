@@ -21,6 +21,10 @@ public class Decking : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -121,7 +125,8 @@ public class Decking : MonoBehaviour
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
         tree[random].position = posCheck;
         tutorialHand.SetActive(false);
         if (random == 0)

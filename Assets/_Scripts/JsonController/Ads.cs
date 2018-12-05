@@ -154,13 +154,21 @@ public class Ads : MonoBehaviour
         panelPlane.SetActive(false);
         int locationEnd = GameManager.Instance.lsLocation.Count - 1;
         int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        if (jobEnd == -1)
+        double dollarRecive = 0;
+        if (GameManager.Instance.lsLocation.Count > 1 && jobEnd != -1)
         {
-            locationEnd--;
-            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            if (jobEnd == -1)
+            {
+                locationEnd--;
+                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            }
+            dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 20;
         }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 20;
-        GameManager.Instance.dollar += dollarRecive; // số tiền nhà cuối
+        else
+        {
+            dollarRecive = 0;
+        }
+        GameManager.Instance.AddDollar(+dollarRecive);        // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
         panelPlane.SetActive(false);
     }
@@ -170,13 +178,21 @@ public class Ads : MonoBehaviour
         //Debug.Log("Cong tien : " + GameConfig.Instance.dollarVideoAd);
         int locationEnd = GameManager.Instance.lsLocation.Count - 1;
         int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        if (jobEnd == -1)
+        double dollarRecive = 0;
+        if (GameManager.Instance.lsLocation.Count > 1 && jobEnd != -1)
         {
-            locationEnd--;
-            jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            if (jobEnd == -1)
+            {
+                locationEnd--;
+                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+            }
+            dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 5;
         }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price/5;
-        GameManager.Instance.dollar += Math.Floor(dollarRecive); // số tiền nhà cuối
+        else
+        {
+            dollarRecive = 0;
+        }
+        GameManager.Instance.AddDollar( +Math.Floor(dollarRecive)); // số tiền nhà cuối
         UIManager.Instance.PushGiveGold("You have recived " + UIManager.Instance.ConvertNumber(dollarRecive) + "$");
         panelPlane.SetActive(false);
     }

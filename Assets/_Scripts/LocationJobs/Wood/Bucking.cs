@@ -22,6 +22,10 @@ public class Bucking : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -122,7 +126,8 @@ public class Bucking : MonoBehaviour
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         tree.GetChild(0).GetChild(0).DOLocalMove(new Vector3(3f, 0f, 0f), 0.5f).OnComplete(() =>
         {
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tree.GetChild(0).GetChild(0).localPosition = Vector3.zero;
             cart.localPosition = new Vector3(-2f, 0f, 0f);
             tree.localPosition = Vector3.zero;

@@ -46,7 +46,7 @@ public class MoveObject : MonoBehaviour
             }
             else
             {
-                if (UIManager.Instance.scene == TypeScene.LOCATION)
+                if (UIManager.Instance.scene == TypeScene.LOCATION || UIManager.Instance.scene == TypeScene.MINIGAME)
                 {
                     if (isInLocation)
                     {

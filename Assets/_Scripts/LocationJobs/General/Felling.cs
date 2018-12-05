@@ -10,6 +10,10 @@ public class Felling : MonoBehaviour
     public GameObject tutorialHand;
     private bool isWaiting;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void OnEnable()
     {
         if (isWaiting)
@@ -20,7 +24,10 @@ public class Felling : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         if (GameManager.Instance.lsLocation[ID].forest.tree > 0)
         {
-            tutorialHand.SetActive(true);
+            if(PlayerPrefs.GetInt("isTutorial") != 0)
+            {
+                tutorialHand.SetActive(true);
+            }
             notification.SetActive(false);
         }
         else
@@ -48,7 +55,8 @@ public class Felling : MonoBehaviour
         if (isWaiting)
         {
             int ID = GameManager.Instance.IDLocation;
-            GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].FellingComplete();
+            double valueOutput = GameManager.Instance.lsLocation[GameManager.Instance.IDLocation].FellingComplete();
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tutorialHand.SetActive(false);
             if (GameManager.Instance.lsLocation[ID].forest.tree <= 0)
             {
@@ -93,7 +101,7 @@ public class Felling : MonoBehaviour
         if (PlayerPrefs.GetInt("isTutorial") == 0)
         {
             FellingTree();
-            UIManager.Instance.txtWait.text = "Wait to Felling tree";
+            UIManager.Instance.txtWait.text = "wait to fell a tree";
         }
     }
 

@@ -25,6 +25,9 @@ public class TextileDyeingCellulose : MonoBehaviour
     private bool isStop;
     private int randomPaper;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -126,7 +129,8 @@ public class TextileDyeingCellulose : MonoBehaviour
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, arrspPaper[randomPaper], tfStart.position, tfEnd.position);
         cart.localPosition = new Vector3(-1.5f, 0f, 0f);
         tree.localPosition = Vector3.zero;
         tutorialHand.SetActive(false);

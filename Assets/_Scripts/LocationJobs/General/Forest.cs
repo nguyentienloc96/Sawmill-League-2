@@ -15,11 +15,13 @@ public class Forest : MonoBehaviour
 
     public GameObject[] lsTree;
 
-    private float speedCar = 0.5f;
+    private float speedCar = 2f;
 
     private bool isGrow;
 
     public bool isGrowed;
+
+    public bool isGrowing;
 
     public void LoadTree()
     {
@@ -94,6 +96,7 @@ public class Forest : MonoBehaviour
         car.transform.GetChild(1).GetComponent<Image>().enabled = false;
         lsTree[index].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         isRun = true;
+        isGrowing = true;
     }
 
     public void Update()
@@ -166,6 +169,7 @@ public class Forest : MonoBehaviour
                     .OnComplete(() =>
                     {
                         isGrowed = true;
+                        isGrowing = false;
                         location.forest.tree = lsTree.Length;
                         if (PlayerPrefs.GetInt("isTutorial") == 0)
                         {

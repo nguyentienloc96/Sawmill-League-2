@@ -25,6 +25,10 @@ public class TextileWorkshopCellulose : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -132,7 +136,8 @@ public class TextileWorkshopCellulose : MonoBehaviour
         tutorialHand.SetActive(false);
         paper.DOLocalMoveY(3f, 0.5f).OnComplete(() =>
         {
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             cart.localPosition = new Vector3(-4f, 0f, 0f);
             paper.localPosition = Vector3.zero;
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

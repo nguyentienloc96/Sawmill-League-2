@@ -23,6 +23,10 @@ public class SizeCuttingHDF : MonoBehaviour {
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -125,7 +129,8 @@ public class SizeCuttingHDF : MonoBehaviour {
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
         tree.DOLocalMove(new Vector3(0f, 2f, 0f), 0.5f).OnComplete(() =>
         {
             tree.GetChild(0).DOLocalRotate(new Vector3(0f, 0f, -45f), 0.5f);

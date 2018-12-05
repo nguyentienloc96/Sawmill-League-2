@@ -25,6 +25,9 @@ public class TextilePrintingCellulose : MonoBehaviour
     private bool isStop;
     private int randomPaper;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -61,9 +64,12 @@ public class TextilePrintingCellulose : MonoBehaviour
                 if (Input.mousePosition.y > posDown.y)
                 {
                     float dis = Input.mousePosition.y - posDown.y;
-                    cart.position += new Vector3(0f, dis * 0.01f * Time.deltaTime, 0f);
+                    Vector3 current = cart.position;
+                    current.y += dis * 0.01f * Time.deltaTime;
+                    current.y = Mathf.Clamp(current.y, -5f, posCheck.y);
+                    cart.position = current;
                 }
-                if (cart.position.y > posCheck.y)
+                if (cart.position.y >= posCheck.y)
                 {
                     StartCoroutine(CompleteJob());
                 }
@@ -118,24 +124,29 @@ public class TextilePrintingCellulose : MonoBehaviour
 
     public IEnumerator CompleteJob()
     {
-        anim.enabled = false;
         isRun = false;
         isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
         yield return new WaitForSeconds(0.5f);
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
-        cart.localPosition = new Vector3(-4f, 0f, 0f);
-        tutorialHand.SetActive(false);
-        if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, arrspPaper[randomPaper], tfStart.position, tfEnd.position);
+        cart.DOLocalMoveY(6f, 0.5f).OnComplete(() =>
         {
-            LoadInput();
-        }
-        else
-        {
-            isStop = true;
-            tree.gameObject.SetActive(false);
-            notification.SetActive(true);
-        }
+            anim.enabled = false;
+            cart.localPosition = new Vector3(-4f, 0f, 0f);
+            tutorialHand.SetActive(false);
+            if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)
+            {
+                LoadInput();
+            }
+            else
+            {
+                isStop = true;
+                tree.gameObject.SetActive(false);
+                notification.SetActive(true);
+            }
+        });
+
     }
 }

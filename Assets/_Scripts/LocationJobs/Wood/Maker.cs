@@ -25,6 +25,8 @@ public class Maker : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -123,8 +125,9 @@ public class Maker : MonoBehaviour
         isInput = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
         yield return new WaitForSeconds(0.5f);
+        double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        GameManager.Instance.AddOutPut(valueOutput, spOutput[GameManager.Instance.lsLocation[ID].makerType], tfStart.position, tfEnd.position);
         screw.localPosition = Vector3.zero;
         tree.localPosition = Vector3.zero;
         treeMask.localPosition = Vector3.zero;

@@ -14842,6 +14842,7 @@ MonoBehaviour:
   - {fileID: 1289701161315244}
   - {fileID: 1667224970829144}
   isGrowed: 0
+  isGrowing: 0
 --- !u!114 &114747924167529018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19788,9 +19789,9 @@ RectTransform:
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -257, y: -136}
-  m_SizeDelta: {x: -540, y: 94}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 101.1, y: -225.1}
+  m_SizeDelta: {x: 102.85714, y: 53.714287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224074548854823702
 RectTransform:

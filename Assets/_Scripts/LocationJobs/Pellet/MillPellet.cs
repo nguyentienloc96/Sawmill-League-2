@@ -22,6 +22,10 @@ public class MillPellet : MonoBehaviour
     private float Offset;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -114,7 +118,8 @@ public class MillPellet : MonoBehaviour
             tray.GetChild(0).gameObject.SetActive(false);
             int ID = GameManager.Instance.IDLocation;
             int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tray.localPosition = Vector3.zero;
             flour.localPosition = Vector3.zero;
             isInput = false;

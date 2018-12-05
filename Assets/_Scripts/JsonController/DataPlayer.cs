@@ -265,19 +265,39 @@ public class DataPlayer : MonoBehaviour
 
         int locationEnd = GameManager.Instance.lsLocation.Count - 1;
         int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-        if (jobEnd == -1)
+        if (jobEnd == -1 && GameManager.Instance.lsLocation.Count > 1)
         {
             locationEnd--;
             jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
         }
-        double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
-        UIManager.Instance.txtRevenue.text
-        = "Revenue : " + UIManager.Instance.ConvertNumber(
-            GameManager.Instance.lsLocation[locationEnd]
+        double dollarRecive = 0;
+        double maxOutputMadeRevenue = 0;
+        if (GameManager.Instance.lsLocation.Count > 1)
+        {
+            dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+            maxOutputMadeRevenue = GameManager.Instance.lsLocation[locationEnd]
             .lsWorking[jobEnd].maxOutputMade
             * GameConfig.Instance.r
-            * GameConfig.Instance.productCost
-            ) + "$/day";
+            * GameConfig.Instance.productCost;
+        }
+        else
+        {
+            if (jobEnd == -1)
+            {
+                dollarRecive = 0;
+                maxOutputMadeRevenue = 0;
+            }
+            else
+            {
+                dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+                maxOutputMadeRevenue = GameManager.Instance.lsLocation[locationEnd]
+                .lsWorking[jobEnd].maxOutputMade
+                * GameConfig.Instance.r
+                * GameConfig.Instance.productCost;
+            }
+        }
+        UIManager.Instance.txtRevenue.text
+        = "Revenue : " + UIManager.Instance.ConvertNumber(maxOutputMadeRevenue) + "$/day";
         ScenesManager.Instance.isNextScene = true;
         double adddollar = 0;
         if (!isFirst)
@@ -285,12 +305,12 @@ public class DataPlayer : MonoBehaviour
             if (UIManager.Instance.isContinue)
             {
                 totalTime = (long)((TimeSpan)(dateNowPlayer - DateTime.Parse(PlayerPrefs.GetString("DateTimeOutGame")))).TotalHours;
-                if (totalTime > 0)
+                if (totalTime > 0 && dollarRecive > 0)
                 {
                     if (totalTime > 10)
                         totalTime = 10;
-                    adddollar = (double)((float)totalTime * 0.5f * (float)GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price);
-                    GameManager.Instance.dollar += adddollar;
+                    adddollar = (double)((double)totalTime * 0.5f * dollarRecive);
+                    GameManager.Instance.AddDollar(+adddollar);
                     string strGive = "Offline Reward\n"
                     + UIManager.Instance.ConvertNumber(adddollar)
                     + "$";

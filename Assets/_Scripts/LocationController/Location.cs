@@ -254,7 +254,7 @@ public class Location : MonoBehaviour
         indexType = idType;
         if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgrade)
         {
-            GameManager.Instance.dollar -= lsWorking[indexType].priceUpgrade;
+            GameManager.Instance.AddDollar(-lsWorking[indexType].priceUpgrade);
             // Update thông số
             lsWorking[indexType].level++;
             lsWorking[indexType].maxOutputMade = Math.Floor((double)(((double)lsWorking[indexType].maxOutputMadeStart * (1 + (double)lsWorking[indexType].level / GameConfig.Instance.capIndex))));
@@ -318,7 +318,7 @@ public class Location : MonoBehaviour
 
         if (GameManager.Instance.dollar >= priceUpgradeTotal)
         {
-            GameManager.Instance.dollar -= priceUpgradeTotal;
+            GameManager.Instance.AddDollar(-priceUpgradeTotal);
             // Update thông số
             lsWorking[indexType].level += 10;
             lsWorking[indexType].maxOutputMade = Math.Floor((double)((lsWorking[indexType].maxOutputMadeStart * (1 + (double)(lsWorking[indexType].level) / GameConfig.Instance.capIndex))));
@@ -395,7 +395,7 @@ public class Location : MonoBehaviour
         indexType = idType;
         if (GameManager.Instance.dollar >= lsWorking[indexType].priceUpgradeTruck)
         {
-            GameManager.Instance.dollar -= lsWorking[indexType].priceUpgradeTruck;
+            GameManager.Instance.AddDollar(-lsWorking[indexType].priceUpgradeTruck);
             // Update thông số
             lsWorking[indexType].levelTruck++;
             lsWorking[indexType].maxSent = Math.Floor((double)(lsWorking[indexType].maxSentStart * (1f + (double)lsWorking[indexType].levelTruck / (double)GameConfig.Instance.captruckIndex)));
@@ -456,10 +456,10 @@ public class Location : MonoBehaviour
         }
         if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
         {
-            GameManager.Instance.dollar -= priceUpgradeTruckTotal;
+            GameManager.Instance.AddDollar(-priceUpgradeTruckTotal);
             // Update thông số
             lsWorking[indexType].levelTruck += 10;
-            lsWorking[indexType].maxSent = Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck) / (float)GameConfig.Instance.captruckIndex)));
+            lsWorking[indexType].maxSent = Math.Floor((double)((double)lsWorking[indexType].maxSentStart * (1f + (double)(lsWorking[indexType].levelTruck) / (double)GameConfig.Instance.captruckIndex)));
             lsWorking[indexType].priceUpgradeTruck = priceUpgradeTruckCurrent;
             lsWorking[indexType].truckManager.txtLevel.text = UIManager.Instance.ConvertNumber(lsWorking[indexType].levelTruck);
 
@@ -478,7 +478,7 @@ public class Location : MonoBehaviour
                lsWorking[indexType].levelTruck,
                lsWorking[indexType].levelTruck + 10,
                lsWorking[indexType].maxSent,
-               (Math.Floor((double)((float)lsWorking[indexType].maxSentStart * (1f + (float)(lsWorking[indexType].levelTruck + 10) / (float)GameConfig.Instance.captruckIndex)))),
+               (Math.Floor((double)((double)lsWorking[indexType].maxSentStart * (1f + (double)(lsWorking[indexType].levelTruck + 10) / (double)GameConfig.Instance.captruckIndex)))),
                priceUpgradeTruckTotal
            );
             if (GameManager.Instance.dollar < priceUpgradeTruckTotal)
@@ -497,7 +497,7 @@ public class Location : MonoBehaviour
     {
         if (GameManager.Instance.dollar >= lsWorking[countType + 1].price)
         {
-            GameManager.Instance.dollar -= lsWorking[countType + 1].price;
+            GameManager.Instance.AddDollar(-lsWorking[countType + 1].price);
             countType++;
             indexType = countType;
             lsWorking[countType].icon.color = Color.white;
@@ -519,7 +519,10 @@ public class Location : MonoBehaviour
             }
             else
             {
-                lsWorking[countType + 1].animLock.enabled = true;
+                if (GameManager.Instance.dollar >= lsWorking[countType + 1].price)
+                {
+                    lsWorking[countType + 1].animLock.enabled = true;
+                }
                 if (id == GameManager.Instance.lsLocation.Count - 1)
                 {
                     UIManager.Instance.txtRevenue.text
@@ -535,7 +538,7 @@ public class Location : MonoBehaviour
                 GameManager.Instance.lsLocation[id - 1].forest.btnAutoPlant.gameObject.SetActive(true);
                 GameManager.Instance.lsLocation[id - 1].forest.isOnBtnAutoPlant = true;
             }
-            if(countType == 0)
+            if (countType == 0)
             {
                 UIManager.Instance.WarningForest.SetActive(true);
             }
@@ -565,7 +568,7 @@ public class Location : MonoBehaviour
                     forest.tree--;
                     if (id == GameManager.Instance.IDLocation && !forest.isAutoPlant)
                     {
-                        if (forest.tree == 0 && !UIManager.Instance.WarningForest.activeInHierarchy)
+                        if (forest.tree == 0 && !forest.forestClass.isGrowing && !UIManager.Instance.WarningForest.activeInHierarchy)
                         {
                             UIManager.Instance.WarningForest.SetActive(true);
                         }
@@ -599,10 +602,10 @@ public class Location : MonoBehaviour
         }
     }
 
-    public void FellingComplete()
+    public double FellingComplete()
     {
-
-        lsWorking[0].output += Math.Floor((double)(GameConfig.Instance.r * lsWorking[0].maxOutputMade));
+        double outPutValue = Math.Floor((double)(GameConfig.Instance.r * lsWorking[0].maxOutputMade));
+        lsWorking[0].output += outPutValue;
         lsWorking[0].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[0].output);
 
         if (lsWorking[0].id < lsWorking.Length)
@@ -612,6 +615,7 @@ public class Location : MonoBehaviour
                 lsWorking[0].truckManager.LoadTruck();
             }
         }
+        return outPutValue;
     }
     #endregion
 
@@ -636,7 +640,7 @@ public class Location : MonoBehaviour
         }
     }
 
-    public void JobComplete(int idType)
+    public double JobComplete(int idType)
     {
         double materialCurrent = 0;
         if (lsWorking[idType].input >= lsWorking[idType].maxOutputMade)
@@ -649,7 +653,8 @@ public class Location : MonoBehaviour
         }
         lsWorking[idType].input -= Math.Floor(materialCurrent);
         lsWorking[idType].textInput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].input);
-        lsWorking[idType].output += Math.Floor((double)(GameConfig.Instance.r * materialCurrent));
+        double outPutValue = Math.Floor((double)(GameConfig.Instance.r * materialCurrent));
+        lsWorking[idType].output += outPutValue;
         lsWorking[idType].textOutput.text = UIManager.Instance.ConvertNumber(lsWorking[idType].output);
         if (lsWorking[idType].id < lsWorking.Length)
         {
@@ -658,6 +663,7 @@ public class Location : MonoBehaviour
                 lsWorking[idType].truckManager.LoadTruck();
             }
         }
+        return outPutValue;
     }
     #endregion
 
@@ -700,7 +706,7 @@ public class Location : MonoBehaviour
         {
             if (GameManager.Instance.dollar >= Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant)))
             {
-                GameManager.Instance.dollar -= Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant));
+                GameManager.Instance.AddDollar(-Math.Floor((double)(lsWorking[0].price * GameConfig.Instance.AutoPlant)));
                 forest.isAutoPlant = true;
                 forest.btnAutoPlant.interactable = false;
                 UIManager.Instance.PopupAutoPlant.SetActive(false);

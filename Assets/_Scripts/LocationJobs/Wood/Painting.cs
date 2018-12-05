@@ -26,11 +26,14 @@ public class Painting : MonoBehaviour
 
     private bool isRun;
     private Vector3 posDown;
-    private int random;
     private int indexPos;
     private int indexTree;
     private bool isTutorial;
     private bool isStop;
+
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
 
     private void OnEnable()
     {
@@ -70,7 +73,7 @@ public class Painting : MonoBehaviour
                                 pen.localPosition = way[indexPos + 1].localPosition;
                                 if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
                                 {
-                                    lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                    lsCart[indexTree].spTree[0].color = new Color32(255, 255, 255, 255);
                                     indexTree++;
                                 }
                                 indexPos++;
@@ -91,7 +94,7 @@ public class Painting : MonoBehaviour
                                     pen.localPosition = way[indexPos + 1].localPosition;
                                     if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
                                     {
-                                        lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                        lsCart[indexTree].spTree[0].color = new Color32(255, 255, 255, 255);
                                         indexTree++;
                                     }
                                     indexPos++;
@@ -110,7 +113,7 @@ public class Painting : MonoBehaviour
                                     pen.localPosition = way[indexPos + 1].localPosition;
                                     if (indexPos == 1 || indexPos == 2 || indexPos == 5 || indexPos == 6 || indexPos == 9 || indexPos == 10)
                                     {
-                                        lsCart[indexTree].spTree[random].color = new Color32(255, 255, 255, 255);
+                                        lsCart[indexTree].spTree[0].color = new Color32(255, 255, 255, 255);
                                         indexTree++;
                                     }
                                     indexPos++;
@@ -158,10 +161,9 @@ public class Painting : MonoBehaviour
 
     public void LoadInput()
     {
-        random = Random.Range(0, 2);
         for (int i = 0; i < lsCart.Count; i++)
         {
-            lsCart[i].gTree[random].SetActive(true);
+            lsCart[i].gTree[0].SetActive(true);
         }
         indexTree = 0;
         indexPos = 0;
@@ -182,14 +184,18 @@ public class Painting : MonoBehaviour
     {
         for (int i = 0; i < lsCart.Count; i++)
         {
-            lsCart[i].gTree[random].SetActive(false);
-            lsCart[i].spTree[random].color = new Color32(255, 255, 255, 0);
+            lsCart[i].gTree[0].SetActive(false);
+            lsCart[i].spTree[0].color = new Color32(255, 255, 255, 0);
         }
         anim.enabled = false;
         isRun = false;
         int ID = GameManager.Instance.IDLocation;
         int IndexType = GameManager.Instance.lsLocation[ID].indexType;
-        for (int i = 0; i < 3; i++) { GameManager.Instance.lsLocation[ID].JobComplete(IndexType); }
+        double valueOutput = 0;
+        for (int i = 0; i < 3; i++) {
+            valueOutput += GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+        }
+        GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
         isInput = false;
         tutorialHand.SetActive(false);
         if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

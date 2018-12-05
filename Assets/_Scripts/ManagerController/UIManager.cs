@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
     {
         txtDollar.text = ConvertNumber(GameManager.Instance.dollar);
         txtGold.text = ConvertNumber(GameManager.Instance.gold);
-       
+
         if (scene == TypeScene.MINIGAME)
         {
             int id = GameManager.Instance.IDLocation;
@@ -221,8 +221,8 @@ public class UIManager : MonoBehaviour
 
                 for (int i = levelTruck + 1; i < (levelTruck + 10); i++)
                 {
-                    priceUpgradeTruckTotal += 
-                        (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart 
+                    priceUpgradeTruckTotal +=
+                        (double)((double)GameManager.Instance.lsLocation[id].lsWorking[indexType].priceUpgradeTruckStart
                         * Mathf.Pow((1 + GameConfig.Instance.XN2), (levelTruck - 1)));
                 }
                 if (GameManager.Instance.dollar >= priceUpgradeTruckTotal)
@@ -231,6 +231,8 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
 
@@ -269,6 +271,10 @@ public class UIManager : MonoBehaviour
             GameManager.Instance.sumHomeAll = 0;
             GameManager.Instance.LoadDate();
             GameManager.Instance.dollar = GameConfig.Instance.dollarStart;
+            if (GameManager.Instance.gold < GameConfig.Instance.goldStart)
+            {
+                GameManager.Instance.gold = GameConfig.Instance.goldStart;
+            }
             GameManager.Instance.ClearLocation();
             GameManager.Instance.CreatLocation(lsLocationUI[0], true);
             handWorld.position = lsLocationUI[0].transform.GetChild(0).position - new Vector3(0f, 0.25f, 0f);
@@ -325,6 +331,7 @@ public class UIManager : MonoBehaviour
     {
         if (scene != TypeScene.WOLRD)
         {
+            CloseJob();
             txtRevenue.enabled = true;
             scene = TypeScene.WOLRD;
             AudioManager.Instance.Play("Click");
@@ -631,12 +638,20 @@ public class UIManager : MonoBehaviour
             panelDollar.SetActive(true);
             int locationEnd = GameManager.Instance.lsLocation.Count - 1;
             int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-            if (jobEnd == -1)
+            double dollarRecive = 0;
+            if (GameManager.Instance.lsLocation.Count > 1 && jobEnd != -1)
             {
-                locationEnd--;
-                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+                if (jobEnd == -1)
+                {
+                    locationEnd--;
+                    jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+                }
+                dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
             }
-            double dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+            else
+            {
+                dollarRecive = 0;
+            }
             txtDollarVideoAds.text = UIManager.Instance.ConvertNumber(dollarRecive / 5) + "$";
             txtDollarRecive.text = UIManager.Instance.ConvertNumber(dollarRecive / 5) + "$";
             if (GameManager.Instance.gold > 0)

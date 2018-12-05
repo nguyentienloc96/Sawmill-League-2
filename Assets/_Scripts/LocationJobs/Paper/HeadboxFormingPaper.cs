@@ -24,6 +24,11 @@ public class HeadboxFormingPaper : MonoBehaviour
     private bool time;
     private bool isTutorial;
     private bool isStop;
+
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).GetChild(0).position;
@@ -138,7 +143,8 @@ public class HeadboxFormingPaper : MonoBehaviour
             tree.localPosition = new Vector3(-1f, 0f, 0f);
             cart.localPosition = new Vector3(0f, 0f, 0f);
             paperRoll.localPosition = Vector3.zero;
-            GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+            GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
             tutorialHand.SetActive(false);
 
             if (GameManager.Instance.lsLocation[ID].lsWorking[IndexType].input > 0)

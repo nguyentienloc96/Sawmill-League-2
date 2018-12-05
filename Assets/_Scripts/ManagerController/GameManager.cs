@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 [System.Serializable]
 public struct MiniGame
@@ -50,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     #region MiniGame
     public List<TypeMiniGame> lsTypeMiniGame;
+    public GameObject effectAddOutput;
     #endregion
     public bool isReset;
     private void Awake()
@@ -174,7 +176,38 @@ public class GameManager : MonoBehaviour
         }
         if (dollarBonus > 0)
         {
-            dollar += dollarBonus;
+            GameManager.Instance.AddDollar(+dollarBonus);
+
         }
+    }
+
+    public void AddDollar(double dollarBonus)
+    {
+        dollar += dollarBonus;
+        if(dollar < 0)
+        {
+            dollar = 0;
+        }
+
+        if (dollar >= lsLocation[lsLocation.Count -1].lsWorking[lsLocation[lsLocation.Count - 1].countType + 1].price)
+        {
+            lsLocation[lsLocation.Count - 1].lsWorking[lsLocation[lsLocation.Count - 1].countType + 1].animLock.enabled = true;
+        }
+        else
+        {
+            lsLocation[lsLocation.Count - 1].lsWorking[lsLocation[lsLocation.Count - 1].countType + 1].animLock.enabled = false;
+        }
+    }
+
+    public void AddOutPut(double numberAddOutput,Sprite icon,Vector3 startMove,Vector3 endMove)
+    {
+        effectAddOutput.SetActive(true);
+        effectAddOutput.transform.position = startMove;
+        effectAddOutput.GetComponent<TextMesh>().text = "+" + numberAddOutput;
+        effectAddOutput.transform.GetChild(0).GetComponent<Image>().sprite = icon;
+        effectAddOutput.transform.DOMove(endMove, 0.5f).OnComplete(() =>
+        {
+            effectAddOutput.SetActive(false);
+        });
     }
 }

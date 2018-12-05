@@ -272,7 +272,7 @@ public class TruckManager : MonoBehaviour
         txtSent.text = "";
         if (location.countType <= indexType)
         {
-            GameManager.Instance.dollar += location.lsWorking[indexType].currentSent * location.lsWorking[indexType].priceOutput;
+            GameManager.Instance.AddDollar(+location.lsWorking[indexType].currentSent * location.lsWorking[indexType].priceOutput);
             location.lsWorking[indexType].currentSent = 0;
         }
         else

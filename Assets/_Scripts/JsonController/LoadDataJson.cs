@@ -29,7 +29,7 @@ public class LoadDataJson : MonoBehaviour
         if (PlayerPrefs.GetInt("isTutorial") == 1)
         {
             Ads.Instance.ShowBanner();
-        }   
+        }
 #if UNITY_ADS
         Advertisement.Initialize(GameConfig.Instance.idUnityAds_ios, true);
 #endif
@@ -100,27 +100,36 @@ public class LoadDataJson : MonoBehaviour
         {
             int locationEnd = GameManager.Instance.lsLocation.Count - 1;
             int jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-            if (jobEnd == -1)
-            {
-                locationEnd--;
-                jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
-            }
+            double dollarReciveCurrent = 0;
             double dollarRecive = 0;
+            if (GameManager.Instance.lsLocation.Count > 1 && jobEnd != -1)
+            {
+                if (jobEnd == -1)
+                {
+                    locationEnd--;
+                    jobEnd = GameManager.Instance.lsLocation[locationEnd].countType;
+                }
+                dollarReciveCurrent = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price;
+            }
+            else
+            {
+                dollarReciveCurrent = 0;
+            }
             if (GameManager.Instance.gold >= 5)
             {
                 //SetNumber(GetNumber2(dola) + 50000, dola);
                 //PlayerPrefs.SetInt("Gold", PlayerPrefs.GetInt("Gold", 10) - 5);
                 GameManager.Instance.gold -= 5;
-                dollarRecive = GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 5;
-                GameManager.Instance.dollar += dollarRecive;
+                dollarRecive = dollarReciveCurrent / 5;
+                GameManager.Instance.AddDollar(+dollarRecive);
                 //gold.text = SetNumberString(PlayerPrefs.GetInt("Gold", 10));
             }
             else
             {
                 //SetNumber(GetNumber2(dola) + PlayerPrefs.GetInt("Gold", 10) * 10000, dola);
                 //PlayerPrefs.SetInt("Gold", 0);
-                dollarRecive = (GameManager.Instance.lsLocation[locationEnd].lsWorking[jobEnd].price / 5) * GameManager.Instance.gold;
-                GameManager.Instance.dollar += dollarRecive;
+                dollarRecive = (dollarReciveCurrent / 5) * GameManager.Instance.gold;
+                GameManager.Instance.AddDollar(+dollarRecive);
                 GameManager.Instance.gold = 0;
                 //gold.text = "0";
             }

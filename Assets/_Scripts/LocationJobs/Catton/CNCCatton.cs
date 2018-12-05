@@ -23,6 +23,10 @@ public class CNCCatton : MonoBehaviour
     private bool isTutorial;
     private bool isStop;
 
+    public Transform tfStart;
+    public Transform tfEnd;
+    public Sprite iconOutPut;
+
     public void Start()
     {
         posCheck = transform.GetChild(0).position;
@@ -59,9 +63,12 @@ public class CNCCatton : MonoBehaviour
                 if (Input.mousePosition.y < posDown.y)
                 {
                     float dis = Input.mousePosition.y - posDown.y;
-                    gear.localPosition += new Vector3(0f, dis * 0.1f * Time.deltaTime, 0f);
+                    Vector3 current = gear.localPosition;
+                    current.y += dis * 0.1f * Time.deltaTime;
+                    current.y = Mathf.Clamp(current.y, 0.2f, 2f);
+                    gear.localPosition = current;
                 }
-                if (gear.position.y < posCheck.y)
+                if (gear.position.y <= posCheck.y)
                 {
                     CompleteJob();
                 }
@@ -123,7 +130,8 @@ public class CNCCatton : MonoBehaviour
         {
             cart.DOLocalMove(new Vector3(4f, 0f, 0f), 0.5f).OnComplete(() =>
             {
-                GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+                double valueOutput = GameManager.Instance.lsLocation[ID].JobComplete(IndexType);
+                GameManager.Instance.AddOutPut(valueOutput, iconOutPut, tfStart.position, tfEnd.position);
                 cart.localPosition = new Vector3(-4f, 0f, 0f);
                 paper1.enabled = true;
                 paper2.enabled = false;
